@@ -3,6 +3,7 @@
 namespace App\Kernel\Router;
 
 use App\Kernel\Controller\Controller;
+use App\Kernel\Http\Request;
 use App\Kernel\View\View;
 
 class Router
@@ -13,39 +14,45 @@ class Router
         'POST' => []
     ];
 
-    private Controller $controller;
 
-    public function __construct(Controller $controller)
+    public function __construct(
+        private readonly View    $view,
+        private readonly Request $request)
     {
-        $this->controller = $controller;
         $this->initRoutes();
     }
 
-    public function dispatch(string $url, string $method): void
+    public function dispatch(string $uri, string $method): void
     {
-        $route = $this->findRoute($method, $url);
+        $route = $this->findRoute($uri, $method);
 
-        if ($route === null) {
+        if (!$route) {
             $this->notFound();
             return;
         }
 
         if (is_array($route->getAction())) {
-            [$controller, $method] = $route->getAction();
-            $controller = new $controller($this->controller);
-            $controller->$method();
+            [$controller, $action] = $route->getAction();
+
+            /** @var Controller $controller */
+            $controller = new $controller();
+
+            $controller->setView($this->view);
+            $controller->setRequest($this->request);
+
+            $controller->$action();
         } else {
-            $route->getAction()();
+            call_user_func($route->getAction());
         }
     }
 
     private function notFound(): void
     {
         http_response_code(404);
-        echo '<h1>404 Not Found</h1>';
+        echo '<h1>404 | Not Found</h1>';
     }
 
-    private function findRoute(string $method, string $uri): ?Route
+    private function findRoute(string $uri, string $method): ?Route
     {
         return $this->routes[$method][$uri] ?? null;
     }

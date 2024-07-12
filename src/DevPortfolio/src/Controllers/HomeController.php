@@ -4,17 +4,10 @@ namespace App\Controllers;
 
 use App\Kernel\Controller\Controller;
 
-class HomeController
+class HomeController extends Controller
 {
-    private Controller $controller;
-
-    public function __construct(Controller $controller)
-    {
-        $this->controller = $controller;
-    }
-
     public function index(): void
     {
-        $this->controller->view('home');
+        $this->view('home', [], 'Главная страница');
     }
 }

@@ -34,4 +34,9 @@ readonly class Request
     {
         return $this->server['REQUEST_METHOD'];
     }
+
+    public function input(string $key, mixed $default = null): mixed
+    {
+        return $this->post[$key] ?? $this->get[$key] ?? $default;
+    }
 }
