@@ -2,13 +2,16 @@
 
 namespace App\Kernel\Container;
 
+use App\Kernel\Controller\Controller;
 use App\Kernel\Http\Request;
 use App\Kernel\Router\Router;
+use App\Kernel\View\View;
 
-class Container
+readonly class Container
 {
-    public readonly Request $request;
-    public readonly Router $router;
+    public Request $request;
+    public Router $router;
+    public Controller $controller;
 
     public function __construct()
     {
@@ -18,6 +21,7 @@ class Container
     private function registerServices(): void
     {
         $this->request = Request::createFromGlobals();
-        $this->router = new Router();
+        $this->controller = new Controller();
+        $this->router = new Router($this->controller);
     }
 }

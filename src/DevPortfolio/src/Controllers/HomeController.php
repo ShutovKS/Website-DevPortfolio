@@ -2,10 +2,19 @@
 
 namespace App\Controllers;
 
+use App\Kernel\Controller\Controller;
+
 class HomeController
 {
+    private Controller $controller;
+
+    public function __construct(Controller $controller)
+    {
+        $this->controller = $controller;
+    }
+
     public function index(): void
     {
-        include_once APP_PATH . '/views/pages/home.php';
+        $this->controller->view('home');
     }
 }
