@@ -13,7 +13,14 @@ class AdminController extends Controller
 
     public function add(): void
     {
-        $this->view('admin/add');
+        $errors = $this->session()->get('errors');
+        $this->session()->remove('errors');
+
+        $this->view(
+            'admin/add',
+            ['errors' => $errors,],
+            'Add page'
+        );
     }
 
     public function print(): void
@@ -31,6 +38,7 @@ class AdminController extends Controller
         $errors = $this->validator()->validate($data, $rules);
 
         if (count($errors) > 0) {
+            $this->session()->set('errors', $errors);
             $this->redirect()->to('/admin/add');
         }
     }

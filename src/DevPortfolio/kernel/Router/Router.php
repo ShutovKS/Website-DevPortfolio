@@ -5,6 +5,7 @@ namespace App\Kernel\Router;
 use App\Kernel\Controller\Controller;
 use App\Kernel\Http\Request;
 use App\Kernel\Redirect\Redirect;
+use App\Kernel\Session\Session;
 use App\Kernel\Validator\Validator;
 use App\Kernel\View\View;
 
@@ -18,10 +19,11 @@ class Router
 
 
     public function __construct(
-        private readonly View    $view,
-        private readonly Request $request,
+        private readonly View      $view,
+        private readonly Request   $request,
         private readonly Validator $validator,
-        private readonly Redirect $redirect,
+        private readonly Redirect  $redirect,
+        private readonly Session   $session,
     )
     {
         $this->initRoutes();
@@ -46,6 +48,7 @@ class Router
             $controller->setRequest($this->request);
             $controller->setValidator($this->validator);
             $controller->setRedirect($this->redirect);
+            $controller->setSession($this->session);
 
             $controller->$action();
         } else {

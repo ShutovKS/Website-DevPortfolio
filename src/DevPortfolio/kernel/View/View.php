@@ -4,17 +4,18 @@ namespace App\Kernel\View;
 
 class View
 {
-    public function page(string $name): void
+    public function page(string $name, array $data = [], string $title = ''): void
     {
         $path = APP_PATH . "/views/pages/{$name}.php";
         extract([
             'view' => $this,
+            'data' => $data,
+            'title' => $title,
         ]);
 
         if (!file_exists($path)) {
             $path = APP_PATH . "/views/pages/404.php";
         }
-
 
         require_once $path;
     }

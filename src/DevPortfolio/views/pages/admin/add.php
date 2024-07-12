@@ -1,6 +1,8 @@
 <?php
 /**
  * @var View $view
+ * @var array $data
+ * @var string $title
  */
 
 use App\Kernel\View\View;
@@ -9,7 +11,7 @@ use App\Kernel\View\View;
 
 <?php $view->component('start'); ?>
 
-    <h1>Add page</h1>
+    <h1><?= $title ?></h1>
 
     <form action="" method="post">
         <label>
@@ -20,4 +22,15 @@ use App\Kernel\View\View;
         </label>
         <button type="submit">Add</button>
     </form>
+
+<?php if (isset($data['errors'])): ?>
+    <ul>
+        <?php foreach ($data['errors'] as $error): ?>
+            <li><?= $error ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
+
+<?php dd($data); ?>
+
 <?php $view->component('end'); ?>
