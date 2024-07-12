@@ -1,11 +1,14 @@
-<h1>Home</h1>
+<?php
+/**
+ * @var View $view
+ */
 
-<p>Welcome to the home page.</p>
+use App\Kernel\View\View;
 
-<p>Here is a list of links:</p>
+?>
 
-<ul>
-    <li><a href="/home">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/contact">Contact</a></li>
-</ul>
+<?php $view->component('start'); ?>
+
+    <h1>Welcome to the Home Page</h1>
+
+<?php $view->component('end'); ?>

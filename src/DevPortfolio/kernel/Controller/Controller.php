@@ -13,8 +13,8 @@ readonly class Controller
         $this->view = new View();
     }
 
-    public function view(string $view, array $data = []): void
+    public function view(string $view): void
     {
-        $this->view->page($view, $data);
+        $this->view->page($view);
     }
 }
