@@ -24,7 +24,13 @@ class Router
             return;
         }
 
-        $route->getAction()();
+        if (is_array($route->getAction())) {
+            [$controller, $method] = $route->getAction();
+            $controller = new $controller();
+            $controller->$method();
+        } else {
+            $route->getAction()();
+        }
     }
 
     private function notFound(): void
