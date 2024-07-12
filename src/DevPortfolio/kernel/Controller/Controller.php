@@ -3,12 +3,14 @@
 namespace App\Kernel\Controller;
 
 use App\Kernel\Http\Request;
+use App\Kernel\Validator\Validator;
 use App\Kernel\View\View;
 
 abstract class Controller
 {
     private View $view;
     private Request $request;
+    private Validator $validator;
 
     public function __construct()
     {
@@ -35,4 +37,13 @@ abstract class Controller
         $this->request = $request;
     }
 
+    public function validator(): Validator
+    {
+        return $this->validator;
+    }
+
+    public function setValidator(Validator $validator): void
+    {
+        $this->validator = $validator;
+    }
 }

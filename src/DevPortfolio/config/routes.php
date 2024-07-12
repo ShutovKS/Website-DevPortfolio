@@ -9,5 +9,5 @@ return [
 
     Route::get('/admin/add', [AdminController:: class, 'add']),
 
-    Route::post('/admin/print', [AdminController:: class, 'print']),
+    Route::post('/admin/add', [AdminController:: class, 'print']),
 ];

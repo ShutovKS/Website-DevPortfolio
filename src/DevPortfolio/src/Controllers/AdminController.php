@@ -18,6 +18,16 @@ class AdminController extends Controller
 
     public function print(): void
     {
-        $this->view('admin/print');
+        $data = [
+            'title' => $this->request()->input('title'),
+            'content' => $this->request()->input('content'),
+        ];
+
+        $rules = [
+            'title' => 'required|min:3|max:255',
+            'content' => 'required|min:3',
+        ];
+
+        $errors = $this->validator()->validate($data, $rules);
     }
 }

@@ -11,7 +11,7 @@ use App\Kernel\View\View;
 
     <h1>Add page</h1>
 
-    <form action="/admin/add" method="post">
+    <form action="" method="post">
         <label>
             <input type="text" name="title" placeholder="Title">
         </label>
