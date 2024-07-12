@@ -3,6 +3,7 @@
 namespace App\Kernel\Controller;
 
 use App\Kernel\Http\Request;
+use App\Kernel\Redirect\Redirect;
 use App\Kernel\Validator\Validator;
 use App\Kernel\View\View;
 
@@ -11,6 +12,7 @@ abstract class Controller
     private View $view;
     private Request $request;
     private Validator $validator;
+    private Redirect $redirect;
 
     public function __construct()
     {
@@ -45,5 +47,15 @@ abstract class Controller
     public function setValidator(Validator $validator): void
     {
         $this->validator = $validator;
+    }
+
+    public function redirect(): Redirect
+    {
+        return $this->redirect;
+    }
+
+    public function setRedirect(Redirect $redirect): void
+    {
+        $this->redirect = $redirect;
     }
 }

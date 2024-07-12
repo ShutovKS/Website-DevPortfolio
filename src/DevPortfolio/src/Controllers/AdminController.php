@@ -29,5 +29,9 @@ class AdminController extends Controller
         ];
 
         $errors = $this->validator()->validate($data, $rules);
+
+        if (count($errors) > 0) {
+            $this->redirect()->to('/admin/add');
+        }
     }
 }
