@@ -2,14 +2,14 @@
 
 namespace App\Kernel\Router;
 
-use App\Kernel\Controller\Controller;
-use App\Kernel\Http\Request;
-use App\Kernel\Redirect\Redirect;
-use App\Kernel\Session\Session;
-use App\Kernel\Validator\Validator;
-use App\Kernel\View\View;
+use App\Kernel\Controller\ControllerInterface;
+use App\Kernel\Http\RequestInterface;
+use App\Kernel\Redirect\RedirectInterface;
+use App\Kernel\Session\SessionInterface;
+use App\Kernel\Validator\ValidatorInterface;
+use App\Kernel\View\ViewInterface;
 
-class Router
+class Router implements RouterInterface
 {
     /** @var Route[] */
     private array $routes = [
@@ -17,13 +17,12 @@ class Router
         'POST' => []
     ];
 
-
     public function __construct(
-        private readonly View      $view,
-        private readonly Request   $request,
-        private readonly Validator $validator,
-        private readonly Redirect  $redirect,
-        private readonly Session   $session,
+        private readonly ViewInterface      $view,
+        private readonly RequestInterface   $request,
+        private readonly ValidatorInterface $validator,
+        private readonly RedirectInterface  $redirect,
+        private readonly SessionInterface   $session,
     )
     {
         $this->initRoutes();
@@ -41,7 +40,7 @@ class Router
         if (is_array($route->getAction())) {
             [$controller, $action] = $route->getAction();
 
-            /** @var Controller $controller */
+            /** @var ControllerInterface $controller */
             $controller = new $controller();
 
             $controller->setView($this->view);
@@ -81,4 +80,9 @@ class Router
     {
         return require APP_PATH . '/config/routes.php';
     }
+}
+
+interface RouterInterface
+{
+    public function dispatch(string $uri, string $method): void;
 }

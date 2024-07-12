@@ -3,10 +3,11 @@
 namespace App\Kernel;
 
 use App\Kernel\Container\Container;
+use App\Kernel\Container\ContainerInterface;
 
 class app
 {
-    private Container $container;
+    private ContainerInterface $container;
 
     public function __construct()
     {
@@ -15,9 +16,8 @@ class app
 
     public function run(): void
     {
-        $this->container->router->dispatch(
-            $this->container->request->uri(),
-            $this->container->request->method()
-        );
+        $router = $this->container->get('RouterInterface');
+        $request = $this->container->get('RequestInterface');
+        $router->dispatch($request->uri(), $request->method());
     }
 }

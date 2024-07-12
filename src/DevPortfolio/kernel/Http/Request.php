@@ -2,7 +2,7 @@
 
 namespace App\Kernel\Http;
 
-readonly class Request
+readonly class Request implements RequestInterface
 {
     public function __construct(
         public array $get,
@@ -39,4 +39,15 @@ readonly class Request
     {
         return $this->post[$key] ?? $this->get[$key] ?? $default;
     }
+}
+
+interface RequestInterface
+{
+    public static function createFromGlobals(): static;
+
+    public function uri(): string;
+
+    public function method(): string;
+
+    public function input(string $key, mixed $default = null): mixed;
 }

@@ -2,7 +2,7 @@
 
 namespace App\Kernel\Validator;
 
-class Validator
+class Validator implements ValidatorInterface
 {
     public function validate(array $data, array $rules): array
     {
@@ -57,4 +57,9 @@ class Validator
 
         return null;
     }
+}
+
+interface ValidatorInterface
+{
+    public function validate(array $data, array $rules): array;
 }

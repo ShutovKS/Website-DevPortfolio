@@ -2,7 +2,7 @@
 
 namespace App\Kernel\View;
 
-class View
+class View implements ViewInterface
 {
     public function page(string $name, array $data = [], string $title = ''): void
     {
@@ -31,4 +31,11 @@ class View
 
         require_once $path;
     }
+}
+
+interface ViewInterface
+{
+    public function page(string $name, array $data = [], string $title = ''): void;
+
+    public function component(string $name): void;
 }

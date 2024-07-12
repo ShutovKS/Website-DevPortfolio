@@ -2,7 +2,7 @@
 
 namespace App\Kernel\Session;
 
-class Session
+class Session implements SessionInterface
 {
     public function __construct()
     {
@@ -28,4 +28,15 @@ class Session
     {
         session_destroy();
     }
+}
+
+interface SessionInterface
+{
+    public function set(string $key, $value): void;
+
+    public function get(string $key);
+
+    public function remove(string $key): void;
+
+    public function destroy(): void;
 }
