@@ -12,12 +12,12 @@ use App\Kernel\Services\View\View;
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 
-<!-- Вывод об ошибках -->
 
 <main class="container w-25 d-flex min-vh-100">
 
     <div class="form-signin w-100 m-auto">
 
+        <!-- Вывод об ошибках -->
         <div>
             <?php if (isset($data['errors'])): ?>
                 <div class="alert alert-danger" role="alert">
@@ -27,19 +27,6 @@ use App\Kernel\Services\View\View;
                 </div>
             <?php endif; ?>
         </div>
-
-        <!--        <form method="post" action="" name="signup-form">-->
-        <!--            <div class="form-element">-->
-        <!--                <label>Username<input type="text" name="username" pattern="[a-zA-Z0-9]+" required/></label>-->
-        <!--            </div>-->
-        <!--            <div class="form-element">-->
-        <!--                <label>Email<input type="email" name="email" required/></label>-->
-        <!--            </div>-->
-        <!--            <div class="form-element">-->
-        <!--                <label>Password <input type="password" name="password" required/></label>-->
-        <!--            </div>-->
-        <!--            <button type="submit" name="register" value="register">Register</button>-->
-        <!--        </form>-->
 
         <form method="post" action="/identification/register" name="signup-form">
             <h2 class="h3 mb-3 fw-bold text-center">Please sign up</h2>

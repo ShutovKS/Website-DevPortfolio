@@ -106,6 +106,6 @@ class IdentificationController extends AbstractController
 
     public function processPasswordRecovery(): void
     {
-        dd('processRegistration');
+        $this->view('identification/recover_password', [], 'Password recovery');
     }
 }

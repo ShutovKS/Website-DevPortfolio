@@ -12,12 +12,11 @@ use App\Kernel\Services\View\View;
 
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
 
-<!-- Вывод об ошибках -->
-
 <main class="container w-25 d-flex min-vh-100">
 
     <div class="form-signin w-100 m-auto">
 
+        <!-- Вывод об ошибках -->
         <div>
             <?php if (isset($data['errors'])): ?>
                 <div class="alert alert-danger" role="alert">
