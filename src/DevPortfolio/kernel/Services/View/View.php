@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel\View;
+namespace App\Kernel\Services\View;
 
 class View implements ViewInterface
 {

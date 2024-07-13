@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel\Validator;
+namespace App\Kernel\Services\Validator;
 
 class Validator implements ValidatorInterface
 {

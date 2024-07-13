@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel\Redirect;
+namespace App\Kernel\Services\Redirect;
 
 class Redirect implements RedirectInterface
 {

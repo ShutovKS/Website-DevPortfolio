@@ -2,19 +2,18 @@
 
 namespace App\Kernel\Container;
 
-use App\Kernel\Router\Router;
-use App\Kernel\Http\Request;
-use App\Kernel\Redirect\Redirect;
-use App\Kernel\Session\Session;
-use App\Kernel\Validator\Validator;
-use App\Kernel\View\View;
-
-use App\Kernel\Router\RouterInterface;
-use App\Kernel\Http\RequestInterface;
-use App\Kernel\Redirect\RedirectInterface;
-use App\Kernel\Session\SessionInterface;
-use App\Kernel\Validator\ValidatorInterface;
-use App\Kernel\View\ViewInterface;
+use App\Kernel\Services\Http\Request;
+use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Redirect\Redirect;
+use App\Kernel\Services\Redirect\RedirectInterface;
+use App\Kernel\Services\Router\Router;
+use App\Kernel\Services\Router\RouterInterface;
+use App\Kernel\Services\Session\Session;
+use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\Validator\Validator;
+use App\Kernel\Services\Validator\ValidatorInterface;
+use App\Kernel\Services\View\View;
+use App\Kernel\Services\View\ViewInterface;
 
 class Container implements ContainerInterface
 {

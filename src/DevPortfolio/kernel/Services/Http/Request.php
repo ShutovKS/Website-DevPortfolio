@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel\Http;
+namespace App\Kernel\Services\Http;
 
 readonly class Request implements RequestInterface
 {

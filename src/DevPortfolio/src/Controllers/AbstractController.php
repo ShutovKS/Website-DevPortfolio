@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Kernel\Controller;
+namespace App\Controllers;
 
-use App\Kernel\Http\RequestInterface;
-use App\Kernel\Redirect\RedirectInterface;
-use App\Kernel\Session\SessionInterface;
-use App\Kernel\Validator\ValidatorInterface;
-use App\Kernel\View\ViewInterface;
+use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Redirect\RedirectInterface;
+use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\Validator\ValidatorInterface;
+use App\Kernel\Services\View\ViewInterface;
 
-abstract class Controller implements ControllerInterface
+abstract class AbstractController implements ControllerInterface
 {
     private ViewInterface $view;
     private RequestInterface $request;

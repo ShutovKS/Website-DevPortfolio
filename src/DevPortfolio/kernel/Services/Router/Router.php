@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Kernel\Router;
+namespace App\Kernel\Services\Router;
 
-use App\Kernel\Controller\ControllerInterface;
-use App\Kernel\Http\RequestInterface;
-use App\Kernel\Redirect\RedirectInterface;
-use App\Kernel\Session\SessionInterface;
-use App\Kernel\Validator\ValidatorInterface;
-use App\Kernel\View\ViewInterface;
+use App\Controllers\ControllerInterface;
+use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Redirect\RedirectInterface;
+use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\Validator\ValidatorInterface;
+use App\Kernel\Services\View\ViewInterface;
 
 class Router implements RouterInterface
 {

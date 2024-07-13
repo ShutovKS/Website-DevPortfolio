@@ -2,9 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Kernel\Controller\Controller;
-
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     public function index(): void
     {

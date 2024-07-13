@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel\Session;
+namespace App\Kernel\Services\Session;
 
 class Session implements SessionInterface
 {

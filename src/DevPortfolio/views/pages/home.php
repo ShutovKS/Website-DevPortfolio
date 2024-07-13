@@ -3,7 +3,7 @@
  * @var View $view
  */
 
-use App\Kernel\View\View;
+use App\Kernel\Services\View\View;
 
 ?>
 

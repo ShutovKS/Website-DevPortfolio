@@ -2,7 +2,7 @@
 
 use App\Controllers\AdminController;
 use App\Controllers\HomeController;
-use App\Kernel\Router\Route;
+use App\Kernel\Services\Router\Route;
 
 return [
     Route::get('/home', [HomeController:: class, 'index']),
