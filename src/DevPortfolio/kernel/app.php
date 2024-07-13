@@ -16,8 +16,8 @@ class app
 
     public function run(): void
     {
-        $router = $this->container->get('RouterInterface');
-        $request = $this->container->get('RequestInterface');
+        $router = $this->container->getRouter();
+        $request = $this->container->getRequest();
         $router->dispatch($request->uri(), $request->method());
     }
 }

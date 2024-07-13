@@ -2,71 +2,88 @@
 
 namespace App\Kernel\Container;
 
-use App\Kernel\Controller\Controller;
-use App\Kernel\Controller\ControllerInterface;
-use App\Kernel\Http\Request;
-use App\Kernel\Http\RequestInterface;
-use App\Kernel\Redirect\Redirect;
-use App\Kernel\Redirect\RedirectInterface;
 use App\Kernel\Router\Router;
-use App\Kernel\Router\RouterInterface;
+use App\Kernel\Http\Request;
+use App\Kernel\Redirect\Redirect;
 use App\Kernel\Session\Session;
-use App\Kernel\Session\SessionInterface;
 use App\Kernel\Validator\Validator;
-use App\Kernel\Validator\ValidatorInterface;
 use App\Kernel\View\View;
+
+use App\Kernel\Router\RouterInterface;
+use App\Kernel\Http\RequestInterface;
+use App\Kernel\Redirect\RedirectInterface;
+use App\Kernel\Session\SessionInterface;
+use App\Kernel\Validator\ValidatorInterface;
 use App\Kernel\View\ViewInterface;
-use RuntimeException;
 
 class Container implements ContainerInterface
 {
-    private array $services;
+    private RouterInterface $router;
+    private RequestInterface $request;
+    private RedirectInterface $redirect;
+    private SessionInterface $session;
+    private ValidatorInterface $validator;
+    private ViewInterface $view;
 
     public function __construct()
     {
-        $this->set('ViewInterface', new View());
-        $this->set('ValidatorInterface', new Validator());
-        $this->set('RedirectInterface', new Redirect());
-        $this->set('SessionInterface', new Session());
-        $this->set('RequestInterface', Request::createFromGlobals());
-        $this->set('RouterInterface', new Router(
-            $this->get('ViewInterface'),
-            $this->get('RequestInterface'),
-            $this->get('ValidatorInterface'),
-            $this->get('RedirectInterface'),
-            $this->get('SessionInterface'),
-        ));
+        $this->request = Request::createFromGlobals();
+        $this->redirect = new Redirect();
+        $this->session = new Session();
+        $this->validator = new Validator();
+        $this->view = new View();
+
+        $this->router = new Router(
+            $this->view,
+            $this->request,
+            $this->validator,
+            $this->redirect,
+            $this->session
+        );
     }
 
-    public function get(string $id): mixed
+    public function getRouter(): RouterInterface
     {
-        if (!$this->has($id)) {
-            throw new RuntimeException("Service $id not found");
-        }
-
-        if (is_string($this->services[$id])) {
-            $this->services[$id] = new $this->services[$id]();
-        }
-
-        return $this->services[$id];
+        return $this->router;
     }
 
-    public function has(string $id): bool
+    public function getRequest(): RequestInterface
     {
-        return isset($this->services[$id]);
+        return $this->request;
     }
 
-    public function set(string $id, mixed $value): void
+    public function getRedirect(): RedirectInterface
     {
-        $this->services[$id] = $value;
+        return $this->redirect;
+    }
+
+    public function getSession(): SessionInterface
+    {
+        return $this->session;
+    }
+
+    public function getValidator(): ValidatorInterface
+    {
+        return $this->validator;
+    }
+
+    public function getView(): ViewInterface
+    {
+        return $this->view;
     }
 }
 
 interface ContainerInterface
 {
-    public function get(string $id): mixed;
+    public function getRouter(): RouterInterface;
 
-    public function has(string $id): bool;
+    public function getRequest(): RequestInterface;
 
-    public function set(string $id, mixed $value): void;
+    public function getRedirect(): RedirectInterface;
+
+    public function getSession(): SessionInterface;
+
+    public function getValidator(): ValidatorInterface;
+
+    public function getView(): ViewInterface;
 }
