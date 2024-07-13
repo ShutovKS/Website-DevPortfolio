@@ -4,6 +4,8 @@ namespace App\Kernel\Container;
 
 use App\Kernel\Services\Config\Config;
 use App\Kernel\Services\Config\ConfigInterface;
+use App\Kernel\Services\Database\DatabaseInterface;
+use App\Kernel\Services\Database\DatabaseMySQL;
 use App\Kernel\Services\Http\Request;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Redirect\Redirect;
@@ -25,6 +27,7 @@ class Container implements ContainerInterface
     private SessionInterface $session;
     private ValidatorInterface $validator;
     private ViewInterface $view;
+    private DatabaseInterface $database;
     private ConfigInterface $config;
 
     public function __construct()
@@ -34,6 +37,16 @@ class Container implements ContainerInterface
         $this->session = new Session();
         $this->validator = new Validator();
         $this->view = new View();
+        $this->config = new Config();
+        $this->database = new DatabaseMySQL(
+            $this->config->get('database.driver'),
+            $this->config->get('database.host'),
+            $this->config->get('database.port'),
+            $this->config->get('database.database'),
+            $this->config->get('database.username'),
+            $this->config->get('database.password'),
+            $this->config->get('database.charset')
+        );
 
         $this->router = new Router(
             $this->view,
@@ -74,6 +87,12 @@ class Container implements ContainerInterface
     {
         return $this->view;
     }
+
+    public function getDatabase(): DatabaseInterface
+    {
+        return $this->database;
+    }
+
     public function getConfig(): ConfigInterface
     {
         return $this->config;
