@@ -2,6 +2,8 @@
 
 namespace App\Kernel\Container;
 
+use App\Kernel\Services\Config\Config;
+use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Http\Request;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Redirect\Redirect;
@@ -23,6 +25,7 @@ class Container implements ContainerInterface
     private SessionInterface $session;
     private ValidatorInterface $validator;
     private ViewInterface $view;
+    private ConfigInterface $config;
 
     public function __construct()
     {
@@ -37,7 +40,8 @@ class Container implements ContainerInterface
             $this->request,
             $this->validator,
             $this->redirect,
-            $this->session
+            $this->session,
+            $this->config,
         );
     }
 
@@ -69,6 +73,10 @@ class Container implements ContainerInterface
     public function getView(): ViewInterface
     {
         return $this->view;
+    }
+    public function getConfig(): ConfigInterface
+    {
+        return $this->config;
     }
 }
 

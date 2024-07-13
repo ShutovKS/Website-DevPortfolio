@@ -3,6 +3,7 @@
 namespace App\Kernel\Services\Router;
 
 use App\Controllers\ControllerInterface;
+use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Session\SessionInterface;
@@ -23,6 +24,7 @@ class Router implements RouterInterface
         private readonly ValidatorInterface $validator,
         private readonly RedirectInterface  $redirect,
         private readonly SessionInterface   $session,
+        private readonly ConfigInterface    $config,
     )
     {
         $this->initRoutes();
@@ -78,7 +80,7 @@ class Router implements RouterInterface
     /** @return Route[] */
     private function getRotes(): array
     {
-        return require APP_PATH . '/config/routes.php';
+        return $this->config->get('routes');
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Kernel\Container;
 
+use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Router\RouterInterface;
@@ -22,4 +23,5 @@ interface ContainerInterface
     public function getValidator(): ValidatorInterface;
 
     public function getView(): ViewInterface;
+    public function getConfig(): ConfigInterface;
 }
