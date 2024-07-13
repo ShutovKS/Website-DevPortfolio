@@ -6,6 +6,7 @@ use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Session\SessionInterface;
 use App\Models\User;
+use Random\RandomException;
 
 
 class Identification implements IdentificationInterface
@@ -54,22 +55,26 @@ class Identification implements IdentificationInterface
 
     public function logout(): void
     {
-        $this->session->remove('user');
+        $this->session->remove($this->config->get('email'));
+        $this->session->remove($this->config->get('username'));
+        $this->session->remove($this->config->get('session_field'));
     }
 
     public function getUser(): ?User
     {
-        return $this->session->get('user');
+        return $this->session->get($this->config->get('session_field'));
     }
 
     public function setUser(User $user): void
     {
-        $this->session->set('user', $user);
+        $this->session->set($this->config->get('session_field'), $user->id);
+        $this->session->set($this->config->get('email'), $user->email);
+        $this->session->set($this->config->get('username'), $user->name);
     }
 
     public function isAuthorized(): bool
     {
-        return $this->session->has('user');
+        return $this->session->has($this->config->get('session_field'));
     }
 
     public function exists(string $email): bool
@@ -84,6 +89,9 @@ class Identification implements IdentificationInterface
 
     private function generateSalt(): string
     {
-        return bin2hex(random_bytes(16));
+        try {
+            return bin2hex(random_bytes(16));
+        } catch (RandomException) {
+        }
     }
 }

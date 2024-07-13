@@ -103,4 +103,9 @@ class IdentificationController extends AbstractController
 
         $this->redirect()->to('login');
     }
+
+    public function processPasswordRecovery(): void
+    {
+        dd('processRegistration');
+    }
 }
