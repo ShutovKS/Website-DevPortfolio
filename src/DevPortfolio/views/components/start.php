@@ -25,5 +25,3 @@
 
     <link rel="stylesheet" href="/assets/css/style.css?t=<?php echo(microtime(true) . rand()); ?>" type="text/css"/>
 </head>
-<body>
-</body>

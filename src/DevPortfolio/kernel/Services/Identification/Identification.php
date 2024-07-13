@@ -55,21 +55,21 @@ class Identification implements IdentificationInterface
 
     public function logout(): void
     {
-        $this->session->remove($this->config->get('email'));
-        $this->session->remove($this->config->get('username'));
-        $this->session->remove($this->config->get('session_field'));
+        $this->session->remove($this->config->get('identification.email'));
+        $this->session->remove($this->config->get('identification.username'));
+        $this->session->remove($this->config->get('identification.session_field'));
     }
 
     public function getUser(): ?User
     {
-        return $this->session->get($this->config->get('session_field'));
+        return $this->session->get($this->config->get('identification.session_field'));
     }
 
     public function setUser(User $user): void
     {
-        $this->session->set($this->config->get('session_field'), $user->id);
-        $this->session->set($this->config->get('email'), $user->email);
-        $this->session->set($this->config->get('username'), $user->name);
+        $this->session->set($this->config->get('identification.session_field'), $user->id);
+        $this->session->set($this->config->get('identification.email'), $user->email);
+        $this->session->set($this->config->get('identification.username'), $user->name);
     }
 
     public function isAuthorized(): bool

@@ -47,6 +47,7 @@ class IdentificationController extends AbstractController
         }
 
         $this->identification()->setUser($user);
+        $this->redirect()->to('completed');
     }
 
     public function open_registration_page(): void
@@ -101,11 +102,25 @@ class IdentificationController extends AbstractController
             exit;
         }
 
-        $this->redirect()->to('login');
+        $user = $this->identification()->login($data['email'], $data['password']);
+
+        if (!$user) {
+            $this->session()->set('errors', ['Ошибка авторизации']);
+            $this->redirect()->to('login');
+            exit;
+        }
+
+        $this->identification()->setUser($user);
+        $this->redirect()->to('completed');
     }
 
     public function processPasswordRecovery(): void
     {
         $this->view('identification/recover_password', [], 'Password recovery');
+    }
+
+    public function completed()
+    {
+        $this->view('identification/completed', [], 'Registration completed');
     }
 }
