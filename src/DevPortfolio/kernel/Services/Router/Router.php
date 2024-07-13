@@ -5,6 +5,7 @@ namespace App\Kernel\Services\Router;
 use App\Controllers\ControllerInterface;
 use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Session\SessionInterface;
 use App\Kernel\Services\Validator\ValidatorInterface;
@@ -25,6 +26,7 @@ class Router implements RouterInterface
         private readonly RedirectInterface  $redirect,
         private readonly SessionInterface   $session,
         private readonly ConfigInterface    $config,
+        private readonly IdentificationInterface $identification
     )
     {
         $this->initRoutes();
@@ -50,6 +52,7 @@ class Router implements RouterInterface
             $controller->setValidator($this->validator);
             $controller->setRedirect($this->redirect);
             $controller->setSession($this->session);
+            $controller->setIdentification($this->identification);
 
             $controller->$action();
         } else {

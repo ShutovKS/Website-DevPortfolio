@@ -3,10 +3,11 @@
 namespace App\Kernel\Services\Database;
 
 use PDO;
+use PDOException;
 
 class DatabaseMySQL implements DatabaseInterface
 {
-    private PDO $connection;
+    private PDO $pdo;
 
     public function __construct(
         string $driver,
@@ -18,7 +19,7 @@ class DatabaseMySQL implements DatabaseInterface
         string $charset,
     )
     {
-        $this->connection = new PDO("$driver:host=$host;port=$port;dbname=$database;charset=$charset",
+        $this->pdo = new PDO("$driver:host=$host;port=$port;dbname=$database;charset=$charset",
             $username,
             $password,
             [
@@ -28,23 +29,104 @@ class DatabaseMySQL implements DatabaseInterface
         );
     }
 
-    public function query(string $query, array $parameters = []): void
+    public function insert(string $table, array $data): int|false
     {
-        $statement = $this->connection->prepare($query);
-        $statement->execute($parameters);
+        $columns = implode(', ', array_keys($data));
+        $placeholders = implode(', ', array_fill(0, count($data), '?'));
+        $sql = "INSERT INTO $table ($columns) VALUES ($placeholders)";
+        $stmt = $this->pdo->prepare($sql);
+
+        if ($stmt->execute(array_values($data))) {
+            return (int)$this->pdo->lastInsertId();
+        }
+
+        return false;
     }
 
-    public function fetch(string $query, array $parameters = []): array
+    public function first(string $table, array $conditions = []): ?array
     {
-        $statement = $this->connection->prepare($query);
-        $statement->execute($parameters);
-        return $statement->fetch();
+        $conditionString = $this->buildConditionString($conditions);
+        $sql = "SELECT * FROM $table $conditionString LIMIT 1";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array_values($conditions));
+        $result = $stmt->fetch();
+
+        return $result ?: null;
     }
 
-    public function fetchAll(string $query, array $parameters = []): array
+    public function select(string $table, array $columns = ['*'], array $conditions = []): array
     {
-        $statement = $this->connection->prepare($query);
-        $statement->execute($parameters);
-        return $statement->fetchAll();
+        $columnString = implode(', ', $columns);
+        $conditionString = $this->buildConditionString($conditions);
+        $sql = "SELECT $columnString FROM $table $conditionString";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(array_values($conditions));
+
+        return $stmt->fetchAll();
+    }
+
+    public function delete(string $table, array $conditions = []): bool
+    {
+        $conditionString = $this->buildConditionString($conditions);
+        $sql = "DELETE FROM $table $conditionString";
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute(array_values($conditions));
+    }
+
+    public function update(string $table, array $data, array $conditions = []): bool
+    {
+        $dataString = implode(', ', array_map(fn($key) => "$key = ?", array_keys($data)));
+        $conditionString = $this->buildConditionString($conditions);
+        $sql = "UPDATE $table SET $dataString $conditionString";
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute(array_merge(array_values($data), array_values($conditions)));
+    }
+
+    public function query(string $query, array $params = []): array
+    {
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll();
+    }
+
+    public function transaction(callable $callback): bool
+    {
+        try {
+            $this->beginTransaction();
+            $result = $callback($this);
+            $this->commit();
+            return $result;
+        } catch (PDOException $e) {
+            $this->rollBack();
+            throw $e;
+        }
+    }
+
+    public function beginTransaction(): void
+    {
+        $this->pdo->beginTransaction();
+    }
+
+    public function commit(): void
+    {
+        $this->pdo->commit();
+    }
+
+    public function rollBack(): void
+    {
+        $this->pdo->rollBack();
+    }
+
+    private function buildConditionString(array $conditions): string
+    {
+        if (empty($conditions)) {
+            return '';
+        }
+
+        $conditionsArray = array_map(fn($key) => "$key = ?", array_keys($conditions));
+        return 'WHERE ' . implode(' AND ', $conditionsArray);
     }
 }

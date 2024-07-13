@@ -2,7 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Session\SessionInterface;
 use App\Kernel\Services\Validator\ValidatorInterface;
@@ -15,6 +17,8 @@ abstract class AbstractController implements ControllerInterface
     private ValidatorInterface $validator;
     private RedirectInterface $redirect;
     private SessionInterface $session;
+    private DatabaseInterface $db;
+    private IdentificationInterface $identification;
 
     public function view(string $name, array $data = [], string $title = ''): void
     {
@@ -65,6 +69,26 @@ abstract class AbstractController implements ControllerInterface
     {
         $this->session = $session;
     }
+
+    public function database(): DatabaseInterface
+    {
+        return $this->db;
+    }
+
+    public function setDatabase(DatabaseInterface $db): void
+    {
+        $this->db = $db;
+    }
+
+    public function identification(): IdentificationInterface
+    {
+        return $this->identification;
+    }
+
+    public function setIdentification(IdentificationInterface $identification): void
+    {
+        $this->identification = $identification;
+    }
 }
 
 interface ControllerInterface
@@ -88,4 +112,8 @@ interface ControllerInterface
     public function session(): SessionInterface;
 
     public function setSession(SessionInterface $session): void;
+    public function database(): DatabaseInterface;
+    public function setDatabase(DatabaseInterface $db): void;
+    public function identification(): IdentificationInterface;
+    public function setIdentification(IdentificationInterface $identification): void;
 }

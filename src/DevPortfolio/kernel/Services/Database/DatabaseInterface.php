@@ -4,10 +4,24 @@ namespace App\Kernel\Services\Database;
 
 interface DatabaseInterface
 {
-    public function query(string $query, array $parameters = []): void;
+    public function insert(string $table, array $data): int|false;
 
-    public function fetch(string $query, array $parameters = []): array;
+    public function first(string $table, array $conditions = []): ?array;
 
-    public function fetchAll(string $query, array $parameters = []): array;
+    public function select(string $table, array $columns = ['*'], array $conditions = []): array;
+
+    public function delete(string $table, array $conditions = []): bool;
+
+    public function update(string $table, array $data, array $conditions = []): bool;
+
+    public function query(string $query, array $params = []): array;
+
+    public function transaction(callable $callback): bool;
+
+    public function beginTransaction(): void;
+
+    public function commit(): void;
+
+    public function rollBack(): void;
 }
 

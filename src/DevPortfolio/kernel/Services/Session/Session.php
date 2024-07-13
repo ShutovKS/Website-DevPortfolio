@@ -19,6 +19,11 @@ class Session implements SessionInterface
         return $_SESSION[$key] ?? null;
     }
 
+    public function has(string $key): bool
+    {
+        return isset($_SESSION[$key]);
+    }
+
     public function remove(string $key): void
     {
         unset($_SESSION[$key]);

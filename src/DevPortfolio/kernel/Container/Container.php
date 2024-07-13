@@ -8,6 +8,8 @@ use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Database\DatabaseMySQL;
 use App\Kernel\Services\Http\Request;
 use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Identification\Identification;
+use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Redirect\Redirect;
 use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Router\Router;
@@ -29,6 +31,7 @@ class Container implements ContainerInterface
     private ViewInterface $view;
     private DatabaseInterface $database;
     private ConfigInterface $config;
+    private IdentificationInterface $identification;
 
     public function __construct()
     {
@@ -47,7 +50,7 @@ class Container implements ContainerInterface
             $this->config->get('database.password'),
             $this->config->get('database.charset')
         );
-
+        $this->identification = new Identification($this->database, $this->session, $this->config);
         $this->router = new Router(
             $this->view,
             $this->request,
@@ -55,6 +58,7 @@ class Container implements ContainerInterface
             $this->redirect,
             $this->session,
             $this->config,
+            $this->identification,
         );
     }
 
@@ -96,6 +100,11 @@ class Container implements ContainerInterface
     public function getConfig(): ConfigInterface
     {
         return $this->config;
+    }
+
+    public function getIdentification(): IdentificationInterface
+    {
+        return $this->identification;
     }
 }
 

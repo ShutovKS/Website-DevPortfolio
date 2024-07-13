@@ -5,6 +5,7 @@ namespace App\Kernel\Container;
 use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Http\RequestInterface;
+use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Router\RouterInterface;
 use App\Kernel\Services\Session\SessionInterface;
@@ -26,4 +27,5 @@ interface ContainerInterface
     public function getView(): ViewInterface;
     public function getDatabase(): DatabaseInterface;
     public function getConfig(): ConfigInterface;
+    public function getIdentification(): IdentificationInterface;
 }
