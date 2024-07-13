@@ -59,7 +59,3 @@ class Validator implements ValidatorInterface
     }
 }
 
-interface ValidatorInterface
-{
-    public function validate(array $data, array $rules): array;
-}
