@@ -18,7 +18,7 @@ use App\Kernel\Services\View\View;
 
         <h2 class="text-center mb-4">You are logged in to your account</h2>
 
-        <form action="/home" method="get">
+        <form action="/" method="get">
             <button class="w-100 btn btn-lg btn-primary" type="submit">Go to home page</button>
         </form>
 

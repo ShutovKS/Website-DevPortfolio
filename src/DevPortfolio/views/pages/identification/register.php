@@ -57,7 +57,7 @@ use App\Kernel\Services\View\View;
 
         <div class="d-flex justify-content-between">
             <!-- Registration Link -->
-            <form class="btn btn-link" method="get" action="/identification/open_login_page">
+            <form class="btn btn-link" method="get" action="/identification/login">
                 <input type="hidden">
                 <button type="submit" class="btn btn-link">Login</button>
             </form>
