@@ -7,8 +7,8 @@ use App\Kernel\Services\Router\Route;
 return [
     // -- home
 
-    Route::get('/home', [HomeController:: class, 'index']),
     Route::get('/', [HomeController:: class, 'index']),
+    Route::get('/home', [HomeController:: class, 'index']),
 
     // -- identification
 

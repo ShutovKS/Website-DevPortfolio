@@ -10,7 +10,7 @@ class HomeController extends AbstractController
 
         $this->view('home', [
             'isAuth' => $isAuth,
-        ], 'Главная страница');
+        ], 'Home');
     }
 
     private function isAuth(): bool

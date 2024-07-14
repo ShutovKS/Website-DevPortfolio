@@ -2,11 +2,14 @@
 /**
  * @var View $view
  * @var array $data
+ * @var string $title
  */
 
 use App\Kernel\Services\View\View;
 
 ?>
+
+<title><?php echo $title; ?></title>
 
 <?php $view->component('start'); ?>
 
