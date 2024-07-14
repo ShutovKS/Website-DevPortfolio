@@ -9,19 +9,24 @@ use App\Kernel\Services\View\View;
 
 ?>
 
-<title><?php echo $title; ?></title>
 
 <?php $view->component('start'); ?>
 
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<title><?php echo $title; ?></title>
 
-<main class="container d-flex min-vh-100">
+<body>
 
-    <div class="w-50 m-auto">
+<main class="d-flex min-vh-100">
 
-        <?php $view->component('page_under_construction'); ?>
+    <div class="container m-auto">
 
-    </div>
+        <div class="w-50 m-auto">
+
+            <?php $view->component('page_under_construction'); ?>
+
+            <?php $view->component('footer'); ?>
+
+        </div>
 
 </main>
 

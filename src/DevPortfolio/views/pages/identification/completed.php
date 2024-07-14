@@ -9,21 +9,24 @@ use App\Kernel\Services\View\View;
 
 ?>
 
-<title><?php echo $title; ?></title>
 
 <?php $view->component('start'); ?>
 
-<body class="d-flex align-items-center py-4 bg-body-tertiary">
+<title><?php echo $title; ?></title>
 
-<main class="container w-50 d-flex min-vh-100">
+<body>
 
-    <div class="form-signin w-100 m-auto">
+<main class="d-flex min-vh-100">
+
+    <div class="container m-auto">
 
         <h2 class="text-center mb-4">You are logged in to your account</h2>
 
         <form action="/" method="get">
             <button class="w-100 btn btn-lg btn-primary" type="submit">Go to home page</button>
         </form>
+
+        <?php $view->component('footer'); ?>
 
     </div>
 

@@ -9,9 +9,12 @@ use App\Kernel\Services\View\View;
 
 ?>
 
-    <title><?php echo $title; ?></title>
 
 <?php $view->component('start'); ?>
+
+<title><?php echo $title; ?></title>
+
+<body>
 
 <?php if ($data['isAuth'] === false): ?>
     <?php $view->component('header_unauthorized'); ?>
@@ -19,6 +22,16 @@ use App\Kernel\Services\View\View;
     <?php $view->component('header_authorized'); ?>
 <?php endif; ?>
 
-    <h1>Home page</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1>Home page</h1>
+        </div>
+    </div>
+</div>
+
+<?php $view->component('footer'); ?>
+
+</body>
 
 <?php $view->component('end'); ?>
