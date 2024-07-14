@@ -63,7 +63,7 @@ class Router implements RouterInterface
     private function notFound(): void
     {
         http_response_code(404);
-        echo '<h1>404 | Not Found</h1>';
+        $this->view->page('errors/404');
     }
 
     private function findRoute(string $uri, string $method): ?Route
