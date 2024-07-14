@@ -23,9 +23,25 @@
 
             <!-- -->
             <div class="col-md-3 text-start ms-auto d-flex">
-                <form method="get" action="/identification/logout">
-                    <button type="submit" class="btn btn-outline-primary me-2">Logout</button>
-                </form>
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle show"
+                       data-bs-toggle="dropdown" aria-expanded="true">
+                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="mdo" width="32"
+                             height="32" class="rounded-circle">
+                    </a>
+
+                    <form method="get" action="">
+                        <ul class="dropdown-menu text-small show"
+                            style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 34px);"
+                            data-popper-placement="bottom-end">
+                            <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="/identification/logout">Sign out</a></li>
+                        </ul>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

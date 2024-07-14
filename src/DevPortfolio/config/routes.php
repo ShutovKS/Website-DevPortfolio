@@ -14,6 +14,11 @@ return [
     Route::get('/', [HomeController:: class, 'index']),
     Route::get('/home', [HomeController:: class, 'index']),
 
+    // -- other
+
+    Route::get('/about', [HomeController:: class, 'about']),
+    Route::get('/faq', [HomeController:: class, 'faq']),
+
     // -- identification
 
     Route::get('/identification/login', [IdentificationController:: class, 'open_login_page'], [AuthMiddleware::class]),

@@ -8,9 +8,30 @@ class HomeController extends AbstractController
     {
         $isAuth = $this->isAuth();
 
-        $this->view('home', [
-            'isAuth' => $isAuth,
-        ], 'Home');
+        $this->view('home',
+            ['isAuth' => $isAuth],
+            'Home'
+        );
+    }
+
+    public function about(): void
+    {
+        $isAuth = $this->isAuth();
+
+        $this->view('/other/about',
+            ['isAuth' => $isAuth],
+            'About'
+        );
+    }
+
+    public function faq(): void
+    {
+        $isAuth = $this->isAuth();
+
+        $this->view('/other/faq',
+            ['isAuth' => $isAuth],
+            'FAQ'
+        );
     }
 
     private function isAuth(): bool
