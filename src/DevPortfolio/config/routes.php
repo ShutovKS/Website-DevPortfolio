@@ -8,14 +8,14 @@ return [
     // -- home
 
     Route::get('/home', [HomeController:: class, 'index']),
+    Route::get('/', [HomeController:: class, 'index']),
 
     // -- identification
 
     Route::get('/identification/login', [IdentificationController:: class, 'open_login_page']),
-    Route::get('/identification/open_login_page', [IdentificationController:: class, 'open_login_page']),
+    Route::get('/identification/signup', [IdentificationController::class, 'open_registration_page']),
 
-    Route::get('/identification/register', [IdentificationController:: class, 'open_registration_page']),
-    Route::get('/identification/open_registration_page', [IdentificationController::class, 'open_registration_page']),
+    Route::get('/identification/logout', [IdentificationController::class, 'logout']),
 
     Route::get('/identification/recover_password', [IdentificationController::class, 'processPasswordRecovery']),
 

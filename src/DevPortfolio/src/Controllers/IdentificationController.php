@@ -114,12 +114,18 @@ class IdentificationController extends AbstractController
         $this->redirect()->to('completed');
     }
 
+    public function logout(): void
+    {
+        $this->identification()->logout();
+        $this->redirect()->to('../home');
+    }
+
     public function processPasswordRecovery(): void
     {
         $this->view('identification/recover_password', [], 'Password recovery');
     }
 
-    public function completed()
+    public function completed(): void
     {
         $this->view('identification/completed', [], 'Registration completed');
     }

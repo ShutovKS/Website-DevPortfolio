@@ -74,7 +74,7 @@ class Identification implements IdentificationInterface
 
     public function isAuthorized(): bool
     {
-        return $this->session->has($this->config->get('session_field'));
+        return $this->session->has($this->config->get('identification.session_field'));
     }
 
     public function exists(string $email): bool

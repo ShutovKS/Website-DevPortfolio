@@ -6,7 +6,8 @@ class View implements ViewInterface
 {
     public function page(string $name, array $data = [], string $title = ''): void
     {
-        $path = APP_PATH . "/views/pages/{$name}.php";
+        $path = APP_PATH . "/views/pages/$name.php";
+
         extract([
             'view' => $this,
             'data' => $data,
