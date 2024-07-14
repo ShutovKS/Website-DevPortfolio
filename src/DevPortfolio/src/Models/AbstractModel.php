@@ -7,7 +7,7 @@ use App\Kernel\Services\Database\DatabaseInterface;
 
 abstract class AbstractModel
 {
-    public int $id;
+    public ?int $id;
     protected static string $table;
 
     protected function getDatabase(): DatabaseInterface
@@ -18,14 +18,26 @@ abstract class AbstractModel
     public static function all(): array
     {
         $instance = new static();
-        return $instance->getDatabase()->select(static::$table);
+        $results = $instance->getDatabase()->select(static::$table, ['*']);
+
+        $models = [];
+        foreach ($results as $result) {
+            $models[] = static::arrayToModel($result);
+        }
+
+        return $models;
     }
 
     public static function find(int $id): ?self
     {
         $instance = new static();
-        $result = $instance->getDatabase()->first(static::$table, ['id' => $id]);
-        return $result ? new static($result) : null;
+        $result = $instance->getDatabase()->select(static::$table, ['*'], ['id' => $id]);
+
+        if ($result) {
+            return static::arrayToModel($result[0]);
+        }
+
+        return null;
     }
 
     public static function where(array $conditions): array|false
@@ -43,28 +55,29 @@ abstract class AbstractModel
 
     public function save(): bool
     {
-        unset($id);
-
         $data = $this->toArray();
 
         if (isset($this->id)) {
             return $this->getDatabase()->update(static::$table, $data, ['id' => $this->id]);
         }
 
-        $id = $this->getDatabase()->insert(static::$table, $data);
-        if ($id !== false) {
-            $this->id = $id;
+        $insertId = $this->getDatabase()->insert(static::$table, $data);
+
+        if ($insertId) {
+            $this->id = $insertId;
             return true;
         }
+
         return false;
     }
 
     public function delete(): bool
     {
-        if (isset($this->id)) {
-            return $this->getDatabase()->delete(static::$table, ['id' => $this->id]);
+        if (!isset($this->id)) {
+            return false;
         }
-        return false;
+
+        return $this->getDatabase()->delete(static::$table, ['id' => $this->id]);
     }
 
     abstract protected static function arrayToModel(array $data): self;

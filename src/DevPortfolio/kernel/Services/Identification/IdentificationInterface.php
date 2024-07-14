@@ -16,7 +16,9 @@ interface IdentificationInterface
 
     public function setUser(User $user): void;
 
-    public function isAuthorized(): bool;
+    public function isAuth(): bool;
 
     public function exists(string $email): bool;
+
+    public function isAdmin();
 }

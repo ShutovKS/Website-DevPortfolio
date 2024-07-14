@@ -10,6 +10,7 @@ use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Session\SessionInterface;
 use App\Kernel\Services\Validator\ValidatorInterface;
 use App\Kernel\Services\View\ViewInterface;
+use App\Middleware\AbstractMiddleware;
 
 class Router implements RouterInterface
 {
@@ -20,12 +21,12 @@ class Router implements RouterInterface
     ];
 
     public function __construct(
-        private readonly ViewInterface      $view,
-        private readonly RequestInterface   $request,
-        private readonly ValidatorInterface $validator,
-        private readonly RedirectInterface  $redirect,
-        private readonly SessionInterface   $session,
-        private readonly ConfigInterface    $config,
+        private readonly ViewInterface           $view,
+        private readonly RequestInterface        $request,
+        private readonly ValidatorInterface      $validator,
+        private readonly RedirectInterface       $redirect,
+        private readonly SessionInterface        $session,
+        private readonly ConfigInterface         $config,
         private readonly IdentificationInterface $identification
     )
     {
@@ -39,6 +40,20 @@ class Router implements RouterInterface
         if (!$route) {
             $this->notFound();
             return;
+        }
+
+        if ($route->getMiddlewares()) {
+            foreach ($route->getMiddlewares() as $middleware) {
+                /** @var AbstractMiddleware $middleware */
+                $middleware = new $middleware(
+                    $this->request,
+                    $this->identification,
+                    $this->redirect,
+                    $this->session
+                );
+
+                $middleware->handle();
+            }
         }
 
         if (is_array($route->getAction())) {

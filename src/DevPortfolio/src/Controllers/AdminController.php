@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class HomeController extends AbstractController
+class AdminController extends AbstractController
 {
     public function index(): void
     {

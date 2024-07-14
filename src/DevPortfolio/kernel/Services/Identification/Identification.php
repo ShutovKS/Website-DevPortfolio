@@ -62,7 +62,11 @@ class Identification implements IdentificationInterface
 
     public function getUser(): ?User
     {
-        return $this->session->get($this->config->get('identification.session_field'));
+        if (!$this->isAuth()) {
+            return null;
+        }
+
+        return User::find($this->session->get($this->config->get('identification.session_field')));
     }
 
     public function setUser(User $user): void
@@ -72,9 +76,14 @@ class Identification implements IdentificationInterface
         $this->session->set($this->config->get('identification.username'), $user->name);
     }
 
-    public function isAuthorized(): bool
+    public function isAuth(): bool
     {
         return $this->session->has($this->config->get('identification.session_field'));
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->getUser()->is_admin;
     }
 
     public function exists(string $email): bool
