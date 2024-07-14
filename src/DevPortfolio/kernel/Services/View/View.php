@@ -23,7 +23,7 @@ class View implements ViewInterface
 
     public function component(string $name): void
     {
-        $path = APP_PATH . "/views/components/{$name}.php";
+        $path = APP_PATH . "/views/components/$name.php";
 
         if (!file_exists($path)) {
             echo "<h1>Component not found</h1>";

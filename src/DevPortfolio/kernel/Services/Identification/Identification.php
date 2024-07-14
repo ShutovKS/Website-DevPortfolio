@@ -3,18 +3,16 @@
 namespace App\Kernel\Services\Identification;
 
 use App\Kernel\Services\Config\ConfigInterface;
-use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Session\SessionInterface;
 use App\Models\User;
 use Random\RandomException;
 
 
-class Identification implements IdentificationInterface
+readonly class Identification implements IdentificationInterface
 {
     public function __construct(
-        private readonly DatabaseInterface $db,
-        private readonly SessionInterface  $session,
-        private readonly ConfigInterface   $config)
+        private SessionInterface $session,
+        private ConfigInterface  $config)
     {
     }
 

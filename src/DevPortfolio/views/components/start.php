@@ -15,5 +15,5 @@
             integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
             crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/assets/css/style.css?t=<?php echo(microtime(true) . rand()); ?>" type="text/css"/>
+    <link rel="stylesheet" href="/assets/css/style.css?t=<?php echo(microtime(true) . mt_rand()); ?>" type="text/css"/>
 </head>

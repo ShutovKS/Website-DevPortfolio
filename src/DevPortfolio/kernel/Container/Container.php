@@ -6,12 +6,12 @@ use App\Kernel\Services\Config\Config;
 use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Database\DatabaseMySQL;
+use App\Kernel\Services\Http\Redirect;
+use App\Kernel\Services\Http\RedirectInterface;
 use App\Kernel\Services\Http\Request;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Identification\Identification;
 use App\Kernel\Services\Identification\IdentificationInterface;
-use App\Kernel\Services\Redirect\Redirect;
-use App\Kernel\Services\Redirect\RedirectInterface;
 use App\Kernel\Services\Router\Router;
 use App\Kernel\Services\Router\RouterInterface;
 use App\Kernel\Services\Session\Session;
@@ -50,7 +50,7 @@ class Container implements ContainerInterface
             $this->config->get('database.password'),
             $this->config->get('database.charset')
         );
-        $this->identification = new Identification($this->database, $this->session, $this->config);
+        $this->identification = new Identification($this->session, $this->config);
         $this->router = new Router(
             $this->view,
             $this->request,

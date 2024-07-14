@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Kernel\Services\Redirect;
+namespace App\Kernel\Services\Http;
 
 interface RedirectInterface
 {

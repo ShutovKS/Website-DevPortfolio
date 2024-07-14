@@ -69,19 +69,15 @@ class DatabaseMySQL implements DatabaseInterface
     {
         $conditionString = $this->buildConditionString($conditions);
         $sql = "DELETE FROM $table $conditionString";
-        $stmt = $this->pdo->prepare($sql);
-
-        return $stmt->execute(array_values($conditions));
+        return $this->pdo->prepare($sql)->execute(array_values($conditions));
     }
 
     public function update(string $table, array $data, array $conditions = []): bool
     {
-        $dataString = implode(', ', array_map(fn($key) => "$key = ?", array_keys($data)));
+        $dataString = implode(', ', array_map(static fn($key) => "$key = ?", array_keys($data)));
         $conditionString = $this->buildConditionString($conditions);
         $sql = "UPDATE $table SET $dataString $conditionString";
-        $stmt = $this->pdo->prepare($sql);
-
-        return $stmt->execute(array_merge(array_values($data), array_values($conditions)));
+        return $this->pdo->prepare($sql)->execute(array_merge(array_values($data), array_values($conditions)));
     }
 
     public function query(string $query, array $params = []): array
@@ -126,7 +122,7 @@ class DatabaseMySQL implements DatabaseInterface
             return '';
         }
 
-        $conditionsArray = array_map(fn($key) => "$key = ?", array_keys($conditions));
+        $conditionsArray = array_map(static fn($key) => "$key = ?", array_keys($conditions));
         return 'WHERE ' . implode(' AND ', $conditionsArray);
     }
 }

@@ -18,7 +18,7 @@ abstract class AbstractModel
     public static function all(): array
     {
         $instance = new static();
-        $results = $instance->getDatabase()->select(static::$table, ['*']);
+        $results = $instance->getDatabase()->select(static::$table);
 
         $models = [];
         foreach ($results as $result) {
