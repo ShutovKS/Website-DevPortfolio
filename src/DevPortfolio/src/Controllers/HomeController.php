@@ -6,30 +6,24 @@ class HomeController extends AbstractController
 {
     public function index(): void
     {
-        $isAuth = $this->isAuth();
-
         $this->view('home',
-            ['isAuth' => $isAuth],
+            ['isAuth' => $this->isAuth()],
             'Home'
         );
     }
 
     public function about(): void
     {
-        $isAuth = $this->isAuth();
-
         $this->view('/other/about',
-            ['isAuth' => $isAuth],
+            ['isAuth' => $this->isAuth()],
             'About'
         );
     }
 
     public function faq(): void
     {
-        $isAuth = $this->isAuth();
-
         $this->view('/other/faq',
-            ['isAuth' => $isAuth],
+            ['isAuth' => $this->isAuth()],
             'FAQ'
         );
     }

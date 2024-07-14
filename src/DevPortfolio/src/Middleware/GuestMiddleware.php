@@ -6,8 +6,8 @@ class GuestMiddleware extends AbstractMiddleware
 {
     public function handle(): void
     {
-        if (!$this->identification->isAuth()) {
-            $this->redirect->to('/identification/login');
+        if ($this->identification->isAuth()) {
+            $this->redirect->to('/');
         }
     }
 }
