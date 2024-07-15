@@ -43,7 +43,7 @@ use App\Kernel\Services\View\View;
 
                 <div class="form-floating mb-1">
                     <input type="email" name="email" class="form-control" id="floatingInput"
-                           placeholder="name@example.com">
+                           placeholder="name@example.com" autocomplete="on">
                     <label for="floatingInput">Email address</label>
                 </div>
 

@@ -26,14 +26,14 @@ readonly class Identification implements IdentificationInterface
         $password_hash = $this->hashPassword($password, $salt);
 
         $user = new User();
-        $user->name = $name;
+        $user->username = $name;
         $user->email = $email;
-        $user->password_hash = $password_hash;
+        $user->passwordHash = $password_hash;
         $user->salt = $salt;
-        $user->created_at = date('Y-m-d H:i:s');
-        $user->updated_at = date('Y-m-d H:i:s');
-        $user->is_author = false;
-        $user->is_admin = false;
+        $user->createdAt = date('Y-m-d H:i:s');
+        $user->updatedAt = date('Y-m-d H:i:s');
+        $user->isAuthor = false;
+        $user->isAdmin = false;
 
         $insertId = $user->save();
 
@@ -42,9 +42,10 @@ readonly class Identification implements IdentificationInterface
 
     public function login(string $email, string $password): ?User
     {
+        /** @var User $user */
         $user = User::where(['email' => $email])[0] ?? null;
 
-        if (!$user || !hash_equals($user->password_hash, hash('sha256', $password . $user->salt))) {
+        if (!$user || !hash_equals($user->passwordHash, hash('sha256', $password . $user->salt))) {
             return null;
         }
 
@@ -71,7 +72,7 @@ readonly class Identification implements IdentificationInterface
     {
         $this->session->set($this->config->get('identification.session_field'), $user->id);
         $this->session->set($this->config->get('identification.email'), $user->email);
-        $this->session->set($this->config->get('identification.username'), $user->name);
+        $this->session->set($this->config->get('identification.username'), $user->username);
     }
 
     public function isAuth(): bool
@@ -81,7 +82,7 @@ readonly class Identification implements IdentificationInterface
 
     public function isAdmin(): bool
     {
-        return $this->getUser()->is_admin;
+        return $this->getUser()->isAdmin;
     }
 
     public function exists(string $email): bool

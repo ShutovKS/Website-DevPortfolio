@@ -15,7 +15,7 @@
             </a>
 
             <!-- Identification -->
-            <div class="col-md-3 text-start ms-auto d-flex">
+            <div class="text-start ms-auto d-flex">
                 <form method="get" action="/identification/login">
                     <button type="submit" class="btn btn-outline-primary me-2">Login</button>
                 </form>

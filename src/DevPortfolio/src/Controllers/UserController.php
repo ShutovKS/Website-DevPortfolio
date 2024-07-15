@@ -6,31 +6,25 @@ class UserController extends AbstractController
 {
     public function index(): void
     {
-        $this->view('user/profile', [], 'Profile');
+        $profileData = $this->getProfileData();
+        $data = [
+            'user' => $profileData['user'],
+            'isAuthor' => $profileData['isAuthor'],
+            'isAdmin' => $profileData['isAdmin'],
+        ];
+
+        $this->view('user/profile',
+            $data,
+            'Profile');
     }
 
     public function settings(): void
     {
+        $profileData = $this->getProfileData();
         $data = [
-            'user' => [
-                'name' => 'johndoe',
-
-                'photo' => 'https://bootdey.com/img/Content/avatar/avatar7.png',
-                'fullName' => 'John Doe',
-                'job' => 'Web Developer',
-                'location_city' => 'New York',
-                'location_country' => 'USA',
-
-                'email' => 'example@mail.com',
-                'phone' => '+1234567890',
-                'password' => '********',
-            ],
-            'socials' => [
-                'website' => 'https://example.com',
-                'github' => 'https://github.com',
-                'vk' => 'https://vk.com',
-                'telegram' => 'https://t.me'
-            ],
+            'user' => $profileData['user'],
+            'isAuthor' => $profileData['isAuthor'],
+            'isAdmin' => $profileData['isAdmin'],
         ];
 
         $this->view(
@@ -39,4 +33,19 @@ class UserController extends AbstractController
             'Settings');
     }
 
+    private function getProfileData(): array
+    {
+        $user = $this->identification()->getUser();
+
+        if (!$user) {
+            echo "<h1>User not found</h1>";
+            return [];
+        }
+
+        return [
+            'user' => $user,
+            'isAuthor' => $user->isAuthor,
+            'isAdmin' => $user->isAdmin,
+        ];
+    }
 }

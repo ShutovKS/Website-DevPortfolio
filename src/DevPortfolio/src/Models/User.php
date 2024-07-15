@@ -6,28 +6,55 @@ class User extends AbstractModel
 {
     protected static string $table = 'users';
 
-    public string $name;
+    public string $username;
+    public string $fullName;
+    public string $linkToPhoto;
+
     public string $email;
-    public string $password_hash;
+    public string $phone;
+
+    public string $job;
+    public string $locationCity;
+    public string $locationCountry;
+
+    public string $socialWebsite;
+    public string $socialGithub;
+    public string $socialVk;
+    public string $socialTelegram;
+
+    public string $passwordHash;
     public string $salt;
-    public string $created_at;
-    public string $updated_at;
-    public int $is_author;
-    public int $is_admin;
+
+    public string $createdAt;
+    public string $updatedAt;
+
+    public int $isAuthor;
+    public int $isAdmin;
+
 
     protected static function arrayToModel(array $data): self
     {
         $model = new self();
 
         $model->id = $data['id'];
-        $model->name = $data['name'];
+        $model->username = $data['username'];
+        $model->fullName = $data['full_name'];
+        $model->linkToPhoto = $data['link_to_photo'];
         $model->email = $data['email'];
-        $model->password_hash = $data['password_hash'];
+        $model->phone = $data['phone'];
+        $model->job = $data['job'];
+        $model->locationCity = $data['location_city'];
+        $model->locationCountry = $data['location_country'];
+        $model->socialWebsite = $data['social_website'];
+        $model->socialGithub = $data['social_github'];
+        $model->socialVk = $data['social_vk'];
+        $model->socialTelegram = $data['social_telegram'];
+        $model->passwordHash = $data['password_hash'];
         $model->salt = $data['salt'];
-        $model->created_at = $data['created_at'];
-        $model->updated_at = $data['updated_at'];
-        $model->is_author = $data['is_author'];
-        $model->is_admin = $data['is_admin'];
+        $model->createdAt = $data['created_at'];
+        $model->updatedAt = $data['updated_at'];
+        $model->isAuthor = $data['is_author'];
+        $model->isAdmin = $data['is_admin'];
 
         return $model;
     }
@@ -36,14 +63,24 @@ class User extends AbstractModel
     {
         return [
             'id' => $this->id ?? null,
-            'name' => $this->name,
+            'username' => $this->username,
+            'full_name' => $this->fullName,
+            'link_to_photo' => $this->linkToPhoto,
             'email' => $this->email,
-            'password_hash' => $this->password_hash,
+            'phone' => $this->phone,
+            'job' => $this->job,
+            'location_city' => $this->locationCity,
+            'location_country' => $this->locationCountry,
+            'social_website' => $this->socialWebsite,
+            'social_github' => $this->socialGithub,
+            'social_vk' => $this->socialVk,
+            'social_telegram' => $this->socialTelegram,
+            'password_hash' => $this->passwordHash,
             'salt' => $this->salt,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'is_author' => $this->is_author,
-            'is_admin' => $this->is_admin,
+            'created_at' => $this->createdAt,
+            'updated_at' => $this->updatedAt,
+            'is_author' => $this->isAuthor,
+            'is_admin' => $this->isAdmin,
         ];
     }
 }
