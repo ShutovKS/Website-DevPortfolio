@@ -21,8 +21,8 @@
                 <li><a href="/about" class="nav-link px-2 link-secondary">About</a></li>
             </ul>
 
-            <!-- -->
-            <div class="col-md-3 text-start ms-auto d-flex">
+            <!-- User -->
+            <div class="text-start ms-auto d-flex">
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                        data-bs-toggle="dropdown" aria-expanded="true">
@@ -30,11 +30,12 @@
                              height="32" class="rounded-circle">
                     </a>
 
-                    <form method="get" action="">
+                    <form method="get">
                         <ul class="dropdown-menu text-small"
                             style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 34px);"
                             data-popper-placement="bottom-end">
                             <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
+                            <li><a class="dropdown-item" href="/user/settings">Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

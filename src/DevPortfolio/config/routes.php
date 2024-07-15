@@ -41,6 +41,7 @@ return [
     // -- user
 
     Route::get('/user/profile', [UserController::class, 'index'], [AuthMiddleware::class]),
+    Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
 
     // -- admin
 
