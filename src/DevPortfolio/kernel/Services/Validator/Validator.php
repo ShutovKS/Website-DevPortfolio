@@ -35,22 +35,22 @@ class Validator implements ValidatorInterface
         switch ($ruleName) {
             case 'required':
                 if (empty($value)) {
-                    return 'Поле ' . $key . ' обязательно';
+                    return 'Field ' . $key . ' necessarily';
                 }
                 break;
             case 'min':
                 if (strlen($value) < $ruleValue) {
-                    return 'Поле ' . $key . ' должно быть не менее ' . $ruleValue . ' символов, а вы ввели ' . strlen($value) . ' символов';
+                    return 'Field' . $key . ' must be at least ' . $ruleValue. ' characters, and you entered ' . strlen($value) . 'characters';
                 }
                 break;
             case 'max':
                 if (strlen($value) > $ruleValue) {
-                    return 'Поле ' . $key . ' должно быть не более ' . $ruleValue . ' символов, а вы ввели ' . strlen($value) . ' символов';
+                    return 'Field ' . $key . ' must be no more than ' . $ruleValue . ' characters, and you entered ' . strlen($value) . ' characters';
                 }
                 break;
             case 'email':
                 if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-                    return 'Поле ' . $key . ' должно быть валидным email адресом';
+                    return 'Field ' . $key . ' must be a valid email address';
                 }
                 break;
         }

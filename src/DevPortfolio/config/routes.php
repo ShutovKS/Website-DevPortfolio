@@ -43,6 +43,11 @@ return [
     Route::get('/user/profile', [UserController::class, 'index'], [AuthMiddleware::class]),
     Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
 
+    Route::post('/user/settings/socials', [UserController::class, 'updateSocials'], [AuthMiddleware::class]),
+    Route::post('/user/settings/profile', [UserController::class, 'updateProfile'], [AuthMiddleware::class]),
+    Route::post('/user/settings/password', [UserController::class, 'updatePassword'], [AuthMiddleware::class]),
+    Route::post('/user/settings/delete', [UserController::class, 'deleteAccount'], [AuthMiddleware::class]),
+
     // -- admin
 
     Route::get('/admin/home', [AdminController::class, 'index'], [AuthMiddleware::class, AdminMiddleware::class]),

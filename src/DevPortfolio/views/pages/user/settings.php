@@ -20,6 +20,8 @@ $user = $data['user']; ?>
     'telegram' => $user->socialTelegram,
 ]; ?>
 
+<?php $errors = $data['errors']; ?>
+
 <?php $view->component('start'); ?>
 
 <title><?php echo $title; ?></title>
@@ -50,7 +52,7 @@ $user = $data['user']; ?>
                     </div>
                 </div>
 
-                <form class="card mt-3">
+                <form method="post" action="/user/settings/socials" name="socials-form" class="card mt-3">
 
                     <h5 class="card-header">Socials</h5>
 
@@ -123,8 +125,10 @@ $user = $data['user']; ?>
                                     <?php echo $socialSample['name']; ?>
                                 </h6>
                                 <div>
-                                    <input type="text" class="form-control" id="city-name" placeholder="City"
-                                           autocomplete="on" value="<?php echo $social_link; ?>">
+                                    <label>
+                                        <input type="text" class="form-control" name="<?php echo $key; ?>"
+                                               value="<?php echo $social_link; ?>">
+                                    </label>
                                 </div>
                             </li>
 
@@ -133,7 +137,7 @@ $user = $data['user']; ?>
                         <div class="row m-2">
                             <div class="col-sm-5"></div>
                             <div class="col-sm-3 text-secondary">
-                                <input type="button" class="btn btn-primary px-4" value="Save Changes">
+                                <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                             </div>
                         </div>
 
@@ -144,7 +148,7 @@ $user = $data['user']; ?>
 
             <div class="col-lg-8">
 
-                <form class="card mb-3">
+                <form class="card mb-3" method="post" action="/user/settings/profile" name="profile-form">
 
                     <h5 class="card-header">Profile</h5>
 
@@ -152,15 +156,17 @@ $user = $data['user']; ?>
                         <div class="row mb-3">
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="username" placeholder="Username"
+                                <input type="text" class="form-control" id="username" name="username"
+                                       placeholder="Username"
                                        autocomplete="on" disabled="" value="<?php echo $user->username; ?>">
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="name" class="col-sm-2 col-form-label">Full Name</label>
+                            <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" placeholder="Full Name"
+                                <input type="text" class="form-control" id="fullName" name="fullName"
+                                       placeholder="Full Name"
                                        autocomplete="on" value="<?php echo $user->fullName; ?>">
                             </div>
                         </div>
@@ -168,15 +174,15 @@ $user = $data['user']; ?>
                         <div class="row mb-3">
                             <label for="email" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
-                                <input type="email" class="form-control" id="email" placeholder="Email"
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email"
                                        autocomplete="on" disabled="" value="<?php echo $user->email; ?>">
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="tel" class="col-sm-2 col-form-label">Phone</label>
+                            <label for="phone" class="col-sm-2 col-form-label">Phone</label>
                             <div class="col-sm-10">
-                                <input type="tel" class="form-control" id="tel" placeholder="Phone"
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Phone"
                                        autocomplete="on" value="<?php echo $user->phone; ?>">
                             </div>
                         </div>
@@ -184,7 +190,8 @@ $user = $data['user']; ?>
                         <div class="row mb-3">
                             <label for="country-name" class="col-sm-2 col-form-label">Country</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="country-name" placeholder="Country"
+                                <input type="text" class="form-control" id="country-name" name="country"
+                                       placeholder="Country"
                                        autocomplete="on" value="<?php echo $user->locationCountry; ?>">
                             </div>
                         </div>
@@ -192,7 +199,7 @@ $user = $data['user']; ?>
                         <div class="row mb-3">
                             <label for="city-name" class="col-sm-2 col-form-label">City</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="city-name" placeholder="City"
+                                <input type="text" class="form-control" id="city-name" name="city" placeholder="City"
                                        autocomplete="on" value="<?php echo $user->locationCity; ?>">
                             </div>
                         </div>
@@ -200,7 +207,7 @@ $user = $data['user']; ?>
                         <div class="row mb-3">
                             <label for="job" class="col-sm-2 col-form-label">Job</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="job" placeholder="Job"
+                                <input type="text" class="form-control" id="job" name="job" placeholder="Job"
                                        autocomplete="on" value="<?php echo $user->job; ?>">
                             </div>
                         </div>
@@ -208,7 +215,7 @@ $user = $data['user']; ?>
                         <div class="row">
                             <div class="col-sm-2"></div>
                             <div class="col-sm-10 text-secondary">
-                                <input type="button" class="btn btn-primary px-4" value="Save Changes">
+                                <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                             </div>
                         </div>
                     </div>
@@ -217,7 +224,8 @@ $user = $data['user']; ?>
 
                 <div class="row">
 
-                    <form class="col-md-7">
+                    <form method="post" action="/user/settings/password" name="password-form"
+                          class="col-md-7">
 
                         <div class="col-md-12 card">
 
@@ -228,7 +236,7 @@ $user = $data['user']; ?>
                                     <label for="old-password" class="col-sm-4 col-form-label">Old Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="old-password"
-                                               placeholder="Old Password"
+                                               placeholder="Old Password" name="oldPassword"
                                                autocomplete="off">
                                     </div>
                                 </div>
@@ -237,7 +245,7 @@ $user = $data['user']; ?>
                                     <label for="new-password" class="col-sm-4 col-form-label">New Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="new-password"
-                                               placeholder="New Password"
+                                               placeholder="New Password" name="newPassword"
                                                autocomplete="off">
                                     </div>
                                 </div>
@@ -247,17 +255,37 @@ $user = $data['user']; ?>
                                         Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="confirm-password"
-                                               placeholder="Confirm Password" autocomplete="off">
+                                               placeholder="Confirm Password" name="confirmPassword"
+                                               autocomplete="off">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-8 text-secondary">
-                                        <input type="button" class="btn btn-primary px-4" value="Save Changes">
+                                        <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                                     </div>
                                 </div>
+
                             </div>
+
+                            <!-- Вывод ошибок -->
+                            <?php
+                            $errors = $data['errors'];
+                            if (isset($errors['password'])): ?>
+
+                                <div class="row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10 text-danger">
+                                        <ul>
+                                            <?php foreach ($errors['password'] as $error): ?>
+                                                <li><?php echo $error; ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            <?php endif; ?>
 
                         </div>
 
@@ -265,7 +293,7 @@ $user = $data['user']; ?>
 
                     <div class="col-md-5">
 
-                        <form class="col-md-12 card">
+                        <form method="post" action="/user/settings/delete" name="delete-form" class="col-md-12 card">
 
                             <h5 class="card-header">Delete Account</h5>
 
@@ -274,7 +302,7 @@ $user = $data['user']; ?>
                                     <label for="password" class="col-sm-4 col-form-label">Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="password"
-                                               placeholder="Password"
+                                               placeholder="Password" name="password"
                                                autocomplete="off">
                                     </div>
                                 </div>
@@ -282,11 +310,28 @@ $user = $data['user']; ?>
                                 <div class="row">
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-8 text-secondary">
-                                        <input type="button" class="btn btn-danger px-4" value="Delete Account">
+                                        <input type="submit" class="btn btn-danger px-4" value="Delete Account">
                                     </div>
                                 </div>
 
                             </div>
+
+                            <!-- Вывод ошибок -->
+                            <?php
+                            if (isset($errors['delete'])): ?>
+
+                                <div class="row">
+                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-10 text-danger">
+                                        <ul>
+                                            <?php foreach ($errors['delete'] as $error): ?>
+                                                <li><?php echo $error; ?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            <?php endif; ?>
 
                         </form>
 

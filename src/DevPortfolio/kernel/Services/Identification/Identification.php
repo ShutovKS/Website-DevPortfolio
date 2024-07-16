@@ -90,6 +90,28 @@ readonly class Identification implements IdentificationInterface
         return User::where(['email' => $email]) !== [];
     }
 
+    public function checkPassword(string $password): bool
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $this->hashPassword($password, $user->salt) === $user->passwordHash;
+    }
+
+    public function updatePassword(string $password): void
+    {
+        $user = $this->getUser();
+        $salt = $this->generateSalt();
+        $password_hash = $this->hashPassword($password, $salt);
+
+        $user->passwordHash = $password_hash;
+        $user->salt = $salt;
+        $user->save();
+    }
+
     private function hashPassword(string $password, string $salt): string
     {
         return hash('sha256', $password . $salt);

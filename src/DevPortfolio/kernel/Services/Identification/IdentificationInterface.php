@@ -20,5 +20,9 @@ interface IdentificationInterface
 
     public function exists(string $email): bool;
 
-    public function isAdmin();
+    public function isAdmin(): bool;
+
+    public function checkPassword(string $password): bool;
+
+    public function updatePassword(string $password): void;
 }

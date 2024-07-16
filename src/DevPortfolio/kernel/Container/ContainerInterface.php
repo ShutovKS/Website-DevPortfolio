@@ -15,15 +15,10 @@ use App\Kernel\Services\View\ViewInterface;
 interface ContainerInterface
 {
     public function getRouter(): RouterInterface;
-
     public function getRequest(): RequestInterface;
-
     public function getRedirect(): RedirectInterface;
-
     public function getSession(): SessionInterface;
-
     public function getValidator(): ValidatorInterface;
-
     public function getView(): ViewInterface;
     public function getDatabase(): DatabaseInterface;
     public function getConfig(): ConfigInterface;
