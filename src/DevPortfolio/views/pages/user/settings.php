@@ -6,11 +6,19 @@
  */
 
 use App\Kernel\Services\View\View;
+use App\Models\User;
 
 ?>
 
-<?php $user = $data['user']; ?>
-<?php $socials = $data['socials']; ?>
+<?php /** @var User $user */
+$user = $data['user']; ?>
+
+<?php $socials = [
+    'website' => $user->socialWebsite,
+    'github' => $user->socialGithub,
+    'vk' => $user->socialVk,
+    'telegram' => $user->socialTelegram,
+]; ?>
 
 <?php $view->component('start'); ?>
 
@@ -29,18 +37,18 @@ use App\Kernel\Services\View\View;
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?php echo $user['photo']; ?>" alt="Admin" class="rounded-circle" width="150">
+                            <img src="<?php echo $user->linkToPhoto; ?>" alt="Admin" class="rounded-circle" width="150">
 
                             <div class="mt-3">
-                                <h4><?php echo $user['fullName']; ?></h4>
-                                <p class="text-secondary mb-1"><?php echo $user['job']; ?></p>
-                                <p class="text-muted font-size-sm"><?php echo $user['location_city']; ?>
-                                    , <?php echo $user['location_country']; ?></p>
+                                <h4><?php echo $user->fullName; ?></h4>
+                                <p class="text-secondary mb-1"><?php echo $user->job; ?></p>
+                                <p class="text-muted font-size-sm">
+                                    <?php echo $user->locationCity; ?>, <?php echo $user->locationCountry; ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-
 
                 <form class="card mt-3">
 
@@ -145,7 +153,7 @@ use App\Kernel\Services\View\View;
                             <label for="username" class="col-sm-2 col-form-label">Username</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="username" placeholder="Username"
-                                       autocomplete="on" disabled="" value="<?php echo $user['name']; ?>">
+                                       autocomplete="on" disabled="" value="<?php echo $user->username; ?>">
                             </div>
                         </div>
 
@@ -153,7 +161,7 @@ use App\Kernel\Services\View\View;
                             <label for="name" class="col-sm-2 col-form-label">Full Name</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="name" placeholder="Full Name"
-                                       autocomplete="on" value="<?php echo $user['fullName']; ?>">
+                                       autocomplete="on" value="<?php echo $user->fullName; ?>">
                             </div>
                         </div>
 
@@ -161,7 +169,7 @@ use App\Kernel\Services\View\View;
                             <label for="email" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-10">
                                 <input type="email" class="form-control" id="email" placeholder="Email"
-                                       autocomplete="on" disabled="" value="<?php echo $user['email']; ?>">
+                                       autocomplete="on" disabled="" value="<?php echo $user->email; ?>">
                             </div>
                         </div>
 
@@ -169,7 +177,7 @@ use App\Kernel\Services\View\View;
                             <label for="tel" class="col-sm-2 col-form-label">Phone</label>
                             <div class="col-sm-10">
                                 <input type="tel" class="form-control" id="tel" placeholder="Phone"
-                                       autocomplete="on" value="<?php echo $user['phone']; ?>">
+                                       autocomplete="on" value="<?php echo $user->phone; ?>">
                             </div>
                         </div>
 
@@ -177,7 +185,7 @@ use App\Kernel\Services\View\View;
                             <label for="country-name" class="col-sm-2 col-form-label">Country</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="country-name" placeholder="Country"
-                                       autocomplete="on" value="<?php echo $user['location_country']; ?>">
+                                       autocomplete="on" value="<?php echo $user->locationCountry; ?>">
                             </div>
                         </div>
 
@@ -185,7 +193,7 @@ use App\Kernel\Services\View\View;
                             <label for="city-name" class="col-sm-2 col-form-label">City</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="city-name" placeholder="City"
-                                       autocomplete="on" value="<?php echo $user['location_city']; ?>">
+                                       autocomplete="on" value="<?php echo $user->locationCity; ?>">
                             </div>
                         </div>
 
@@ -193,7 +201,7 @@ use App\Kernel\Services\View\View;
                             <label for="job" class="col-sm-2 col-form-label">Job</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" id="job" placeholder="Job"
-                                       autocomplete="on" value="<?php echo $user['job']; ?>">
+                                       autocomplete="on" value="<?php echo $user->job; ?>">
                             </div>
                         </div>
 
