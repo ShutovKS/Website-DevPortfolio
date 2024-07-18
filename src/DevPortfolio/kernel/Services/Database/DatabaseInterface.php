@@ -20,6 +20,10 @@ interface DatabaseInterface
 
     public function beginTransaction(): void;
 
+    public function getRandomRows(string $table, int $count): array;
+
+    public function rawQuery(string $query): array;
+
     public function commit(): void;
 
     public function rollBack(): void;

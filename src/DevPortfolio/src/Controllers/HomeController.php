@@ -2,30 +2,26 @@
 
 namespace App\Controllers;
 
+use App\Models\Articles;
+
 class HomeController extends AbstractController
 {
     public function index(): void
     {
-        $this->view('home',
-            $this->getData(),
-            'Home'
-        );
+        $data = $this->getData();
+        $data['articles'] = Articles::getRandom(9);
+
+        $this->view('home', $data, 'Home');
     }
 
     public function about(): void
     {
-        $this->view('/other/about',
-            $this->getData(),
-            'About'
-        );
+        $this->view('/other/about', $this->getData(), 'About');
     }
 
     public function faq(): void
     {
-        $this->view('/other/faq',
-            $this->getData(),
-            'FAQ'
-        );
+        $this->view('/other/faq', $this->getData(), 'FAQ');
     }
 
     private function getData(): array

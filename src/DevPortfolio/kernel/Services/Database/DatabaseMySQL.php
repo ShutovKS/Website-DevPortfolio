@@ -106,6 +106,19 @@ class DatabaseMySQL implements DatabaseInterface
         $this->pdo->beginTransaction();
     }
 
+    public function getRandomRows(string $table, int $count): array
+    {
+        $sql = "SELECT * FROM $table ORDER BY RAND() LIMIT $count";
+        $result = $this->pdo->query($sql);
+        return $result ? $result->fetchAll() : [];
+    }
+
+    public function rawQuery(string $query): array
+    {
+        $result = $this->pdo->query($query);
+        return $result ? $result->fetchAll() : [];
+    }
+
     public function commit(): void
     {
         $this->pdo->commit();

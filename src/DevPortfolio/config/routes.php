@@ -13,17 +13,17 @@ use App\Middleware\GuestMiddleware;
 return [
     // -- home
 
-    Route::get('/', [HomeController:: class, 'index']),
-    Route::get('/home', [HomeController:: class, 'index']),
+    Route::get('/', [HomeController::class, 'index']),
+    Route::get('/home', [HomeController::class, 'index']),
 
     // -- other
 
-    Route::get('/about', [HomeController:: class, 'about']),
-    Route::get('/faq', [HomeController:: class, 'faq']),
+    Route::get('/about', [HomeController::class, 'about']),
+    Route::get('/faq', [HomeController::class, 'faq']),
 
     // -- identification
 
-    Route::get('/identification/login', [IdentificationController:: class, 'openLoginPage'], [GuestMiddleware::class]),
+    Route::get('/identification/login', [IdentificationController::class, 'openLoginPage'], [GuestMiddleware::class]),
     Route::get('/identification/signup', [IdentificationController::class, 'openRegistrationPage'], [GuestMiddleware::class]),
 
     Route::get('/identification/logout', [IdentificationController::class, 'logout'], [AuthMiddleware::class]),
@@ -32,8 +32,8 @@ return [
 
     Route::get('/identification/completed', [IdentificationController::class, 'completed']),
 
-    Route::post('/identification/login', [IdentificationController:: class, 'loginProcessing'], [GuestMiddleware::class]),
-    Route::post('/identification/register', [IdentificationController:: class, 'registrationProcessing'], [GuestMiddleware::class]),
+    Route::post('/identification/login', [IdentificationController::class, 'loginProcessing'], [GuestMiddleware::class]),
+    Route::post('/identification/register', [IdentificationController::class, 'registrationProcessing'], [GuestMiddleware::class]),
 
     // -- error
 
@@ -43,6 +43,7 @@ return [
 
     Route::get('/article/created', [ArticleController::class, 'openCreated'], [AuthMiddleware::class]),
     Route::post('/article/create', [ArticleController::class, 'create'], [AuthMiddleware::class]),
+    Route::get('/article/{id}', [ArticleController::class, 'viewArticle'], [AuthMiddleware::class]),
 
     // -- user
 

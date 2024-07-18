@@ -12,10 +12,7 @@ class ArticleController extends AbstractController
 
         $this->view(
             '/article/article_created',
-            [
-                'errors' => $errors,
-                'link_to_photo' => $this->identification()->getUser()->linkToPhoto,
-            ],
+            $this->getData(),
             'Article created');
     }
 
@@ -51,6 +48,11 @@ class ArticleController extends AbstractController
         $article->save();
 
         $this->redirect()->to('../user/profile');
+    }
+
+    public function viewArticle($id): void
+    {
+        dd("Article ID: " . $id);
     }
 
     private function getData(): array

@@ -53,6 +53,19 @@ abstract class AbstractModel
         return $models;
     }
 
+    public static function getRandom(int $count): array
+    {
+        $instance = new static();
+        $results = $instance->getDatabase()->getRandomRows(static::$table, $count);
+
+        $models = [];
+        foreach ($results as $result) {
+            $models[] = static::arrayToModel($result);
+        }
+
+        return $models;
+    }
+
     public function save(): bool
     {
         $data = $this->toArray();

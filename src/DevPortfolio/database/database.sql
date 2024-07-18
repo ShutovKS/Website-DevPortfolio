@@ -89,7 +89,18 @@ CREATE TABLE `articles`
 --
 
 INSERT INTO `articles` (`user_id`, `title`, `content`, `created_at`, `updated_at`, `published`)
-VALUES (1, 'First Article by John Doe', 'This is the content of the first article by John Doe.', NOW(), NOW(), 1),
-       (2, 'First Article by Alice Smith', 'This is the content of the first article by Alice Smith.', NOW(), NOW(), 1),
-       (3, 'First Article by Bob Thompson', 'This is the content of the first article by Bob Thompson.', NOW(), NOW(), 1);
+VALUES (1, 'title 1', 'content 1.', NOW(), NOW(), 1),
+       (1, 'title 2', 'content 2.', NOW(), NOW(), 1),
+       (1, 'title 3', 'content 3.', NOW(), NOW(), 1),
+       (1, 'title 4', 'content 4.', NOW(), NOW(), 1),
+       (1, 'title 5', 'content 5.', NOW(), NOW(), 1),
+       (1, 'title 6', 'content 6.', NOW(), NOW(), 1),
+       (1, 'title 7', 'content 7.', NOW(), NOW(), 1),
+       (1, 'title 8', 'content 8.', NOW(), NOW(), 1),
+       (1, 'title 9', 'content 9.', NOW(), NOW(), 1),
+       (1, 'title 10', 'content 10.', NOW(), NOW(), 1),
+       (1, 'title 11', 'content 11.', NOW(), NOW(), 1),
+       (1, 'title 12', 'content 12.', NOW(), NOW(), 1),
+       (1, 'title 13', 'content 13.', NOW(), NOW(), 1),
+       (1, 'title 14', 'content 14.', NOW(), NOW(), 1);
 
