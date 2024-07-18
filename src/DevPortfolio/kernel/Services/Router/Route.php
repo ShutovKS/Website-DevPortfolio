@@ -2,30 +2,25 @@
 
 namespace App\Kernel\Services\Router;
 
-class Route
+readonly class Route
 {
     public function __construct(
-        private readonly string $uri,
-        private readonly string $method,
-        private                 $action,
-        private readonly array  $middlewares = []
+        private string $method,
+        private string $uri,
+        private array  $action,
+        private array  $middlewares = []
     )
     {
     }
 
-    public static function get(string $uri, $action, array $middlewares = []): Route
+    public static function get(string $uri, array $action = [], array $middlewares = []): self
     {
-        return new static($uri, 'GET', $action, $middlewares);
+        return new self('GET', $uri, $action, $middlewares);
     }
 
-    public static function post(string $uri, $action, array $middlewares = []): Route
+    public static function post(string $uri, array $action = [], array $middlewares = []): self
     {
-        return new static($uri, 'POST', $action, $middlewares);
-    }
-
-    public function getUri(): string
-    {
-        return $this->uri;
+        return new self('POST', $uri, $action, $middlewares);
     }
 
     public function getMethod(): string
@@ -33,7 +28,12 @@ class Route
         return $this->method;
     }
 
-    public function getAction(): mixed
+    public function getUri(): string
+    {
+        return $this->uri;
+    }
+
+    public function getAction(): array
     {
         return $this->action;
     }

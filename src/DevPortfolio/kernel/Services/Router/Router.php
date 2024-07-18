@@ -35,25 +35,23 @@ class Router implements RouterInterface
 
     public function dispatch(string $uri, string $method): void
     {
-        $route = $this->findRoute($uri, $method);
+        [$route, $params] = $this->findRoute($uri, $method);
 
         if (!$route) {
             $this->notFound();
             return;
         }
 
-        if ($route->getMiddlewares()) {
-            foreach ($route->getMiddlewares() as $middleware) {
-                /** @var AbstractMiddleware $middleware */
-                $middleware = new $middleware(
-                    $this->request,
-                    $this->identification,
-                    $this->redirect,
-                    $this->session
-                );
+        foreach ($route->getMiddlewares() as $middleware) {
+            /** @var AbstractMiddleware $middleware */
+            $middleware = new $middleware(
+                $this->request,
+                $this->identification,
+                $this->redirect,
+                $this->session
+            );
 
-                $middleware->handle();
-            }
+            $middleware->handle();
         }
 
         if (is_array($route->getAction())) {
@@ -70,21 +68,22 @@ class Router implements RouterInterface
             $controller->setIdentification($this->identification);
             $controller->setConfig($this->config);
 
-            $controller->$action();
+            $controller->$action(...$params);
         } else {
-            call_user_func($route->getAction());
+            call_user_func($route->getAction(), ...$params);
         }
     }
 
-    private function notFound(): void
+    private function findRoute(string $uri, string $method): ?array
     {
-        http_response_code(404);
-        $this->view->page('errors/404');
-    }
-
-    private function findRoute(string $uri, string $method): ?Route
-    {
-        return $this->routes[$method][$uri] ?? null;
+        foreach ($this->routes[$method] as $routeUri => $route) {
+            $pattern = preg_replace('#\{[\w]+\}#', '([\w-]+)', $routeUri);
+            if (preg_match("#^$pattern$#", $uri, $matches)) {
+                array_shift($matches); // Remove the full match
+                return [$route, $matches];
+            }
+        }
+        return [null, []];
     }
 
     private function initRoutes(): void
@@ -94,6 +93,12 @@ class Router implements RouterInterface
         foreach ($routes as $route) {
             $this->routes[$route->getMethod()][$route->getUri()] = $route;
         }
+    }
+
+    private function notFound(): void
+    {
+        http_response_code(404);
+        $this->view->page('errors/404');
     }
 
     /** @return Route[] */
