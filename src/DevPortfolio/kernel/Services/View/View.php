@@ -21,13 +21,12 @@ class View implements ViewInterface
         require_once $path;
     }
 
-    public function component(string $name, array $data = [], string $title = ''): void
+    public function component(string $name, array $data = []): void
     {
         $path = APP_PATH . "/views/components/$name.php";
 
         extract([
-            'data' => $data,
-            'title' => $title,
+            'data' => $data
         ]);
 
         if (!file_exists($path)) {

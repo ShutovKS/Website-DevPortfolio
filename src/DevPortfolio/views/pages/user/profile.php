@@ -22,9 +22,9 @@ $user = $data['user']; ?>
 
 <?php $socialsSample = $data['socialsInProfile'] ?>
 
-<?php $view->component('start', [], $title); ?>
+<?php $view->component('start', ['title' => $title]); ?>
 
-<?php $view->component('header_authorized'); ?>
+<?php $view->component('header_authorized', $data); ?>
 
 <div class="container">
     <div class="main-body">

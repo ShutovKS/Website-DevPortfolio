@@ -9,11 +9,11 @@ use App\Kernel\Services\View\View;
 
 ?>
 
-<?php $view->component('start', [], $title); ?>
+<?php $view->component('start', ['title' => $title]); ?>
 
 <title><?php echo $title; ?></title>
 
-<?php $view->component('header_authorized'); ?>
+<?php $view->component('header_authorized', $data); ?>
 
 <?php
 
@@ -21,8 +21,6 @@ $articleTitle = "";
 $articleContent = "";
 
 ?>
-
-<body>
 
 <div class="container">
 
@@ -65,8 +63,6 @@ $articleContent = "";
 </div>
 
 <?php $view->component('footer'); ?>
-
-</body>
 
 <?php $view->component('end'); ?>
 

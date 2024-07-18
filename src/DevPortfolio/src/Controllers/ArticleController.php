@@ -8,13 +8,13 @@ class ArticleController extends AbstractController
 {
     public function openCreated(): void
     {
-        $errors = $this->session()->get('errors');
-        $this->session()->remove('errors');
+
 
         $this->view(
             '/article/article_created',
             [
                 'errors' => $errors,
+                'link_to_photo' => $this->identification()->getUser()->linkToPhoto,
             ],
             'Article created');
     }
@@ -51,5 +51,23 @@ class ArticleController extends AbstractController
         $article->save();
 
         $this->redirect()->to('../user/profile');
+    }
+
+    private function getData(): array
+    {
+        $errors = $this->session()->get('errors');
+        $this->session()->remove('errors');
+
+        $isAuth = $this->identification()->isAuth();
+        $link_to_photo = null;
+
+        if ($isAuth === true) {
+            $link_to_photo = $this->identification()->getUser()->linkToPhoto;
+        }
+
+        return [
+            'errors' => $errors,
+            'link_to_photo' => $link_to_photo,
+        ];
     }
 }

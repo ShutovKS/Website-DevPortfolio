@@ -1,3 +1,13 @@
+<?php
+/**
+ * @var array $data
+ */
+?>
+
+<?php
+
+$link_to_photo = $data['link_to_photo'] ?>
+
 <header class="p-3 mb-3 border-bottom">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -26,7 +36,7 @@
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
                        data-bs-toggle="dropdown" aria-expanded="true">
-                        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="mdo" width="32"
+                        <img src="<?php echo $link_to_photo ?>" alt="mdo" width="32"
                              height="32" class="rounded-circle">
                     </a>
 

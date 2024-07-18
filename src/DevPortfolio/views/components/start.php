@@ -1,9 +1,11 @@
 <?php
 /**
  * @var array $data
- * @var string $title
  */
 ?>
+
+<?php $title = $data['title'] ?>
+
 <!doctype html>
 <html lang="en">
 <head>

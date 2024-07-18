@@ -8,21 +8,12 @@ class UserController extends AbstractController
 {
     public function index(): void
     {
-        $data = $this->getData();
-
-        $this->view('user/profile',
-            $data,
-            'Profile');
+        $this->view('user/profile', $this->getData(), 'Profile');
     }
 
     public function settings(): void
     {
-        $data = $this->getData();
-
-        $this->view(
-            'user/settings',
-            $data,
-            'Settings');
+        $this->view('user/settings', $this->getData(), 'Settings');
     }
 
     public function updatePhoto(): void
@@ -158,7 +149,7 @@ class UserController extends AbstractController
         $this->identification()->getUser()->delete();
         $this->identification()->logout();
 
-        $this->view('/identification/register', [], 'Register');
+        $this->view('/identification/register', $this->getData(), 'Register');
     }
 
     private function getData(): array
@@ -166,18 +157,15 @@ class UserController extends AbstractController
         $user = $this->identification()->getUser();
         $errors = $this->session()->get('errors');
         $this->session()->remove('errors');
+        $socialsInProfile = $this->config()->get('socialsInProfile');
 
         return [
             'user' => $user,
             'isAuthor' => $user->isAuthor,
             'isAdmin' => $user->isAdmin,
             'errors' => $errors,
-            'socialsInProfile' => $this->getSocialsInProfileConfig(),
+            'link_to_photo' => $this->identification()->getUser()->linkToPhoto,
+            'socialsInProfile' => $socialsInProfile,
         ];
-    }
-
-    private function getSocialsInProfileConfig()
-    {
-        return $this->config()->get('socialsInProfile');
     }
 }

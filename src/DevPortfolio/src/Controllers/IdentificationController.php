@@ -6,10 +6,7 @@ class IdentificationController extends AbstractController
 {
     public function openLoginPage(): void
     {
-        $errors = $this->session()->get('errors');
-        $this->session()->remove('errors');
-
-        $this->view('identification/login', ['errors' => $errors], 'Sign in');
+        $this->view('identification/login', $this->getData(), 'Sign in');
     }
 
     public function loginProcessing(): void
@@ -52,12 +49,9 @@ class IdentificationController extends AbstractController
 
     public function openRegistrationPage(): void
     {
-        $errors = $this->session()->get('errors');
-        $this->session()->remove('errors');
-
         $this->view(
             'identification/register',
-            ['errors' => $errors],
+            $this->getData(),
             'Sign up'
         );
     }
@@ -122,11 +116,34 @@ class IdentificationController extends AbstractController
 
     public function processPasswordRecovery(): void
     {
-        $this->view('identification/recover_password', [], 'Password recovery');
+        $this->view('identification/recover_password', $this->getData(), 'Password recovery');
     }
 
     public function completed(): void
     {
-        $this->view('identification/completed', [], 'Registration completed');
+        $this->view(
+            'identification/completed',
+            [
+                'link_to_photo' => $this->identification()->getUser()->linkToPhoto,
+            ],
+            'Registration completed');
+    }
+
+    private function getData(): array
+    {
+        $errors = $this->session()->get('errors');
+        $this->session()->remove('errors');
+
+        $isAuth = $this->identification()->isAuth();
+        $link_to_photo = null;
+
+        if ($isAuth === true) {
+            $link_to_photo = $this->identification()->getUser()->linkToPhoto;
+        }
+
+        return [
+            'errors' => $errors,
+            'link_to_photo' => $link_to_photo,
+        ];
     }
 }

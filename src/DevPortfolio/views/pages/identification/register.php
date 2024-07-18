@@ -10,7 +10,7 @@ use App\Kernel\Services\View\View;
 ?>
 
 
-<?php $view->component('start', [], $title); ?>
+<?php $view->component('start', ['title' => $title]); ?>
 
 <main class="d-flex min-vh-100">
 

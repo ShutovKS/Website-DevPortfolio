@@ -7,7 +7,7 @@ class HomeController extends AbstractController
     public function index(): void
     {
         $this->view('home',
-            ['isAuth' => $this->isAuth()],
+            $this->getData(),
             'Home'
         );
     }
@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     public function about(): void
     {
         $this->view('/other/about',
-            ['isAuth' => $this->isAuth()],
+            $this->getData(),
             'About'
         );
     }
@@ -23,13 +23,27 @@ class HomeController extends AbstractController
     public function faq(): void
     {
         $this->view('/other/faq',
-            ['isAuth' => $this->isAuth()],
+            $this->getData(),
             'FAQ'
         );
     }
 
-    private function isAuth(): bool
+    private function getData(): array
     {
-        return $this->identification()->isAuth();
+        $errors = $this->session()->get('errors');
+        $this->session()->remove('errors');
+
+        $isAuth = $this->identification()->isAuth();
+        $link_to_photo = null;
+
+        if ($isAuth === true) {
+            $link_to_photo = $this->identification()->getUser()->linkToPhoto;
+        }
+
+        return [
+            'isAuth' => $isAuth,
+            'link_to_photo' => $link_to_photo,
+            'errors' => $errors,
+        ];
     }
 }

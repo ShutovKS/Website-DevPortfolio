@@ -10,7 +10,9 @@ use App\Kernel\Services\View\View;
 ?>
 
 
-<?php $view->component('start', [], $title); ?>
+<?php $view->component('start', ['title' => $title]); ?>
+
+<?php $view->component('header_authorized', $data); ?>
 
 <main class="d-flex min-vh-100">
 
@@ -21,8 +23,6 @@ use App\Kernel\Services\View\View;
         <form action="/" method="get">
             <button class="w-100 btn btn-lg btn-primary" type="submit">Go to home page</button>
         </form>
-
-        <?php $view->component('footer'); ?>
 
     </div>
 

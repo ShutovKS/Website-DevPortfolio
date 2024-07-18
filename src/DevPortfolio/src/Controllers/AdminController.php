@@ -6,15 +6,21 @@ class AdminController extends AbstractController
 {
     public function index(): void
     {
-        $isAuth = $this->isAuth();
-
-        $this->view('home', [
-            'isAuth' => $isAuth,
-        ], 'Home');
+        $this->view('home', $this->getData(), 'Home');
     }
 
-    private function isAuth(): bool
+    private function getData(): array
     {
-        return $this->identification()->isAuth();
+        $isAuth = $this->identification()->isAuth();
+        $link_to_photo = null;
+
+        if ($isAuth === true) {
+            $link_to_photo = $this->identification()->getUser()->linkToPhoto;
+        }
+
+        return [
+            'isAuth' => $isAuth,
+            'link_to_photo' => $link_to_photo,
+        ];
     }
 }
