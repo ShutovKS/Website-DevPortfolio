@@ -24,7 +24,7 @@ return [
     // -- identification
 
     Route::get('/identification/login', [IdentificationController:: class, 'openLoginPage'], [GuestMiddleware::class]),
-    Route::get('/identification/signup', [IdentificationController::class, 'open_registrationPage'], [GuestMiddleware::class]),
+    Route::get('/identification/signup', [IdentificationController::class, 'openRegistrationPage'], [GuestMiddleware::class]),
 
     Route::get('/identification/logout', [IdentificationController::class, 'logout'], [AuthMiddleware::class]),
 
@@ -49,6 +49,7 @@ return [
     Route::get('/user/profile', [UserController::class, 'index'], [AuthMiddleware::class]),
     Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
 
+    Route::post('/user/settings/photo', [UserController::class, 'updatePhoto'], [AuthMiddleware::class]),
     Route::post('/user/settings/socials', [UserController::class, 'updateSocials'], [AuthMiddleware::class]),
     Route::post('/user/settings/profile', [UserController::class, 'updateProfile'], [AuthMiddleware::class]),
     Route::post('/user/settings/password', [UserController::class, 'updatePassword'], [AuthMiddleware::class]),

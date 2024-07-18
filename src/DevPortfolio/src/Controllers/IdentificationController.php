@@ -50,7 +50,7 @@ class IdentificationController extends AbstractController
         $this->redirect()->to('completed');
     }
 
-    public function open_registrationPage(): void
+    public function openRegistrationPage(): void
     {
         $errors = $this->session()->get('errors');
         $this->session()->remove('errors');

@@ -25,6 +25,35 @@ class UserController extends AbstractController
             'Settings');
     }
 
+    public function updatePhoto(): void
+    {
+        $photo = $this->request()->input('photo');
+
+        $rules = [
+            'photo' => 'required|image_url:jpeg,png,jpg,gif',
+        ];
+
+        $errors = [
+            'photo' => $this->validator()->validate([
+                'photo' => $photo,
+            ], $rules),
+        ];
+
+        if (count($errors['photo']) > 0) {
+            $this->session()->set('errors', $errors);
+            $this->redirect()->to('/user/settings');
+            return;
+        }
+
+        /** @var User $userData */
+        $userData = User::find($this->identification()->getUser()->id);
+        $userData->linkToPhoto = $photo;
+
+        $userData->save();
+
+        $this->redirect()->to('/user/settings');
+    }
+
     public function updateSocials(): void
     {
         /** @var User $userData */

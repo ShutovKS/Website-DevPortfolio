@@ -53,6 +53,18 @@ class Validator implements ValidatorInterface
                     return 'Field ' . $key . ' must be a valid email address';
                 }
                 break;
+            case 'image_url':
+                $allowedExtensions = explode(',', $ruleValue);
+                $extension = pathinfo($value, PATHINFO_EXTENSION);
+                if (!in_array(strtolower($extension), $allowedExtensions)) {
+                    return 'Field ' . $key . ' must be a valid image URL';
+                }
+
+                $headers = @get_headers($value);
+                if (!$headers || !str_contains($headers[0], '200')) {
+                    return 'Field ' . $key . ' must be a reachable URL';
+                }
+                break;
         }
 
         return null;

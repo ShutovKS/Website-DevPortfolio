@@ -39,15 +39,35 @@ $user = $data['user']; ?>
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?php echo $user->linkToPhoto; ?>" alt="Admin" class="rounded-circle" width="150">
+                            <img src="<?php echo $user->linkToPhoto; ?>" alt="Admin" class="rounded-circle" width="150"
+                                 height="150">
 
+                            <!-- Изменение url адреса на фото (url адрес на изображение) -->
                             <div class="mt-3">
-                                <h4><?php echo $user->fullName; ?></h4>
-                                <p class="text-secondary mb-1"><?php echo $user->job; ?></p>
-                                <p class="text-muted font-size-sm">
-                                    <?php echo $user->locationCity; ?>, <?php echo $user->locationCountry; ?>
-                                </p>
+                                <form method="post" action="/user/settings/photo" enctype="multipart/form-data">
+                                    <div class="row mb-3">
+                                        <label for="photo" class="col-sm-2 col-form-label">Url</label>
+                                        <div class="col-sm-10">
+                                            <input type="url" class="form-control" id="photo" name="photo"
+                                                   placeholder="Url on photo" value="<?php echo $user->linkToPhoto; ?>">
+                                        </div>
+                                    </div>
+
+                                    <input type="submit" class="btn btn-primary px-4 mt-2" value="Change Photo">
+                                </form>
                             </div>
+
+                            <!-- Вывод ошибок -->
+                            <?php if (isset($errors['photo'])): ?>
+                                <div class="text-danger">
+                                    <ul>
+                                        <?php foreach ($errors['photo'] as $error): ?>
+                                            <li><?php echo $error; ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            <?php endif; ?>
+
                         </div>
                     </div>
                 </div>
