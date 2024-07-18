@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 class IdentificationController extends AbstractController
 {
-    public function open_login_page(): void
+    public function openLoginPage(): void
     {
         $errors = $this->session()->get('errors');
         $this->session()->remove('errors');
@@ -12,7 +12,7 @@ class IdentificationController extends AbstractController
         $this->view('identification/login', ['errors' => $errors], 'Sign in');
     }
 
-    public function login_processing(): void
+    public function loginProcessing(): void
     {
         $data = [
             'email' => $this->request()->input('email'),
@@ -50,7 +50,7 @@ class IdentificationController extends AbstractController
         $this->redirect()->to('completed');
     }
 
-    public function open_registration_page(): void
+    public function open_registrationPage(): void
     {
         $errors = $this->session()->get('errors');
         $this->session()->remove('errors');
@@ -62,7 +62,7 @@ class IdentificationController extends AbstractController
         );
     }
 
-    public function registration_processing(): void
+    public function registrationProcessing(): void
     {
         $data = [
             'username' => $this->request()->input('username'),

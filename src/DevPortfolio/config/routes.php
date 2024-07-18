@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\AdminController;
+use App\Controllers\ArticleController;
 use App\Controllers\HomeController;
 use App\Controllers\IdentificationController;
 use App\Controllers\UserController;
@@ -22,8 +23,8 @@ return [
 
     // -- identification
 
-    Route::get('/identification/login', [IdentificationController:: class, 'open_login_page'], [GuestMiddleware::class]),
-    Route::get('/identification/signup', [IdentificationController::class, 'open_registration_page'], [GuestMiddleware::class]),
+    Route::get('/identification/login', [IdentificationController:: class, 'openLoginPage'], [GuestMiddleware::class]),
+    Route::get('/identification/signup', [IdentificationController::class, 'open_registrationPage'], [GuestMiddleware::class]),
 
     Route::get('/identification/logout', [IdentificationController::class, 'logout'], [AuthMiddleware::class]),
 
@@ -31,12 +32,16 @@ return [
 
     Route::get('/identification/completed', [IdentificationController::class, 'completed']),
 
-    Route::post('/identification/login', [IdentificationController:: class, 'login_processing'], [GuestMiddleware::class]),
-    Route::post('/identification/register', [IdentificationController:: class, 'registration_processing'], [GuestMiddleware::class]),
+    Route::post('/identification/login', [IdentificationController:: class, 'loginProcessing'], [GuestMiddleware::class]),
+    Route::post('/identification/register', [IdentificationController:: class, 'registrationProcessing'], [GuestMiddleware::class]),
 
     // -- error
 
 //    Route::get('/error/404', [null, 'error_404']),
+
+    // -- article
+
+    Route::get('/article/created', [ArticleController::class, 'openCreated'], [AuthMiddleware::class]),
 
     // -- user
 

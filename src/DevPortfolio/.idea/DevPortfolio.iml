@@ -15,5 +15,6 @@
     <orderEntry type="library" name="@popperjs/core" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26" level="application" />
+    <orderEntry type="library" name="medium-editor" level="application" />
   </component>
 </module>

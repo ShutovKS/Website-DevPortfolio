@@ -124,6 +124,7 @@ $user = $data['user']; ?>
                                     <?php echo $socialSample['name']; ?>
                                 </h6>
                                 <div>
+                                    <label for="city-name"></label>
                                     <input type="text" class="form-control-plaintext" id="city-name" placeholder="City"
                                            autocomplete="on" value="<?php echo $social_link; ?>" readonly="">
                                 </div>
@@ -137,6 +138,19 @@ $user = $data['user']; ?>
 
             </div>
 
+            <div class="col-lg-8">
+
+                <div class="container row text-center">
+
+                    <div class="col-sm-10"></div>
+
+                    <form class="col-sm-2" method="get" name="buttons-form" action="/article/created">
+                        <input type="submit" class="btn btn-outline-primary" value="Created post">
+                    </form>
+
+                </div>
+
+            </div>
         </div>
 
     </div>
