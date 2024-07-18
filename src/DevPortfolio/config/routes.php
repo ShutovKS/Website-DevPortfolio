@@ -42,6 +42,7 @@ return [
     // -- article
 
     Route::get('/article/created', [ArticleController::class, 'openCreated'], [AuthMiddleware::class]),
+    Route::post('/article/create', [ArticleController::class, 'create'], [AuthMiddleware::class]),
 
     // -- user
 
