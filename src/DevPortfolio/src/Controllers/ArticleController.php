@@ -52,7 +52,16 @@ class ArticleController extends AbstractController
 
     public function viewArticle($id): void
     {
-        dd("Article ID: " . $id);
+        $data = $this->getData();
+
+        /** @var Articles $article */
+        $article = Articles::find($id);
+        $data['article'] = $article;
+
+        $this->view(
+            '/article/reading_article',
+            $data,
+            'Article');
     }
 
     private function getData(): array

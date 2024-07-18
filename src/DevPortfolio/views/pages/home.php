@@ -56,17 +56,17 @@ $articles = $data['articles'];
 
                     <div class="col">
                         <div class="card shadow-sm">
-                            <!--                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"-->
-                            <!--                             xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"-->
-                            <!--                             preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>-->
-                            <!--                            <rect width="100%" height="100%" fill="#55595c"></rect>-->
-                            <!--                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>-->
-                            <!--                        </svg>-->
+                            <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225"-->
+                            <!--      xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail"-->
+                            <!--      preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title>-->
+                            <!--     <rect width="100%" height="100%" fill="#55595c"></rect>-->
+                            <!--     <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>-->
+                            <!-- </svg>-->
                             <div class="card-header">
                                 <h6 class="form-control-plaintext"><?php echo $article->title; ?></h6>
                             </div>
-                            <div class="card-body">
-                                <p class="card-text"><?php echo $article->content ?></p>
+                            <div class="card-body overflow-scroll">
+                                <p class="card-text"><?php echo $article->description ?></p>
                                 <form method="get" action="/article/<?php echo $article->id ?>" name="form-article" class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
