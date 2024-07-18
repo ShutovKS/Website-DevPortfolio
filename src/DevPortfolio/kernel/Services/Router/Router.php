@@ -68,6 +68,7 @@ class Router implements RouterInterface
             $controller->setRedirect($this->redirect);
             $controller->setSession($this->session);
             $controller->setIdentification($this->identification);
+            $controller->setConfig($this->config);
 
             $controller->$action();
         } else {

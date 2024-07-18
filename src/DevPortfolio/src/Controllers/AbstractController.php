@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Http\RedirectInterface;
 use App\Kernel\Services\Http\RequestInterface;
@@ -19,6 +20,7 @@ abstract class AbstractController implements ControllerInterface
     private SessionInterface $session;
     private DatabaseInterface $db;
     private IdentificationInterface $identification;
+    private ConfigInterface $config;
 
     public function view(string $name, array $data = [], string $title = ''): void
     {
@@ -88,6 +90,16 @@ abstract class AbstractController implements ControllerInterface
     public function setIdentification(IdentificationInterface $identification): void
     {
         $this->identification = $identification;
+    }
+
+    public function config(): ConfigInterface
+    {
+        return $this->config;
+    }
+
+    public function setConfig(ConfigInterface $config): void
+    {
+        $this->config = $config;
     }
 }
 

@@ -10,7 +10,7 @@ use App\Kernel\Services\View\View;
 ?>
 
 
-<?php $view->component('start'); ?>
+<?php $view->component('start', [], $title); ?>
 
 <title><?php echo $title; ?></title>
 

@@ -172,6 +172,12 @@ class UserController extends AbstractController
             'isAuthor' => $user->isAuthor,
             'isAdmin' => $user->isAdmin,
             'errors' => $errors,
+            'socialsInProfile' => $this->getSocialsInProfileConfig(),
         ];
+    }
+
+    private function getSocialsInProfileConfig()
+    {
+        return $this->config()->get('socialsInProfile');
     }
 }

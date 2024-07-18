@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var array $data
+ * @var string $title
+ */
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -16,4 +22,6 @@
             crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/assets/css/style.css?t=<?php echo(microtime(true) . mt_rand()); ?>" type="text/css"/>
+    <title><?php echo $title ?></title>
 </head>
+<body>

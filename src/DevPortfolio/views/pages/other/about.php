@@ -10,11 +10,8 @@ use App\Kernel\Services\View\View;
 ?>
 
 
-<?php $view->component('start'); ?>
+<?php $view->component('start', [], $title); ?>
 
-    <title><?php echo $title; ?></title>
-
-    <body>
 
     <?php if ($data['isAuth'] === false): ?>
         <?php $view->component('header_unauthorized'); ?>
@@ -25,7 +22,5 @@ use App\Kernel\Services\View\View;
     <main>
 
     </main>
-
-    </body>
 
 <?php $view->component('end'); ?>

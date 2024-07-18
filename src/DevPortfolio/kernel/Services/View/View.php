@@ -15,15 +15,20 @@ class View implements ViewInterface
         ]);
 
         if (!file_exists($path)) {
-            $path = APP_PATH . "/views/pages/404.php";
+            $path = APP_PATH . "/views/pages/error/404.php";
         }
 
         require_once $path;
     }
 
-    public function component(string $name): void
+    public function component(string $name, array $data = [], string $title = ''): void
     {
         $path = APP_PATH . "/views/components/$name.php";
+
+        extract([
+            'data' => $data,
+            'title' => $title,
+        ]);
 
         if (!file_exists($path)) {
             echo "<h1>Component not found</h1>";

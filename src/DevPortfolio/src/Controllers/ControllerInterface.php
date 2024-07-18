@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Kernel\Services\Config\ConfigInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Http\RedirectInterface;
 use App\Kernel\Services\Http\RequestInterface;
@@ -39,4 +40,6 @@ interface ControllerInterface
     public function identification(): IdentificationInterface;
 
     public function setIdentification(IdentificationInterface $identification): void;
+    public function config(): ConfigInterface;
+    public function setConfig(ConfigInterface $config): void;
 }
