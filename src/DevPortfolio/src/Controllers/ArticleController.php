@@ -8,8 +8,6 @@ class ArticleController extends AbstractController
 {
     public function openCreated(): void
     {
-
-
         $this->view(
             '/article/article_created',
             $this->getData(),
@@ -19,6 +17,7 @@ class ArticleController extends AbstractController
     public function create(): void
     {
         $title = $this->request()->input('title');
+        $description = $this->request()->input('description');
         $content = $this->request()->input('content');
 
         $errors = [];
@@ -41,6 +40,7 @@ class ArticleController extends AbstractController
         $article->userId = $this->identification()->getUser()->id;
         $article->title = $title;
         $article->content = $content;
+        $article->description = $description;
         $article->createdAt = date('Y-m-d H:i:s');
         $article->updatedAt = date('Y-m-d H:i:s');
         $article->published = 1;
@@ -69,6 +69,7 @@ class ArticleController extends AbstractController
 
         return [
             'errors' => $errors,
+            'isAuth' => $isAuth,
             'link_to_photo' => $link_to_photo,
         ];
     }

@@ -18,6 +18,7 @@ use App\Kernel\Services\View\View;
 <?php
 
 $articleTitle = "";
+$articleDescription = "";
 $articleContent = "";
 
 ?>
@@ -38,14 +39,20 @@ $articleContent = "";
 
                     <div class="mb-3">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title"
+                        <input type="text" class="form-control" id="title" name="title" maxlength="140"
                                value="<?php echo $articleTitle; ?>">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description"
+                                  rows="2" maxlength='250'><?php echo $articleDescription; ?></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label for="content">Content</label>
                         <textarea class="form-control" id="content" name="content"
-                                  rows="3"><?php echo $articleContent; ?></textarea>
+                                  rows="10"><?php echo $articleContent; ?></textarea>
                     </div>
 
                     <div class="row">

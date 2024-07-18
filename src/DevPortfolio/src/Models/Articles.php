@@ -8,6 +8,7 @@ class Articles extends AbstractModel
 
     public int $userId;
     public string $title;
+    public ?string $description;
     public string $content;
     public string $createdAt;
     public string $updatedAt;
@@ -20,6 +21,7 @@ class Articles extends AbstractModel
         $model->id = $data['id'];
         $model->userId = $data['user_id'];
         $model->title = $data['title'];
+        $model->description = $data['description'];
         $model->content = $data['content'];
         $model->createdAt = $data['created_at'];
         $model->updatedAt = $data['updated_at'];
@@ -34,6 +36,7 @@ class Articles extends AbstractModel
             'id' => $this->id ?? null,
             'user_id' => $this->userId,
             'title' => $this->title,
+            'description' => $this->description,
             'content' => $this->content,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,

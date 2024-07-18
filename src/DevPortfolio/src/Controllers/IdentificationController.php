@@ -49,11 +49,7 @@ class IdentificationController extends AbstractController
 
     public function openRegistrationPage(): void
     {
-        $this->view(
-            'identification/register',
-            $this->getData(),
-            'Sign up'
-        );
+        $this->view('identification/register', $this->getData(), 'Sign up');
     }
 
     public function registrationProcessing(): void
@@ -121,12 +117,7 @@ class IdentificationController extends AbstractController
 
     public function completed(): void
     {
-        $this->view(
-            'identification/completed',
-            [
-                'link_to_photo' => $this->identification()->getUser()->linkToPhoto,
-            ],
-            'Registration completed');
+        $this->view('identification/completed', $this->getData(), 'Registration completed');
     }
 
     private function getData(): array
