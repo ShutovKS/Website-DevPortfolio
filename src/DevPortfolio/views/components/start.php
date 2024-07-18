@@ -24,4 +24,4 @@
     <link rel="stylesheet" href="/assets/css/style.css?t=<?php echo(microtime(true) . mt_rand()); ?>" type="text/css"/>
     <title><?php echo $title ?></title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">

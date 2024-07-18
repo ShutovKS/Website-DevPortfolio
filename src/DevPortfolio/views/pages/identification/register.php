@@ -65,10 +65,10 @@ use App\Kernel\Services\View\View;
                 </form>
             </div>
 
-            <?php $view->component('footer'); ?>
-
         </div>
 
 </main>
+
+<?php $view->component('footer'); ?>
 
 <?php $view->component('end'); ?>

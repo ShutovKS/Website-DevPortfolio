@@ -43,4 +43,6 @@ use App\Kernel\Services\View\View;
 
 </div>
 
+<?php $view->component('footer'); ?>
+
 <?php $view->component('end'); ?>
