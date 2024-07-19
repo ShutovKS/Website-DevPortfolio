@@ -29,6 +29,18 @@ $articleContent = $article->content;
 
 ?>
 
+<?php $errors = $data['errors']; ?>
+
+<?php if (!empty($errors)): ?>
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            <?php foreach ($errors as $error): ?>
+                <li><?php echo $error; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif; ?>
+
 <main class="container">
 
     <div class="card">

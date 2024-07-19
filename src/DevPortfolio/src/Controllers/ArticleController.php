@@ -12,7 +12,7 @@ class ArticleController extends AbstractController
         $data = $this->getData();
 
         $this->view(
-            '/article/article_view',
+            '/article/article_created',
             $data,
             'Article created');
     }
