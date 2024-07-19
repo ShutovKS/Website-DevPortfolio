@@ -30,9 +30,13 @@ $article = $data['article'];
 
             <div class="col-sm-8 py-5 mx-auto">
 
-                <h1 class="display-5 fw-normal"><?php echo $article->title ?></h1>
+                <h1 class="display-5 fw-normal">
+                    <?php echo htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'); ?>
+                </h1>
 
-                <p class="fs-5"><?php echo $article->content ?></p>
+                <p class="fs-5">
+                    <?php echo nl2br(htmlspecialchars($article->content, ENT_QUOTES, 'UTF-8')); ?>
+                </p>
 
             </div>
 
