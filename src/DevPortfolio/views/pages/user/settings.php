@@ -263,8 +263,7 @@ $user = $data['user']; ?>
                             if (isset($errors['password'])): ?>
 
                                 <div class="row">
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-10 text-danger">
+                                    <div class="text-danger">
                                         <ul>
                                             <?php foreach ($errors['password'] as $error): ?>
                                                 <li><?php echo $error; ?></li>
@@ -309,8 +308,7 @@ $user = $data['user']; ?>
                             if (isset($errors['delete'])): ?>
 
                                 <div class="row">
-                                    <div class="col-sm-2"></div>
-                                    <div class="col-sm-10 text-danger">
+                                    <div class="text-danger">
                                         <ul>
                                             <?php foreach ($errors['delete'] as $error): ?>
                                                 <li><?php echo $error; ?></li>

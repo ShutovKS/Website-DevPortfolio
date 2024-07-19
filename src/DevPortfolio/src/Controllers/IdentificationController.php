@@ -17,8 +17,8 @@ class IdentificationController extends AbstractController
         ];
 
         $rules = [
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+            'email' => 'required|no_scripts|email',
+            'password' => 'required|no_scripts|min:6',
         ];
 
         $errors = $this->validator()->validate($data, $rules);
@@ -61,9 +61,9 @@ class IdentificationController extends AbstractController
         ];
 
         $rules = [
-            'username' => 'required|min:3|max:255',
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+            'username' => 'required|no_scripts|min:3|max:255',
+            'email' => 'required|no_scripts|email',
+            'password' => 'required|no_scripts|min:6',
         ];
 
         $errors = $this->validator()->validate($data, $rules);

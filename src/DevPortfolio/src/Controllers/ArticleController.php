@@ -16,31 +16,32 @@ class ArticleController extends AbstractController
 
     public function create(): void
     {
-        $title = $this->request()->input('title');
-        $description = $this->request()->input('description');
-        $content = $this->request()->input('content');
+        $data = [
+            'title' => $this->request()->input('title'),
+            'description' => $this->request()->input('description'),
+            'content' => $this->request()->input('content'),
+        ];
 
-        $errors = [];
+        $rules = [
+            'title' => 'required|no_scripts|max:140',
+            'description' => 'no_scripts|max:140',
+            'content' => 'required|min:100',
+        ];
 
-        if (empty($title)) {
-            $errors['title'] = 'Title is required';
-        }
+        $errors = $this->validator()->validate($data, $rules);
 
-        if (empty($content)) {
-            $errors['content'] = 'Content is required';
-        }
-
-        if (!empty($errors)) {
+        if (count($errors) > 0) {
             $this->session()->set('errors', $errors);
             $this->redirect()->to('/article/created');
+            exit;
         }
 
         $article = new Articles();
 
         $article->userId = $this->identification()->getUser()->id;
-        $article->title = $title;
-        $article->content = $content;
-        $article->description = $description;
+        $article->title = $data['title'];
+        $article->content = $data['content'];
+        $article->description = $data['description'];
         $article->createdAt = date('Y-m-d H:i:s');
         $article->updatedAt = date('Y-m-d H:i:s');
         $article->published = 1;

@@ -21,7 +21,7 @@ class UserController extends AbstractController
         $photo = $this->request()->input('photo');
 
         $rules = [
-            'photo' => 'required|image_url:jpeg,png,jpg,gif',
+            'photo' => 'required|no_scripts|image_url:jpeg,png,jpg,gif',
         ];
 
         $errors = [
@@ -81,9 +81,9 @@ class UserController extends AbstractController
         $confirmPassword = $this->request()->input('confirmPassword');
 
         $rules = [
-            'oldPassword' => 'required',
-            'newPassword' => 'required|min:6',
-            'confirmPassword' => 'required|min:6',
+            'oldPassword' => 'required|no_scripts',
+            'newPassword' => 'required|no_scripts|min:6',
+            'confirmPassword' => 'required|no_scripts|min:6',
         ];
 
         $errors = [
@@ -124,7 +124,7 @@ class UserController extends AbstractController
         $password = $this->request()->input('password');
 
         $rules = [
-            'password' => 'required',
+            'password' => 'required|no_scripts',
         ];
 
         $errors = [
