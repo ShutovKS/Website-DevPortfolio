@@ -26,4 +26,6 @@
     <link rel="stylesheet" href="/assets/css/style.css?t=<?php echo(microtime(true) . mt_rand()); ?>" type="text/css"/>
     <title><?php echo $title ?></title>
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column min-vh-100" oncopy="return false;" onmousedown="return false;" onclick="return true;"
+      oncontextmenu="return false;" ondragstart="return false;" onselect="return false;" onload="clearData();"
+      onblur="clearData(); window.focus(); window.onblur = clearData;">
