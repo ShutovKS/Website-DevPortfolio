@@ -23,95 +23,98 @@ $user = $data['user']; ?>
 
 <?php $socialsSample = $data['socialsInProfile'] ?>
 
-<?php
-/** @var Articles[] $articles */
-$articles = $data['articles'];
-?>
+<?php /** @var Articles[] $articles */
+$articles = $data['articles']; ?>
+
+<?php /** @var bool $this_user */
+$this_user = $data['this_user']; ?>
+
 
 <?php $view->component('start', ['title' => $title]); ?>
 
 <?php $view->component('header_authorized', $data); ?>
-
 <main class="container">
 
-        <div class="row gutters-sm">
+    <div class="row gutters-sm">
 
-            <div class="col-md-4 mb-3">
+        <div class="col-md-4 mb-3">
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="<?php echo $user->linkToPhoto; ?>" alt="Admin" class="rounded-circle" width="150">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                        <img src="<?php echo $user->linkToPhoto; ?>" alt="Admin" class="rounded-circle" width="150">
 
-                            <div class="mt-3">
-                                <h4><?php echo $user->fullName; ?></h4>
-                                <p class="text-secondary mb-1"><?php echo $user->job; ?></p>
-                                <p class="text-muted font-size-sm">
-                                    <?php echo $user->locationCity; ?>, <?php echo $user->locationCountry; ?>
-                                </p>
-                            </div>
+                        <div class="mt-3">
+                            <h4><?php echo $user->fullName; ?></h4>
+                            <p class="text-secondary mb-1"><?php echo $user->job; ?></p>
+                            <p class="text-muted font-size-sm">
+                                <?php echo $user->locationCity; ?>, <?php echo $user->locationCountry; ?>
+                            </p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="card mt-3">
+            <div class="card mt-3">
 
-                    <h5 class="card-header">Socials</h5>
+                <h5 class="card-header">Socials</h5>
 
-                    <div class="list-group list-group-flush">
+                <div class="list-group list-group-flush">
 
-                        <?php foreach ($socials as $key => $social_link): ?>
-                            <?php if (!isset($socialsSample[$key])) {
-                                continue;
-                            } ?>
+                    <?php foreach ($socials as $key => $social_link): ?>
+                        <?php if (!isset($socialsSample[$key])) {
+                            continue;
+                        } ?>
 
-                            <?php $socialSample = $socialsSample[$key]; ?>
 
-                            <li class="list-group-item">
-                                <div class="row">
-                                    <div class="col-md-auto form-control-color text-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="<?php echo $socialSample['viewBox']; ?>"
-                                             fill="<?php echo $socialSample['svg_fill'] ?>"
-                                             stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                             stroke-linejoin="round">
+                        <?php $socialSample = $socialsSample[$key]; ?>
 
-                                            <?php
-                                            if (isset($socialSample['svg_elements'])):
-                                                foreach ($socialSample['svg_elements'] as $svg_element):
-                                                    echo $svg_element;
-                                                endforeach;
-                                            endif;
-                                            ?>
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-auto form-control-color text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                         viewBox="<?php echo $socialSample['viewBox']; ?>"
+                                         fill="<?php echo $socialSample['svg_fill'] ?>"
+                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                         stroke-linejoin="round">
 
-                                            <path d="<?php echo $socialSample['svg_path']; ?>"></path>
-                                        </svg>
-                                    </div>
+                                        <?php
+                                        if (isset($socialSample['svg_elements'])):
+                                            foreach ($socialSample['svg_elements'] as $svg_element):
+                                                echo $svg_element;
+                                            endforeach;
+                                        endif;
+                                        ?>
 
-                                    <div class="col-md-3">
-                                        <h6 class="form-control-plaintext"><?php echo $socialSample['name']; ?></h6>
-                                    </div>
-
-                                    <div class="col-md-auto">
-                                        <label for="city-name">
-                                            <input type="text" class="form-control-plaintext" id="city-name"
-                                                   placeholder="City" autocomplete="on" readonly=""
-                                                   value="<?php echo $social_link; ?>">
-                                        </label>
-                                    </div>
+                                        <path d="<?php echo $socialSample['svg_path']; ?>"></path>
+                                    </svg>
                                 </div>
-                            </li>
 
-                        <?php endforeach; ?>
+                                <div class="col-md-3">
+                                    <h6 class="form-control-plaintext"><?php echo $socialSample['name']; ?></h6>
+                                </div>
 
-                    </div>
+                                <div class="col-md-auto">
+                                    <label for="city-name">
+                                        <input type="text" class="form-control-plaintext" id="city-name"
+                                               placeholder="City" autocomplete="on" readonly=""
+                                               value="<?php echo $social_link; ?>">
+                                    </label>
+                                </div>
+                            </div>
+                        </li>
+
+                    <?php endforeach; ?>
 
                 </div>
 
             </div>
 
-            <div class="col-lg-8">
+        </div>
 
+        <div class="col-lg-8">
+
+            <?php if ($this_user): ?>
                 <div class="row text-center mb-2">
 
                     <div class="col-sm-10"></div>
@@ -122,41 +125,48 @@ $articles = $data['articles'];
 
                 </div>
 
-                <?php if ($articles !== []): ?>
+            <?php endif; ?>
 
-                    <div class="container mb-2 bg-body-tertiary">
+            <?php if ($articles !== []): ?>
 
-                        <div class="py-4 bg-body-tertiary">
+                <div class="container mb-2 bg-body-tertiary">
 
-                            <div class="container">
-                                <div class="g-3">
+                    <div class="py-4 bg-body-tertiary">
 
-                                    <?php foreach ($articles as $article): ?>
+                        <div class="container">
+                            <div class="g-3">
 
-                                        <div class="card shadow-sm mb-4">
-                                                <div class="card-header">
-                                                    <h6 class="form-control-plaintext"><?php echo $article->title; ?></h6>
+                                <?php foreach ($articles as $article): ?>
+
+                                    <div class="card shadow-sm mb-4">
+                                        <div class="card-header">
+                                            <h6 class="form-control-plaintext"><?php echo $article->title; ?></h6>
+                                        </div>
+
+                                        <div class="card-body overflow-scroll">
+
+                                            <div class="row">
+
+                                                <div class="col-md-5">
+                                                    <nobr class="card-text">Latest update:</nobr>
+                                                    <nobr class="card-text text-info"><?php echo $article->updatedAt; ?></nobr>
                                                 </div>
 
-                                                <div class="card-body overflow-scroll">
+                                                <div class="col-md-4"></div>
 
-                                                    <div class="row">
+                                                <div class="col-md-3 d-flex justify-content-between align-items-center">
 
-                                                        <div class="col-md-5">
-                                                            <nobr class="card-text">Latest update:</nobr>
-                                                            <nobr class="card-text text-info"><?php echo $article->updatedAt; ?></nobr>
-                                                        </div>
-
-                                                        <div class="col-md-4"></div>
-
-                                                        <div class="col-md-3 d-flex justify-content-between align-items-center">
-
-                                                        <form method="get" action="/article/view/<?php echo $article->id ?>"
+                                                    <div class="btn-group">
+                                                        <form method="get"
+                                                              action="/article/view/<?php echo $article->id ?>"
                                                               name="form-article" class="btn-group">
                                                             <button type="submit"
-                                                                    class="btn btn-sm btn-outline-secondary">View
+                                                                    class="btn btn-sm btn-outline-secondary">
+                                                                View
                                                             </button>
                                                         </form>
+
+                                                        <?php if ($this_user): ?>
 
                                                         <form method="get" action="/article/edit/<?php echo $article->id ?>"
                                                               name="form-article" class="btn-group">
@@ -172,35 +182,33 @@ $articles = $data['articles'];
                                                             </button>
                                                         </form>
 
-                                                        </div>
+                                                        <?php endif; ?>
                                                     </div>
+
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
 
-                                    <?php endforeach; ?>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
-
-                        </div>
-
-                    </div>
-
-                <?php else: ?>
-                    <div class="container mb-2 bg-body-tertiary">
-
-                        <div class="p-3 rounded text-center">
-                            <h3 class="fst-italic text-body-emphasis">No articles</h3>
                         </div>
                     </div>
+                </div>
 
-                <?php endif; ?>
+            <?php else: ?>
+                <div class="container mb-2 bg-body-tertiary">
 
-            </div>
+                    <div class="p-3 rounded text-center">
+                        <h3 class="fst-italic text-body-emphasis">No articles</h3>
+                    </div>
+                </div>
 
+            <?php endif; ?>
+
+        </div>
     </div>
-
 </main>
-
 <?php $view->component('footer'); ?>
 
 <?php $view->component('end'); ?>

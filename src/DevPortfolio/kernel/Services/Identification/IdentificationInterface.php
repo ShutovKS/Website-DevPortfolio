@@ -11,7 +11,7 @@ interface IdentificationInterface
     public function login(string $email, string $password): ?User;
 
     public function logout(): void;
-
+    
     public function getUser(): ?User;
 
     public function setUser(User $user): void;

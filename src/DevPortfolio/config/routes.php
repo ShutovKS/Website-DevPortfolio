@@ -49,8 +49,10 @@ return [
 
     // -- user
 
+    Route::get('/user/', [UserController::class, 'index'], [AuthMiddleware::class]),
     Route::get('/user/profile', [UserController::class, 'index'], [AuthMiddleware::class]),
     Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
+    Route::get('/user/{id}', [UserController::class, 'profile'], [AuthMiddleware::class]),
 
     Route::post('/user/settings/photo', [UserController::class, 'updatePhoto'], [AuthMiddleware::class]),
     Route::post('/user/settings/socials', [UserController::class, 'updateSocials'], [AuthMiddleware::class]),

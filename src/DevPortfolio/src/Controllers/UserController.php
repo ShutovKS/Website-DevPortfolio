@@ -16,6 +16,34 @@ class UserController extends AbstractController
         $this->view('user/profile', $data, 'Profile');
     }
 
+    public function profile(int $id): void
+    {
+        if (!is_numeric($id)) {
+            $this->view('errors/404', [], '404');
+            return;
+        }
+
+        if (!User::find($id)) {
+            $this->view('errors/404', [], '404');
+            return;
+        }
+
+        if ($this->identification()->isAuth() && $this->identification()->getUser()->id === $id) {
+            $this->index();
+            return;
+        }
+
+        $user = User::find($id);
+        $articles = Articles::findByUserId($id);
+
+        $data = $this->getData();
+        $data['user'] = $user;
+        $data['articles'] = $articles;
+        $data['this_user'] = false;
+
+        $this->view('user/profile', $data, 'Profile');
+    }
+
     public function settings(): void
     {
         $this->view('user/settings', $this->getData(), 'Settings');
@@ -159,18 +187,22 @@ class UserController extends AbstractController
 
     private function getData(): array
     {
-        $user = $this->identification()->getUser();
-        $errors = $this->session()->get('errors');
-        $this->session()->remove('errors');
-        $socialsInProfile = $this->config()->get('socialsInProfile');
+        $data = [];
 
-        return [
-            'user' => $user,
-            'isAuthor' => $user->isAuthor,
-            'isAdmin' => $user->isAdmin,
-            'errors' => $errors,
-            'link_to_photo' => $this->identification()->getUser()->linkToPhoto,
-            'socialsInProfile' => $socialsInProfile,
-        ];
+        if ($this->identification()->isAuth()) {
+            $user = $this->identification()->getUser();
+            $data['user'] = $user;
+            $data['isAuth'] = true;
+            $data['isAdmin'] = $user->isAdmin;
+            $data['isAuthor'] = $user->isAuthor;
+            $data['link_to_photo'] = $user->linkToPhoto;
+            $data['this_user'] = true;
+        }
+
+        $data['errors'] = $this->session()->get('errors');
+        $this->session()->remove('errors');
+        $data['socialsInProfile'] = $this->config()->get('socialsInProfile');
+
+        return $data;
     }
 }

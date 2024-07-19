@@ -35,11 +35,11 @@ $user = $data['user'];
 
                 <h2 class="fw-normal text-center"><?php echo htmlspecialchars($article->title, ENT_QUOTES, 'UTF-8'); ?></h2>
 
-                <hr class="hr"/>
+                <hr class="table-group-divider" />
 
                 <p class="fs-5"><?php echo nl2br(htmlspecialchars($article->content, ENT_QUOTES, 'UTF-8')); ?></p>
 
-                <hr class="hr"/>
+                <hr class="table-group-divider" />
 
                 <p>
                     <nobr class="fs-6">Автор:</nobr>
