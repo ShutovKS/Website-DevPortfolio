@@ -19,7 +19,6 @@ return [
     // -- other
 
     Route::get('/about', [HomeController::class, 'about']),
-    Route::get('/faq', [HomeController::class, 'faq']),
 
     // -- identification
 

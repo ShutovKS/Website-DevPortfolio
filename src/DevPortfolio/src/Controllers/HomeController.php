@@ -27,11 +27,6 @@ class HomeController extends AbstractController
         $this->view('/other/about', $this->getData(), 'About');
     }
 
-    public function faq(): void
-    {
-        $this->view('/other/faq', $this->getData(), 'FAQ');
-    }
-
     private function getData(): array
     {
         $errors = $this->session()->get('errors');
