@@ -31,7 +31,7 @@ CREATE TABLE `users`
     `salt`             VARCHAR(32)  NOT NULL,
     `created_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `is_author`        TINYINT(1) NOT NULL DEFAULT '0',
+    `is_author`        TINYINT(1) NOT NULL DEFAULT '1',
     `is_admin`         TINYINT(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

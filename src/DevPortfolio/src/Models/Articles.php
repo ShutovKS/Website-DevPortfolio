@@ -14,6 +14,11 @@ class Articles extends AbstractModel
     public string $updatedAt;
     public int $published;
 
+    public static function findByUserId(int $user_id): array
+    {
+        return self::where(['user_id' => $user_id]);
+    }
+
     protected static function arrayToModel(array $data): self
     {
         $model = new self();

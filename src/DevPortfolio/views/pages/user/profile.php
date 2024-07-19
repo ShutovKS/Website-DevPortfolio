@@ -6,6 +6,7 @@
  */
 
 use App\Kernel\Services\View\View;
+use App\Models\Articles;
 use App\Models\User;
 
 ?>
@@ -21,6 +22,11 @@ $user = $data['user']; ?>
 ]; ?>
 
 <?php $socialsSample = $data['socialsInProfile'] ?>
+
+<?php
+/** @var Articles[] $articles */
+$articles = $data['articles'];
+?>
 
 <?php $view->component('start', ['title' => $title]); ?>
 
@@ -116,8 +122,71 @@ $user = $data['user']; ?>
 
                 </div>
 
+                <?php if ($articles !== []): ?>
+
+                    <div class="container mb-2 bg-body-tertiary">
+
+                        <div class="album py-5 bg-body-tertiary">
+
+                            <div class="container">
+                                <div class="row row-cols-1 row-cols-sm-2 g-3">
+
+                                    <?php foreach ($articles as $article): ?>
+
+                                        <div class="col">
+                                            <div class="card shadow-sm">
+                                                <div class="card-header">
+                                                    <h6 class="form-control-plaintext"><?php echo $article->title; ?></h6>
+                                                </div>
+
+                                                <div class="card-body overflow-scroll">
+                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                                        <form method="get" action="/article/view/<?php echo $article->id ?>"
+                                                              name="form-article" class="btn-group">
+                                                            <button type="submit"
+                                                                    class="btn btn-sm btn-outline-secondary">View
+                                                            </button>
+                                                        </form>
+
+                                                        <form method="get" action="/article/edit/<?php echo $article->id ?>"
+                                                              name="form-article" class="btn-group">
+                                                            <button type="submit"
+                                                                    class="btn btn-sm btn-outline-primary">Edit
+                                                            </button>
+                                                        </form>
+
+                                                        <form method="get" action="/article/delete/<?php echo $article->id ?>"
+                                                              name="form-article" class="btn-group">
+                                                            <button type="submit"
+                                                                    class="btn btn-sm btn-outline-danger">Delete
+                                                            </button>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                <?php else: ?>
+                    <div class="container mb-2 bg-body-tertiary">
+
+                        <div class="p-3 rounded text-center">
+                            <h3 class="fst-italic text-body-emphasis">No articles</h3>
+                        </div>
+                    </div>
+
+                <?php endif; ?>
+
             </div>
-        </div>
 
     </div>
 

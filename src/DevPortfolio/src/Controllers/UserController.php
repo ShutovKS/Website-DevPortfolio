@@ -2,13 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Models\Articles;
 use App\Models\User;
 
 class UserController extends AbstractController
 {
     public function index(): void
     {
-        $this->view('user/profile', $this->getData(), 'Profile');
+        $data = $this->getData();
+        $articles = Articles::findByUserId($data['user']->id);
+        $data['articles'] = $articles;
+
+        $this->view('user/profile', $data, 'Profile');
     }
 
     public function settings(): void

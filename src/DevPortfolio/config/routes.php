@@ -41,8 +41,11 @@ return [
     // -- article
 
     Route::get('/article/created', [ArticleController::class, 'openCreated'], [AuthMiddleware::class]),
+    Route::get('/article/view/{id}', [ArticleController::class, 'viewArticle'], [AuthMiddleware::class]),
+    Route::get('/article/edit/{id}', [ArticleController::class, 'editArticle'], [AuthMiddleware::class]),
+    Route::get('/article/delete/{id}', [ArticleController::class, 'deleteArticle'], [AuthMiddleware::class]),
     Route::post('/article/create', [ArticleController::class, 'create'], [AuthMiddleware::class]),
-    Route::get('/article/{id}', [ArticleController::class, 'viewArticle'], [AuthMiddleware::class]),
+    Route::post('/article/update/{id}', [ArticleController::class, 'update'], [AuthMiddleware::class]),
 
     // -- user
 

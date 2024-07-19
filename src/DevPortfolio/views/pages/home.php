@@ -150,13 +150,17 @@ $articles = $data['articles'];
                             <div class="card-header">
                                 <h6 class="form-control-plaintext"><?php echo $article->title; ?></h6>
                             </div>
+
                             <div class="card-body overflow-scroll">
                                 <p class="card-text"><?php echo $article->description ?></p>
-                                <form method="get" action="/article/<?php echo $article->id ?>" name="form-article" class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <button type="submit" class="btn btn-sm btn-outline-secondary">View</button>
-                                    </div>
-                                </form>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <form method="get" action="/article/view/<?php echo $article->id ?>"
+                                          name="form-article" class="btn-group">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-outline-secondary">View
+                                        </button>
+                                    </form>
+                                </div>
 
                             </div>
                         </div>

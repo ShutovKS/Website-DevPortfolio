@@ -32,7 +32,7 @@ readonly class Identification implements IdentificationInterface
         $user->salt = $salt;
         $user->createdAt = date('Y-m-d H:i:s');
         $user->updatedAt = date('Y-m-d H:i:s');
-        $user->isAuthor = false;
+        $user->isAuthor = true;
         $user->isAdmin = false;
 
         $insertId = $user->save();
