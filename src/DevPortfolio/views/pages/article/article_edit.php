@@ -29,7 +29,7 @@ $articleContent = $article->content;
 
 ?>
 
-<div class="container">
+<main class="container">
 
     <div class="card">
 
@@ -58,7 +58,7 @@ $articleContent = $article->content;
                     <div class="mb-3">
                         <label for="content">Content</label>
                         <textarea class="form-control" id="content" name="content"
-                                  rows="10"><?php echo $articleContent; ?></textarea>
+                                  rows="15"><?php echo $articleContent; ?></textarea>
                     </div>
 
                     <div class="row">
@@ -74,7 +74,7 @@ $articleContent = $article->content;
         </div>
     </div>
 
-</div>
+</main>
 
 <?php $view->component('footer'); ?>
 

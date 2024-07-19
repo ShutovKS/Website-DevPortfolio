@@ -20,13 +20,13 @@ use App\Kernel\Services\View\View;
     <?php $view->component('header_authorized', $data); ?>
 <?php endif; ?>
 
-<div class="container">
+<main class="container">
     <div class="row">
         <div class="col-12">
             <h1>Admin Home</h1>
         </div>
     </div>
-</div>
+</main>
 
 <?php $view->component('footer'); ?>
 

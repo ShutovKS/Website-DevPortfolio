@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Articles;
+use App\Models\User;
 
 class ArticleController extends AbstractController
 {
@@ -11,7 +12,7 @@ class ArticleController extends AbstractController
         $data = $this->getData();
 
         $this->view(
-            '/article/article_created',
+            '/article/article_view',
             $data,
             'Article created');
     }
@@ -61,8 +62,12 @@ class ArticleController extends AbstractController
         $article = Articles::find($id);
         $data['article'] = $article;
 
+        /** @var User $user */
+        $user = User::find($article->userId);
+        $data['user'] = $user;
+
         $this->view(
-            '/article/reading_article',
+            '/article/article_view',
             $data,
             'Article');
     }

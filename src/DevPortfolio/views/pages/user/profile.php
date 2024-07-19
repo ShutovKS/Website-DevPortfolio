@@ -32,10 +32,10 @@ $articles = $data['articles'];
 
 <?php $view->component('header_authorized', $data); ?>
 
-<div class="container">
-    <div class="main-body">
+<main class="container">
 
         <div class="row gutters-sm">
+
             <div class="col-md-4 mb-3">
 
                 <div class="card">
@@ -112,7 +112,7 @@ $articles = $data['articles'];
 
             <div class="col-lg-8">
 
-                <div class="container row text-center">
+                <div class="row text-center mb-2">
 
                     <div class="col-sm-10"></div>
 
@@ -126,21 +126,30 @@ $articles = $data['articles'];
 
                     <div class="container mb-2 bg-body-tertiary">
 
-                        <div class="album py-5 bg-body-tertiary">
+                        <div class="py-4 bg-body-tertiary">
 
                             <div class="container">
-                                <div class="row row-cols-1 row-cols-sm-2 g-3">
+                                <div class="g-3">
 
                                     <?php foreach ($articles as $article): ?>
 
-                                        <div class="col">
-                                            <div class="card shadow-sm">
+                                        <div class="card shadow-sm mb-4">
                                                 <div class="card-header">
                                                     <h6 class="form-control-plaintext"><?php echo $article->title; ?></h6>
                                                 </div>
 
                                                 <div class="card-body overflow-scroll">
-                                                    <div class="d-flex justify-content-between align-items-center">
+
+                                                    <div class="row">
+
+                                                        <div class="col-md-5">
+                                                            <nobr class="card-text">Latest update:</nobr>
+                                                            <nobr class="card-text text-info"><?php echo $article->updatedAt; ?></nobr>
+                                                        </div>
+
+                                                        <div class="col-md-4"></div>
+
+                                                        <div class="col-md-3 d-flex justify-content-between align-items-center">
 
                                                         <form method="get" action="/article/view/<?php echo $article->id ?>"
                                                               name="form-article" class="btn-group">
@@ -163,10 +172,10 @@ $articles = $data['articles'];
                                                             </button>
                                                         </form>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
 
                                     <?php endforeach; ?>
                                 </div>
@@ -190,7 +199,7 @@ $articles = $data['articles'];
 
     </div>
 
-</div>
+</main>
 
 <?php $view->component('footer'); ?>
 

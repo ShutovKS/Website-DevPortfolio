@@ -28,7 +28,7 @@ $user = $data['user']; ?>
 
 <?php $view->component('header_authorized', $data); ?>
 
-<div class="container">
+<main class="container">
     <div class="main-body">
 
         <div class="row gutters-sm">
@@ -331,7 +331,7 @@ $user = $data['user']; ?>
 
     </div>
 
-</div>
+</main>
 
 <?php $view->component('footer'); ?>
 
