@@ -9,6 +9,7 @@ use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Router\RouterInterface;
 use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\TextSanitizer\TextSanitizerInterface;
 use App\Kernel\Services\Validator\ValidatorInterface;
 use App\Kernel\Services\View\ViewInterface;
 
@@ -23,4 +24,5 @@ interface ContainerInterface
     public function getDatabase(): DatabaseInterface;
     public function getConfig(): ConfigInterface;
     public function getIdentification(): IdentificationInterface;
+    public function getHtmlTextSanitizer(): TextSanitizerInterface;
 }

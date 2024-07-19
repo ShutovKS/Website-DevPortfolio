@@ -16,6 +16,8 @@ use App\Kernel\Services\Router\Router;
 use App\Kernel\Services\Router\RouterInterface;
 use App\Kernel\Services\Session\Session;
 use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\TextSanitizer\HtmlTextSanitizer;
+use App\Kernel\Services\TextSanitizer\TextSanitizerInterface;
 use App\Kernel\Services\Validator\Validator;
 use App\Kernel\Services\Validator\ValidatorInterface;
 use App\Kernel\Services\View\View;
@@ -32,6 +34,7 @@ class Container implements ContainerInterface
     private DatabaseInterface $database;
     private ConfigInterface $config;
     private IdentificationInterface $identification;
+    private TextSanitizerInterface $htmlTextSanitizer;
 
     public function __construct()
     {
@@ -51,6 +54,7 @@ class Container implements ContainerInterface
             $this->config->get('database.charset')
         );
         $this->identification = new Identification($this->session, $this->config);
+        $this->htmlTextSanitizer = new HtmlTextSanitizer();
         $this->router = new Router(
             $this->view,
             $this->request,
@@ -59,6 +63,7 @@ class Container implements ContainerInterface
             $this->session,
             $this->config,
             $this->identification,
+            $this->htmlTextSanitizer
         );
     }
 
@@ -105,6 +110,11 @@ class Container implements ContainerInterface
     public function getIdentification(): IdentificationInterface
     {
         return $this->identification;
+    }
+
+    public function getHtmlTextSanitizer(): TextSanitizerInterface
+    {
+        return $this->htmlTextSanitizer;
     }
 }
 

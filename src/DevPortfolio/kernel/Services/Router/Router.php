@@ -8,6 +8,7 @@ use App\Kernel\Services\Http\RedirectInterface;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\TextSanitizer\TextSanitizerInterface;
 use App\Kernel\Services\Validator\ValidatorInterface;
 use App\Kernel\Services\View\ViewInterface;
 use App\Middleware\AbstractMiddleware;
@@ -27,7 +28,8 @@ class Router implements RouterInterface
         private readonly RedirectInterface       $redirect,
         private readonly SessionInterface        $session,
         private readonly ConfigInterface         $config,
-        private readonly IdentificationInterface $identification
+        private readonly IdentificationInterface $identification,
+        private readonly TextSanitizerInterface  $htmlTextSanitizer,
     )
     {
         $this->initRoutes();
@@ -67,6 +69,7 @@ class Router implements RouterInterface
             $controller->setSession($this->session);
             $controller->setIdentification($this->identification);
             $controller->setConfig($this->config);
+            $controller->setHtmlTextSanitizer($this->htmlTextSanitizer);
 
             $controller->$action(...$params);
         } else {

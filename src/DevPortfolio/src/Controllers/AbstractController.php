@@ -8,6 +8,7 @@ use App\Kernel\Services\Http\RedirectInterface;
 use App\Kernel\Services\Http\RequestInterface;
 use App\Kernel\Services\Identification\IdentificationInterface;
 use App\Kernel\Services\Session\SessionInterface;
+use App\Kernel\Services\TextSanitizer\TextSanitizerInterface;
 use App\Kernel\Services\Validator\ValidatorInterface;
 use App\Kernel\Services\View\ViewInterface;
 
@@ -21,6 +22,7 @@ abstract class AbstractController implements ControllerInterface
     private DatabaseInterface $db;
     private IdentificationInterface $identification;
     private ConfigInterface $config;
+    private TextSanitizerInterface $htmlTextSanitizer;
 
     public function view(string $name, array $data = [], string $title = ''): void
     {
@@ -100,6 +102,16 @@ abstract class AbstractController implements ControllerInterface
     public function setConfig(ConfigInterface $config): void
     {
         $this->config = $config;
+    }
+
+    public function htmlTextSanitizer(): TextSanitizerInterface
+    {
+        return $this->htmlTextSanitizer;
+    }
+
+    public function setHtmlTextSanitizer(TextSanitizerInterface $htmlTextSanitizer): void
+    {
+        $this->htmlTextSanitizer = $htmlTextSanitizer;
     }
 }
 
