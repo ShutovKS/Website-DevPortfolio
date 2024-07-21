@@ -4,6 +4,8 @@ namespace App\Kernel\Container;
 
 use App\Kernel\Services\Config\Config;
 use App\Kernel\Services\Config\ConfigInterface;
+use App\Kernel\Services\Cookie\Cookie;
+use App\Kernel\Services\Cookie\CookieInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Database\DatabaseMySQL;
 use App\Kernel\Services\Http\Redirect;
@@ -35,6 +37,7 @@ class Container implements ContainerInterface
     private ConfigInterface $config;
     private IdentificationInterface $identification;
     private TextSanitizerInterface $htmlTextSanitizer;
+    private CookieInterface $cookie;
 
     public function __construct()
     {
@@ -55,6 +58,7 @@ class Container implements ContainerInterface
         );
         $this->identification = new Identification($this->session, $this->config);
         $this->htmlTextSanitizer = new HtmlTextSanitizer();
+        $this->cookie = new Cookie($this->request);
         $this->router = new Router(
             $this->view,
             $this->request,
@@ -115,6 +119,11 @@ class Container implements ContainerInterface
     public function getHtmlTextSanitizer(): TextSanitizerInterface
     {
         return $this->htmlTextSanitizer;
+    }
+
+    public function getCookie(): CookieInterface
+    {
+        return $this->cookie;
     }
 }
 

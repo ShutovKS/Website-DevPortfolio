@@ -3,6 +3,7 @@
 namespace App\Kernel\Container;
 
 use App\Kernel\Services\Config\ConfigInterface;
+use App\Kernel\Services\Cookie\CookieInterface;
 use App\Kernel\Services\Database\DatabaseInterface;
 use App\Kernel\Services\Http\RedirectInterface;
 use App\Kernel\Services\Http\RequestInterface;
@@ -25,4 +26,5 @@ interface ContainerInterface
     public function getConfig(): ConfigInterface;
     public function getIdentification(): IdentificationInterface;
     public function getHtmlTextSanitizer(): TextSanitizerInterface;
+    public function getCookie(): CookieInterface;
 }
