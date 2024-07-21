@@ -72,6 +72,39 @@ class UserController extends AbstractController
         $this->view('/user/settings', $data, 'Settings');
     }
 
+    public function delete($id): void
+    {
+        if (!$this->identification()->isAuth()) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        if (!((int)$id === $this->identification()->getUser()->id) && !$this->identification()->isAdmin()) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        /** @var User $user */
+        $user = User::find($id);
+
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        if ($this->identification()->getUser()->id === $user->id) {
+            $this->identification()->logout();
+        }
+
+        $user->delete();
+
+        if ($this->identification()->isAdmin()) {
+            $this->redirect()->to('/admin/list/users');
+        } else {
+            $this->redirect()->to('/');
+        }
+    }
+
     public function updatePhoto(): void
     {
         $user_id = $this->request()->input('user_id');

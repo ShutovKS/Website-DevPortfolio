@@ -51,6 +51,7 @@ return [
 
     Route::get('/user/{id}', [UserController::class, 'user'], [AuthMiddleware::class]),
     Route::get('/user/settings/{id}', [UserController::class, 'settings'], [AuthMiddleware::class]),
+    Route::get('/user/delete/{id}', [UserController::class, 'delete'], [AuthMiddleware::class, AdminMiddleware::class]),
     
 //    Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
 //    Route::get('/user/edit/{id}', [UserController::class, 'settings'], [AuthMiddleware::class, AdminMiddleware::class]),
