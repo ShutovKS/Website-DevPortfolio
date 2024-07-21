@@ -44,6 +44,7 @@ return [
     Route::get('/article/view/{id}', [ArticleController::class, 'viewArticle'], [AuthMiddleware::class]),
     Route::get('/article/edit/{id}', [ArticleController::class, 'editArticle'], [AuthMiddleware::class]),
     Route::get('/article/delete/{id}', [ArticleController::class, 'deleteArticle'], [AuthMiddleware::class]),
+
     Route::post('/article/create', [ArticleController::class, 'create'], [AuthMiddleware::class]),
     Route::post('/article/update/{id}', [ArticleController::class, 'update'], [AuthMiddleware::class]),
 
@@ -51,11 +52,7 @@ return [
 
     Route::get('/user/{id}', [UserController::class, 'user'], [AuthMiddleware::class]),
     Route::get('/user/settings/{id}', [UserController::class, 'settings'], [AuthMiddleware::class]),
-    Route::get('/user/delete/{id}', [UserController::class, 'delete'], [AuthMiddleware::class, AdminMiddleware::class]),
-    
-//    Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
-//    Route::get('/user/edit/{id}', [UserController::class, 'settings'], [AuthMiddleware::class, AdminMiddleware::class]),
-//    Route::get('/user/delete/{id}', [UserController::class, 'delete'], [AuthMiddleware::class, AdminMiddleware::class]),
+    Route::get('/user/delete/{id}', [UserController::class, 'delete'], [AuthMiddleware::class]),
 
     Route::post('/user/settings/updatePhoto', [UserController::class, 'updatePhoto'], [AuthMiddleware::class]),
     Route::post('/user/settings/updateSocials', [UserController::class, 'updateSocials'], [AuthMiddleware::class]),

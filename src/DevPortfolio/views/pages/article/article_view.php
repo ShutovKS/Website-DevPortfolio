@@ -19,8 +19,8 @@ use App\Models\User;
 /** @var Articles $article */
 $article = $data['article'];
 
-/** @var User $user */
-$user = $data['user'];
+/** @var User $current_user */
+$current_user = $data['current_user'];
 ?>
 
     <main class="container my-2">
@@ -39,7 +39,7 @@ $user = $data['user'];
 
                 <p>
                     <nobr class="fs-6">Автор:</nobr>
-                    <a class="fs-6" href="/user/<?php echo $user->id ?>"><?php echo $user->fullName ?></a>
+                    <a class="fs-6" href="/user/<?php echo $current_user->id ?>"><?php echo $current_user->fullName ?></a>
                 </p>
 
                 <p>

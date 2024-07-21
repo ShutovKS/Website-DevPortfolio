@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Articles;
-use App\Models\User;
 
 class ArticleController extends AbstractController
 {
@@ -11,10 +10,7 @@ class ArticleController extends AbstractController
     {
         $data = $this->getData();
 
-        $this->view(
-            '/article/article_created',
-            $data,
-            'Article created');
+        $this->view('/article/article_created', $data, 'Article created');
     }
 
     public function create(): void
@@ -56,59 +52,58 @@ class ArticleController extends AbstractController
 
     public function viewArticle($id): void
     {
-        $data = $this->getData();
-
         /** @var Articles $article */
         $article = Articles::find($id);
-        $data['article'] = $article;
 
-        /** @var User $user */
-        $user = User::find($article->userId);
-        $data['user'] = $user;
+        $data = $this->getData(['article' => $article,]);
 
-        $this->view(
-            '/article/article_view',
-            $data,
-            'Article');
+        $this->view('/article/article_view', $data, 'Article');
     }
 
     public function editArticle($id): void
     {
-        $data = $this->getData();
-
         /** @var Articles $article */
         $article = Articles::find($id);
 
-        if ($article->userId !== $this->identification()->getUser()->id) {
-            $this->redirect()->to('/user/profile');
-            exit;
+        if (!$this->identification()->isAdmin() && !($this->identification()->getUser()->id === $article->userId)) {
+            $this->redirect()->to('/error/404');
+            exit();
         }
 
-        $data['article'] = $article;
+        $data = $this->getData(['article' => $article,]);
 
-        $this->view(
-            '/article/article_edit',
-            $data,
-            'Edit article');
+        $this->view('/article/article_edit', $data, 'Edit article');
     }
 
     public function update($id): void
     {
+        /** @var Articles $article */
+        $article = Articles::find($id);
+
+        if (!$this->identification()->isAdmin() && !($this->identification()->getUser()->id === $article->userId)) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        $title = $this->request()->input('title');
+        $description = $this->request()->input('description');
+        $content = $this->request()->input('content');
+
         $data = [
-            'title' => $this->request()->input('title'),
-            'description' => $this->request()->input('description'),
-            'content' => $this->request()->input('content'),
+            'title' => $title,
+            'description' => $description,
+            'content' => $content,
         ];
 
         $rules = [
             'title' => 'required|no_scripts|max:140',
-            'description' => 'no_scripts|max:140',
+            'description' => 'no_scripts|max:250',
             'content' => 'required|min:100',
         ];
 
-        $errors = $this->validator()->validate($data, $rules);
+        $errors = ['update' => $this->validator()->validate($data, $rules),];
 
-        if (count($errors) > 0) {
+        if (count($errors['update']) > 0) {
             $this->session()->set('errors', $errors);
             $this->redirect()->to('/article/edit/' . $id);
             exit;
@@ -137,20 +132,18 @@ class ArticleController extends AbstractController
         /** @var Articles $article */
         $article = Articles::find($id);
 
-        if ($article->userId !== $this->identification()->getUser()->id) {
-            $this->redirect()->to('/user/profile');
-            exit;
+        if (!$this->identification()->isAdmin() && !($this->identification()->getUser()->id === $article->userId)) {
+            $this->redirect()->to('/error/404');
+            exit();
         }
 
         $article->delete();
 
-        $this->redirect()->to('/user/profile');
-    }
-
-    protected function getData(array $data = []): array
-    {
-        $data = parent::getData($data);
-
-        return $data;
+        if ($this->identification()->isAdmin() && $this->identification()->getUser()->id === $article->userId) {
+            $this->redirect()->to('/user/' . $this->identification()->getUser()->id);
+        }
+        else{
+            $this->redirect()->to('/admin/list/articles');
+        }
     }
 }

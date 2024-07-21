@@ -39,27 +39,37 @@ $users = $data['users'];
         <hr>
     </div>
 
-    <div class="container">
+    <div class="w-100">
         <h1 class="text-center">List of users</h1>
-        <table class="table table-striped">
+        <table class="table table-striped table-bordered table-sm">
             <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Username</th>
-                <th scope="col">Email</th>
-                <th scope="col">Actions</th>
+            <tr class="d-flex table-secondary">
+                <th class="col-1 text-center" scope="col">ID</th>
+                <th class="col-2 text-center" scope="col">Username</th>
+                <th class="col-2 text-center" scope="col">Full name</th>
+                <th class="col-1 text-center" scope="col">Job</th>
+                <th class="col-2 text-center" scope="col">Email</th>
+                <th class="col-1 text-center" scope="col">Phone</th>
+                <th class="col-1 text-center" scope="col">Created at</th>
+                <th class="col-1 text-center" scope="col">Is admin</th>
+                <th class="col-1 text-center" scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($users as $user): ?>
-                <tr>
-                    <th scope="row"><?= $user->id ?></th>
-                    <td><?= $user->username ?></td>
-                    <td><?= $user->email ?></td>
-                    <td class="btn-group-sm">
-                        <a href="/user/<?= $user->id ?>" class="btn btn-primary">View</a>
-                        <a href="/user/settings/<?= $user->id ?>" class="btn btn-warning">Edit</a>
-                        <a href="/user/delete/<?= $user->id ?>" class="btn btn-danger">Delete</a>
+                <tr class="d-flex">
+                    <th class="col-1 text-center" scope="row"><?= $user->id ?></th>
+                    <td class="col-2 text-center"><?= $user->username ?></td>
+                    <td class="col-2 text-center"><?= $user->fullName ?></td>
+                    <td class="col-1 text-center"><?= $user->job ?></td>
+                    <td class="col-2 text-center"><?= $user->email ?></td>
+                    <td class="col-1 text-center"><?= $user->phone ?></td>
+                    <td class="col-1 text-center"><?= $user->createdAt ?></td>
+                    <td class="col-1 text-center"><?= $user->isAdmin ? 'Yes' : 'No' ?></td>
+                    <td class="col-1 text-center btn-group-sm">
+                        <a href="/user/<?= $user->id ?>" class="w-100 btn btn-primary">View</a>
+                        <a href="/user/settings/<?= $user->id ?>" class="w-100 btn btn-warning">Edit</a>
+                        <a href="/user/delete/<?= $user->id ?>" class="w-100 btn btn-danger">Delete</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

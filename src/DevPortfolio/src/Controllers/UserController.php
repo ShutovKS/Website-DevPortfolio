@@ -319,13 +319,6 @@ class UserController extends AbstractController
         $this->redirect()->to('/');
     }
 
-    protected function getData(array $data = []): array
-    {
-        $data = parent::getData($data);
-
-        return $data;
-    }
-
     private function getSocialsInProfile()
     {
         return $this->config()->get('socialsInProfile');

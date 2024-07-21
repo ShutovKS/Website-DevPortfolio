@@ -120,10 +120,4 @@ class IdentificationController extends AbstractController
         $this->view('identification/completed', $this->getData(), 'Registration completed');
     }
 
-    protected function getData(array $data = []): array
-    {
-        $data = parent::getData($data);
-
-        return $data;
-    }
 }

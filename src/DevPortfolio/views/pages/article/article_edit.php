@@ -8,37 +8,29 @@
 use App\Kernel\Services\View\View;
 use App\Models\Articles;
 
-?>
-
-<?php $view->component('start', ['title' => $title]); ?>
-
-<title><?php echo $title; ?></title>
-
-<?php $view->component('header', $data); ?>
-
-<?php
 /** @var Articles $article */
 $article = $data['article'];
-?>
-
-<?php
-
 $articleTitle = $article->title;
 $articleDescription = $article->description;
 $articleContent = $article->content;
 
+$errors = $data['errors'];
+
+$view->component('start', ['title' => $title]);
+$view->component('header', $data);
+
 ?>
 
-<?php $errors = $data['errors']; ?>
+<?php if (!empty($errors['update'])): ?>
 
-<?php if (!empty($errors)): ?>
     <div class="alert alert-danger" role="alert">
         <ul>
-            <?php foreach ($errors as $error): ?>
-                <li><?php echo $error; ?></li>
+            <?php foreach ($errors['update'] as $error): ?>
+                <li><?= $error ?></li>
             <?php endforeach; ?>
         </ul>
     </div>
+
 <?php endif; ?>
 
 <main class="container">
@@ -51,26 +43,27 @@ $articleContent = $article->content;
 
         <div class="row">
 
-            <form action="/article/update/<?php echo $article->id ?>" method="post">
+            <form action="/article/update/<?= $article->id ?>" method="post">
+                <input name="user_id" type="hidden" value="<?= $article->userId ?>">
 
                 <div class="form-group container">
 
                     <div class="mb-3">
                         <label for="title">Title</label>
                         <input type="text" class="form-control" id="title" name="title" maxlength="140"
-                               value="<?php echo $articleTitle; ?>">
+                               value="<?= $articleTitle ?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description"
-                                  rows="2" maxlength='250'><?php echo $articleDescription; ?></textarea>
+                        <textarea class="form-control" id="description" name="description" rows="2"
+                                  maxlength='250'><?= $articleDescription ?></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label for="content">Content</label>
                         <textarea class="form-control" id="content" name="content"
-                                  rows="15"><?php echo $articleContent; ?></textarea>
+                                  rows="15"><?= $articleContent ?></textarea>
                     </div>
 
                     <div class="row">
@@ -88,7 +81,10 @@ $articleContent = $article->content;
 
 </main>
 
-<?php $view->component('footer'); ?>
+<?php
 
-<?php $view->component('end'); ?>
+$view->component('footer');
+$view->component('end');
+
+?>
 

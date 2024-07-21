@@ -13,7 +13,7 @@ class User extends AbstractModel
     public string $email;
     public string $phone;
 
-    public string $job;
+        public string $job;
     public string $locationCity;
     public string $locationCountry;
 

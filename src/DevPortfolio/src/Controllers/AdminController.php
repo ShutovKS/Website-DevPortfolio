@@ -14,41 +14,38 @@ class AdminController extends AbstractController
 
     public function dashboard(): void
     {
-        $data = $this->getData();
-
+        /** @var User[] $users */
         $users = User::all();
-        $data['number_users'] = count($users);
 
+        /** @var Articles[] $articles */
         $articles = Articles::all();
-        $data['number_articles'] = count($articles);
+
+        $data = $this->getData([
+            'number_users' => count($users),
+            'number_articles' => count($articles),
+        ]);
 
         $this->view('admin/dashboard', $data, 'Admin dashboard');
     }
 
     public function listUsers(): void
     {
-        $data = $this->getData();
-
+        /** @var User[] $users */
         $users = User::all();
-        $data['users'] = $users;
+
+        $data = $this->getData(['users' => $users,]);
 
         $this->view('admin/list_users', $data, 'Admin list users');
     }
 
     public function listArticles(): void
     {
-        $data = $this->getData();
-
+        /** @var Articles[] $articles */
         $articles = Articles::all();
-        $data['articles'] = $articles;
+
+        $data = $this->getData(['articles' => $articles,]);
 
         $this->view('admin/list_articles', $data, 'Admin list articles');
     }
 
-    protected function getData(array $data = []): array
-    {
-        $data = parent::getData($data);
-
-        return $data;
-    }
 }

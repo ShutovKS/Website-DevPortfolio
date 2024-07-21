@@ -27,13 +27,6 @@ class HomeController extends AbstractController
         $this->view('/other/about', $this->getData(), 'About');
     }
 
-    protected function getData(array $data = []): array
-    {
-        $data = parent::getData($data);
-
-        return $data;
-    }
-
     private function getDescription(string $text): string
     {
         $text = substr($text, 0, 250);
