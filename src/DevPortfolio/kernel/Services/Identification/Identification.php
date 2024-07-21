@@ -3,16 +3,18 @@
 namespace App\Kernel\Services\Identification;
 
 use App\Kernel\Services\Config\ConfigInterface;
+use App\Kernel\Services\Cookie\CookieInterface;
 use App\Kernel\Services\Session\SessionInterface;
 use App\Models\User;
 use Random\RandomException;
-
 
 readonly class Identification implements IdentificationInterface
 {
     public function __construct(
         private SessionInterface $session,
-        private ConfigInterface  $config)
+        private ConfigInterface $config,
+        private CookieInterface $cookie,
+    )
     {
     }
 
@@ -40,13 +42,19 @@ readonly class Identification implements IdentificationInterface
         return $insertId !== false;
     }
 
-    public function login(string $email, string $password): ?User
+    public function login(string $email, string $password, bool $remember = false): ?User
     {
         /** @var User $user */
         $user = User::where(['email' => $email])[0] ?? null;
 
-        if (!$user || !hash_equals($user->passwordHash, hash('sha256', $password . $user->salt))) {
+        if (!$user || !hash_equals($user->passwordHash, $this->hashPassword($password, $user->salt))) {
             return null;
+        }
+
+        $this->setUser($user);
+
+        if ($remember) {
+            $this->setRememberMeCookie($user);
         }
 
         return $user;
@@ -57,6 +65,8 @@ readonly class Identification implements IdentificationInterface
         $this->session->remove($this->config->get('identification.email'));
         $this->session->remove($this->config->get('identification.username'));
         $this->session->remove($this->config->get('identification.session_field'));
+
+        $this->cookie->deleteCookie($this->config->get('identification.cookie_name'));
     }
 
     public function getUser(): ?User
@@ -77,6 +87,10 @@ readonly class Identification implements IdentificationInterface
 
     public function isAuth(): bool
     {
+        if (!$this->session->has($this->config->get('identification.session_field'))) {
+            $this->checkRememberMeCookie();
+        }
+
         return $this->session->has($this->config->get('identification.session_field'));
     }
 
@@ -92,6 +106,7 @@ readonly class Identification implements IdentificationInterface
 
     public function checkPassword(string $password): bool
     {
+        /** @var User $user */
         $user = $this->getUser();
 
         if (!$user) {
@@ -103,6 +118,7 @@ readonly class Identification implements IdentificationInterface
 
     public function updatePassword(string $password): void
     {
+        /** @var User $user */
         $user = $this->getUser();
         $salt = $this->generateSalt();
         $password_hash = $this->hashPassword($password, $salt);
@@ -122,6 +138,42 @@ readonly class Identification implements IdentificationInterface
         try {
             return bin2hex(random_bytes(16));
         } catch (RandomException) {
+        }
+    }
+
+    private function setRememberMeCookie(User $user): void
+    {
+        $token = bin2hex(random_bytes(16));
+        $user->rememberToken = $token;
+        $user->save();
+
+        $cookieValue = base64_encode(json_encode(['id' => $user->id, 'token' => $token], JSON_THROW_ON_ERROR));
+        $this->cookie->setCookie(
+            $this->config->get('identification.cookie_name'),
+            $cookieValue,
+            $this->config->get('identification.cookie_lifetime'),
+            $this->config->get('identification.cookie_path'),
+            $this->config->get('identification.cookie_domain'),
+            $this->config->get('identification.cookie_secure'),
+            $this->config->get('identification.cookie_httponly')
+        );
+    }
+
+    private function checkRememberMeCookie(): void
+    {
+        $cookieValue = $this->cookie->getCookie($this->config->get('identification.cookie_name'));
+
+        if ($cookieValue) {
+            $data = json_decode(base64_decode($cookieValue), true, 512, JSON_THROW_ON_ERROR);
+
+            if (isset($data['id'], $data['token'])) {
+                /** @var User $user */
+                $user = User::find($data['id']);
+
+                if ($user && hash_equals($user->rememberToken, $data['token'])) {
+                    $this->setUser($user);
+                }
+            }
         }
     }
 }

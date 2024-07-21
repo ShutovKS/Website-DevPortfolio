@@ -11,9 +11,13 @@ class IdentificationController extends AbstractController
 
     public function loginProcessing(): void
     {
+        $email = $this->request()->input('email');
+        $password = $this->request()->input('password');
+        $remember = $this->request()->input('remember') === 'on';
+
         $data = [
-            'email' => $this->request()->input('email'),
-            'password' => $this->request()->input('password'),
+            'email' => $email,
+            'password' => $password,
         ];
 
         $rules = [
@@ -35,7 +39,7 @@ class IdentificationController extends AbstractController
             exit;
         }
 
-        $user = $this->identification()->login($data['email'], $data['password']);
+        $user = $this->identification()->login($email, $password, $remember);
 
         if (!$user) {
             $this->session()->set('errors', ['Неверный email или пароль']);
@@ -43,7 +47,6 @@ class IdentificationController extends AbstractController
             exit;
         }
 
-        $this->identification()->setUser($user);
         $this->redirect()->to('completed');
     }
 
@@ -54,10 +57,16 @@ class IdentificationController extends AbstractController
 
     public function registrationProcessing(): void
     {
+        $username = $this->request()->input('username');
+        $email = $this->request()->input('email');
+        $password = $this->request()->input('password');
+        $remember = $this->request()->input('remember');
+
         $data = [
-            'username' => $this->request()->input('username'),
-            'email' => $this->request()->input('email'),
-            'password' => $this->request()->input('password'),
+            'username' => $username,
+            'email' => $email,
+            'password' => $password,
+            'remember' => $remember,
         ];
 
         $rules = [
@@ -75,16 +84,18 @@ class IdentificationController extends AbstractController
         }
 
         if ($this->identification()->exists($data['email'])) {
-            $this->session()->set('errors', ['Пользователь с таким email уже существует']);
+            $this->session()->set('errors', ['A user with this email already exists']);
             $this->redirect()->to('register');
             exit;
         }
 
-        $is_registered = $this->identification()->register(
-            $data['username'],
-            $data['email'],
-            $data['password']
-        );
+        if ($this->identification()->exists($data['username'])) {
+            $this->session()->set('errors', ['A user with this username already exists']);
+            $this->redirect()->to('register');
+            exit;
+        }
+
+        $is_registered = $this->identification()->register($username, $email, $password);
 
         if (!$is_registered) {
             $this->session()->set('errors', ['Ошибка регистрации']);
@@ -92,7 +103,7 @@ class IdentificationController extends AbstractController
             exit;
         }
 
-        $user = $this->identification()->login($data['email'], $data['password']);
+        $user = $this->identification()->login($email, $password, $remember);
 
         if (!$user) {
             $this->session()->set('errors', ['Ошибка авторизации']);
@@ -100,7 +111,6 @@ class IdentificationController extends AbstractController
             exit;
         }
 
-        $this->identification()->setUser($user);
         $this->redirect()->to('completed');
     }
 

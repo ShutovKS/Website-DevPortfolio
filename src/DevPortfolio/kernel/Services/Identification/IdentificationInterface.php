@@ -8,7 +8,7 @@ interface IdentificationInterface
 {
     public function register(string $name, string $email, string $password): bool;
 
-    public function login(string $email, string $password): ?User;
+    public function login(string $email, string $password, bool $remember = false): ?User;
 
     public function logout(): void;
     

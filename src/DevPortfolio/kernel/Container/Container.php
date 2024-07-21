@@ -56,9 +56,9 @@ class Container implements ContainerInterface
             $this->config->get('database.password'),
             $this->config->get('database.charset')
         );
-        $this->identification = new Identification($this->session, $this->config);
         $this->htmlTextSanitizer = new HtmlTextSanitizer();
         $this->cookie = new Cookie($this->request);
+        $this->identification = new Identification($this->session, $this->config, $this->cookie);
         $this->router = new Router(
             $this->view,
             $this->request,

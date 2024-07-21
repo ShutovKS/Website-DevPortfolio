@@ -39,7 +39,7 @@ readonly class Cookie implements CookieInterface
     ): void
     {
         setcookie($name, '', time() - 3600, $path, $domain, $secure, $httponly);
-        unset($this->request->cookie[$name]);
+        unset($_COOKIE[$name]);
     }
 }
 

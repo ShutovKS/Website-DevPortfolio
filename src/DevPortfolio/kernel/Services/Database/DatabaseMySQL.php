@@ -155,7 +155,7 @@ CREATE TABLE `users`
 (
     `id`               int UNSIGNED NOT NULL,
     `username`         varchar(255) NOT NULL,
-    `full_name`        varchar(255) NOT NULL,
+    `full_name`        varchar(255)          DEFAULT NULL,
     `link_to_photo`    varchar(255)          DEFAULT NULL,
     `email`            varchar(255) NOT NULL,
     `phone`            varchar(20)           DEFAULT NULL,
@@ -168,19 +168,18 @@ CREATE TABLE `users`
     `social_telegram`  varchar(255)          DEFAULT NULL,
     `password_hash`    varchar(255) NOT NULL,
     `salt`             varchar(32)  NOT NULL,
+    `remember_token`   varchar(255)          DEFAULT NULL,
     `created_at`       timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at`       timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    `is_author`        tinyint(1) NOT NULL DEFAULT '0',
-    `is_admin`         tinyint(1) NOT NULL DEFAULT '0'
+    `is_author`        tinyint(1)   NOT NULL DEFAULT '1',
+    `is_admin`         tinyint(1)   NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
-INSERT INTO `users` (`id`, `username`, `full_name`, `link_to_photo`, `email`, `phone`, `job`, `location_city`,
-                     `location_country`, `social_website`, `social_github`, `social_vk`, `social_telegram`,
-                     `password_hash`, `salt`, `created_at`, `updated_at`, `is_author`, `is_admin`)
+INSERT INTO `users` (`id`, `username`, `full_name`, `link_to_photo`, `email`, `phone`, `job`, 
+                     `is_author`, `is_admin`, `password_hash`, `salt`)
 VALUES (1, 'admin', 'Main admin', 'https://github.githubassets.com/assets/pull-shark-default-498c279a747d.png',
-        'admin@mail.com', '345-678-9012', 'Admin', 'Toronto', 'Canada', '', '', '', '',
-        'b1bf4e915954747316564d958a501a693528e7cc5360fdd9efa33b487f2c7345', 'bec8ac4a0227e26acbd2ccf63af6eb56',
-        '2024-07-15 18:28:38', '2024-07-18 14:33:50', 1, 1);
+        'admin@mail.com', '345-678-9012', 'Admin', 1, 1,
+        'b1bf4e915954747316564d958a501a693528e7cc5360fdd9efa33b487f2c7345', 'bec8ac4a0227e26acbd2ccf63af6eb56');
 
 ALTER TABLE `users` 
     ADD PRIMARY KEY (`id`),
