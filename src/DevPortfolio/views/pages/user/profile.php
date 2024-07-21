@@ -9,30 +9,33 @@ use App\Kernel\Services\View\View;
 use App\Models\Articles;
 use App\Models\User;
 
-?>
+/** @var User $user */
+$user = $data['user'];
 
-<?php /** @var User $user */
-$user = $data['user']; ?>
+/** @var Articles[] $articles */
+$articles = $data['articles'];
 
-<?php $socials = [
+$socialsSample = $data['socials_in_profile'];
+
+$this_is_current_user = $data['this_is_current_user'];
+$current_user_is_auth = $data['current_user_is_auth'];
+$current_user_is_admin = $data['current_user_is_admin'];
+$link_to_photo_current_user = $data['link_to_photo_current_user'];
+
+$errors = $data['errors'];
+
+$socials = [
     'website' => $user->socialWebsite,
     'github' => $user->socialGithub,
     'vk' => $user->socialVk,
     'telegram' => $user->socialTelegram,
-]; ?>
+];
 
-<?php $socialsSample = $data['socialsInProfile'] ?>
+$view->component('start', ['title' => $title]);
+$view->component('header', $data);
 
-<?php /** @var Articles[] $articles */
-$articles = $data['articles']; ?>
+?>
 
-<?php /** @var bool $this_user */
-$this_user = $data['this_user']; ?>
-
-
-<?php $view->component('start', ['title' => $title]); ?>
-
-<?php $view->component('header_authorized', $data); ?>
 <main class="container">
 
     <div class="row gutters-sm">
@@ -61,13 +64,15 @@ $this_user = $data['this_user']; ?>
 
                 <div class="list-group list-group-flush">
 
-                    <?php foreach ($socials as $key => $social_link): ?>
-                        <?php if (!isset($socialsSample[$key])) {
+                    <?php
+                    foreach ($socials as $key => $social_link):
+                        if (!isset($socialsSample[$key])) {
                             continue;
-                        } ?>
+                        }
 
+                        $socialSample = $socialsSample[$key];
 
-                        <?php $socialSample = $socialsSample[$key]; ?>
+                        ?>
 
                         <li class="list-group-item">
                             <div class="row">
@@ -114,7 +119,7 @@ $this_user = $data['this_user']; ?>
 
         <div class="col-lg-8">
 
-            <?php if ($this_user): ?>
+            <?php if ($current_user_is_auth && ($this_is_current_user || $current_user_is_admin)): ?>
                 <div class="row text-center mb-2">
 
                     <div class="col-sm-10"></div>
@@ -166,7 +171,8 @@ $this_user = $data['this_user']; ?>
                                                             </button>
                                                         </form>
 
-                                                        <?php if ($this_user): ?>
+
+                                                        <?php if ($current_user_is_auth && ($this_is_current_user || $current_user_is_admin)): ?>
 
                                                         <form method="get" action="/article/edit/<?php echo $article->id ?>"
                                                               name="form-article" class="btn-group">
@@ -197,6 +203,7 @@ $this_user = $data['this_user']; ?>
                 </div>
 
             <?php else: ?>
+            
                 <div class="container mb-2 bg-body-tertiary">
 
                     <div class="p-3 rounded text-center">

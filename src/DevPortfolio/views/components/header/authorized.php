@@ -44,7 +44,7 @@ $link_to_photo = $data['link_to_photo_current_user'] ?>
                             style="position: absolute; inset: 0 0 auto auto; margin: 0; transform: translate(0px, 34px);"
                             data-popper-placement="bottom-end">
                             <li><a class="dropdown-item" href="/user/<?php echo 0 ?>">Profile</a></li>
-                            <li><a class="dropdown-item" href="/user/settings">Settings</a></li>
+                            <li><a class="dropdown-item" href="/user/settings/<?php echo 0 ?>">Settings</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

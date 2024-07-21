@@ -49,18 +49,24 @@ return [
 
     // -- user
 
-    Route::get('/user/', [UserController::class, 'index'], [AuthMiddleware::class]),
-    Route::get('/user/profile', [UserController::class, 'index'], [AuthMiddleware::class]),
-    Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
-    Route::get('/user/{id}', [UserController::class, 'profile'], [AuthMiddleware::class]),
+    Route::get('/user/{id}', [UserController::class, 'user'], [AuthMiddleware::class]),
+    Route::get('/user/settings/{id}', [UserController::class, 'settings'], [AuthMiddleware::class]),
+    
+//    Route::get('/user/settings', [UserController::class, 'settings'], [AuthMiddleware::class]),
+//    Route::get('/user/edit/{id}', [UserController::class, 'settings'], [AuthMiddleware::class, AdminMiddleware::class]),
+//    Route::get('/user/delete/{id}', [UserController::class, 'delete'], [AuthMiddleware::class, AdminMiddleware::class]),
 
-    Route::post('/user/settings/photo', [UserController::class, 'updatePhoto'], [AuthMiddleware::class]),
-    Route::post('/user/settings/socials', [UserController::class, 'updateSocials'], [AuthMiddleware::class]),
-    Route::post('/user/settings/profile', [UserController::class, 'updateProfile'], [AuthMiddleware::class]),
-    Route::post('/user/settings/password', [UserController::class, 'updatePassword'], [AuthMiddleware::class]),
-    Route::post('/user/settings/delete', [UserController::class, 'deleteAccount'], [AuthMiddleware::class]),
+    Route::post('/user/settings/updatePhoto', [UserController::class, 'updatePhoto'], [AuthMiddleware::class]),
+    Route::post('/user/settings/updateSocials', [UserController::class, 'updateSocials'], [AuthMiddleware::class]),
+    Route::post('/user/settings/updateProfile', [UserController::class, 'updateProfile'], [AuthMiddleware::class]),
+    Route::post('/user/settings/updatePassword', [UserController::class, 'updatePassword'], [AuthMiddleware::class]),
+    Route::post('/user/settings/deleteAccount', [UserController::class, 'deleteAccount'], [AuthMiddleware::class]),
 
     // -- admin
 
+    Route::get('/admin/', [AdminController::class, 'index'], [AuthMiddleware::class, AdminMiddleware::class]),
     Route::get('/admin/home', [AdminController::class, 'index'], [AuthMiddleware::class, AdminMiddleware::class]),
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'], [AuthMiddleware::class, AdminMiddleware::class]),
+    Route::get('/admin/list/users', [AdminController::class, 'listUsers'], [AuthMiddleware::class, AdminMiddleware::class]),
+    Route::get('/admin/list/articles', [AdminController::class, 'listArticles'], [AuthMiddleware::class, AdminMiddleware::class]),
 ];

@@ -14,7 +14,7 @@ use App\Models\Articles;
 
 <title><?php echo $title; ?></title>
 
-<?php $view->component('header_authorized', $data); ?>
+<?php $view->component('header', $data); ?>
 
 <?php
 /** @var Articles $article */

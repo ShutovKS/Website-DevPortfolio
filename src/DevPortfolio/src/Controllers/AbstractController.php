@@ -113,5 +113,31 @@ abstract class AbstractController implements ControllerInterface
     {
         $this->htmlTextSanitizer = $htmlTextSanitizer;
     }
+
+    protected function getData(array $data = []): array
+    {
+        $errors = $this->session()->get('errors');
+        $this->session()->remove('errors');
+
+        $currentUserIsAuth = $this->identification()->isAuth();
+        $currentUser = null;
+        $linkToPhotoCurrentUser = null;
+        $currentUserIsAdmin = false;
+
+
+        if ($currentUserIsAuth === true) {
+            $currentUser = $this->identification()->getUser();
+            $linkToPhotoCurrentUser = $currentUser->linkToPhoto;
+            $currentUserIsAdmin = $currentUser->isAdmin;
+        }
+
+        $data['current_user_is_auth'] = $currentUserIsAuth;
+        $data['link_to_photo_current_user'] = $linkToPhotoCurrentUser;
+        $data['current_user_is_admin'] = $currentUserIsAdmin;
+        $data['current_user'] = $currentUser;
+        $data['errors'] = $errors;
+
+        return $data;
+    }
 }
 

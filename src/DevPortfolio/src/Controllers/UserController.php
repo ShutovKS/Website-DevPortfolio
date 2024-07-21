@@ -7,202 +7,294 @@ use App\Models\User;
 
 class UserController extends AbstractController
 {
-    public function index(): void
+    public function user($id): void
     {
-        $data = $this->getData();
-        $articles = Articles::findByUserId($data['user']->id);
-        $data['articles'] = $articles;
-
-        $this->view('user/profile', $data, 'Profile');
-    }
-
-    public function profile(int $id): void
-    {
-        if (!is_numeric($id)) {
-            $this->view('errors/404', [], '404');
-            return;
+        if ((int)$id === 0 && $this->identification()->isAuth()) {
+            $id = $this->identification()->getUser()->id;
         }
 
-        if (!User::find($id)) {
-            $this->view('errors/404', [], '404');
-            return;
-        }
-
-        if ($this->identification()->isAuth() && $this->identification()->getUser()->id === $id) {
-            $this->index();
-            return;
-        }
-
+        /** @var User $user */
         $user = User::find($id);
+
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        $thisIsCurrentUser = $this->identification()->isAuth() && $this->identification()->getUser()->id === $user->id;
+
+        /** @var Articles[] $articles */
         $articles = Articles::findByUserId($id);
 
-        $data = $this->getData();
-        $data['user'] = $user;
-        $data['articles'] = $articles;
-        $data['this_user'] = false;
+        $socialsInProfile = $this->getSocialsInProfile();
 
-        $this->view('user/profile', $data, 'Profile');
+        $data = $this->getData([
+            'user' => $user,
+            'articles' => $articles,
+            'socials_in_profile' => $socialsInProfile,
+            'this_is_current_user' => $thisIsCurrentUser,
+        ]);
+
+        $this->view('/user/profile', $data, 'Profile');
     }
 
-    public function settings(): void
+    public function settings($id): void
     {
-        $this->view('user/settings', $this->getData(), 'Settings');
+        if (!$this->identification()->isAuth()) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        if ((int)$id === 0 && $this->identification()->isAuth()) {
+            $id = $this->identification()->getUser()->id;
+        }
+
+        if (!((int)$id === $this->identification()->getUser()->id) && !$this->identification()->isAdmin()) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        /** @var User $user */
+        $user = User::find($id);
+
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        $socialsInProfile = $this->getSocialsInProfile();
+
+        $data = $this->getData([
+            'user' => $user,
+            'socials_in_profile' => $socialsInProfile,
+        ]);
+
+        $this->view('/user/settings', $data, 'Settings');
     }
 
     public function updatePhoto(): void
     {
-        $photo = $this->request()->input('photo');
+        $user_id = $this->request()->input('user_id');
+        $link_to_photo = $this->request()->input('link_to_photo');
 
-        $rules = [
-            'photo' => 'required|no_scripts|image_url:jpeg,png,jpg,gif',
-        ];
+        $rules = ['link_to_photo' => 'required|no_scripts|image_url:jpeg,png,jpg,gif',];
 
-        $errors = [
-            'photo' => $this->validator()->validate([
-                'photo' => $photo,
-            ], $rules),
-        ];
+        $data = ['link_to_photo' => $link_to_photo,];
 
-        if (count($errors['photo']) > 0) {
+        $errors = ['updatePhoto' => $this->validator()->validate($data, $rules),];
+
+        if (count($errors['updatePhoto']) > 0) {
             $this->session()->set('errors', $errors);
-            $this->redirect()->to('/user/settings');
+            $this->redirect()->to('/user/settings/' . $user_id);
             return;
         }
 
-        /** @var User $userData */
-        $userData = User::find($this->identification()->getUser()->id);
-        $userData->linkToPhoto = $photo;
+        /** @var User $user */
+        $user = User::find($user_id);
 
-        $userData->save();
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
 
-        $this->redirect()->to('/user/settings');
+        $user->linkToPhoto = $link_to_photo;
+
+        $user->save();
+
+        $this->redirect()->to('/user/settings/' . $user_id);
     }
 
     public function updateSocials(): void
     {
-        /** @var User $userData */
-        $userData = User::find($this->identification()->getUser()->id);
-        $userData->socialWebsite = $this->request()->input('website');
-        $userData->socialGithub = $this->request()->input('github');
-        $userData->socialVk = $this->request()->input('vk');
-        $userData->socialTelegram = $this->request()->input('telegram');
+        $user_id = $this->request()->input('user_id');
+        $socialWebsite = $this->request()->input('website');
+        $socialGithub = $this->request()->input('github');
+        $socialVk = $this->request()->input('vk');
+        $socialTelegram = $this->request()->input('telegram');
 
-        $userData->save();
+        $rules = [
+            'website' => 'no_scripts',
+            'github' => 'no_scripts',
+            'vk' => 'no_scripts',
+            'telegram' => 'no_scripts',
+        ];
 
-        $this->redirect()->to('/user/settings');
+        $data = [
+            'website' => $socialWebsite,
+            'github' => $socialGithub,
+            'vk' => $socialVk,
+            'telegram' => $socialTelegram,
+        ];
+
+        $errors = ['updateSocials' => $this->validator()->validate($data, $rules),];
+
+        if (count($errors['updateSocials']) > 0) {
+            $this->session()->set('errors', $errors);
+            $this->redirect()->to('/user/settings/' . $user_id);
+            return;
+        }
+
+        /** @var User $user */
+        $user = User::find($user_id);
+
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        $user->socialWebsite = $socialWebsite;
+        $user->socialGithub = $socialGithub;
+        $user->socialVk = $socialVk;
+        $user->socialTelegram = $socialTelegram;
+
+        $user->save();
+
+        $this->redirect()->to('/user/settings/' . $user_id);
     }
 
     public function updateProfile(): void
     {
-        /** @var User $userData */
-        $userData = User::find($this->identification()->getUser()->id);
-        $userData->fullName = $this->request()->input('fullName');
-        $userData->phone = $this->request()->input('phone');
-        $userData->locationCountry = $this->request()->input('country');
-        $userData->locationCity = $this->request()->input('city');
-        $userData->job = $this->request()->input('job');
+        $user_id = $this->request()->input('user_id');
+        $fullName = $this->request()->input('full_name');
+        $phone = $this->request()->input('phone');
+        $country = $this->request()->input('country');
+        $city = $this->request()->input('city');
+        $job = $this->request()->input('job');
 
-        $userData->save();
+        $rules = [
+            'full_name' => 'no_scripts',
+            'phone' => 'no_scripts',
+            'country' => 'no_scripts',
+            'city' => 'no_scripts',
+            'job' => 'no_scripts',
+        ];
 
-        $this->redirect()->to('/user/settings');
+        $data = [
+            'full_name' => $fullName,
+            'phone' => $phone,
+            'country' => $country,
+            'city' => $city,
+            'job' => $job,
+        ];
+
+        $errors = ['updateProfile' => $this->validator()->validate($data, $rules),];
+
+        if (count($errors['updateProfile']) > 0) {
+            $this->session()->set('errors', $errors);
+            $this->redirect()->to('/user/settings/' . $user_id);
+            return;
+        }
+
+        /** @var User $user */
+        $user = User::find($user_id);
+
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        $user->fullName = $fullName;
+        $user->phone = $phone;
+        $user->locationCountry = $country;
+        $user->locationCity = $city;
+        $user->job = $job;
+
+        $user->save();
+
+        $this->redirect()->to('/user/settings/' . $user_id);
     }
 
     public function updatePassword(): void
     {
-        $oldPassword = $this->request()->input('oldPassword');
-        $newPassword = $this->request()->input('newPassword');
-        $confirmPassword = $this->request()->input('confirmPassword');
+        $user_id = $this->request()->input('user_id');
+        $old_password = $this->request()->input('old_password');
+        $new_password = $this->request()->input('new_password');
+        $new_password_confirm = $this->request()->input('new_password_confirm');
 
         $rules = [
-            'oldPassword' => 'required|no_scripts',
-            'newPassword' => 'required|no_scripts|min:6',
-            'confirmPassword' => 'required|no_scripts|min:6',
+            'old_password' => 'required|no_scripts',
+            'new_password' => 'required|no_scripts|min:6',
+            'new_password_confirm' => 'required|no_scripts|same:' . $new_password,
         ];
 
-        $errors = [
-            'password' => $this->validator()->validate([
-                'oldPassword' => $oldPassword,
-                'newPassword' => $newPassword,
-                'confirmPassword' => $confirmPassword,
-            ], $rules),
+        $data = [
+            'old_password' => $old_password,
+            'new_password' => $new_password,
+            'new_password_confirm' => $new_password_confirm,
         ];
 
-        if (count($errors['password']) > 0) {
+        $errors = ['updatePassword' => $this->validator()->validate($data, $rules),];
+
+        if (count($errors['updatePassword']) > 0) {
             $this->session()->set('errors', $errors);
-            $this->redirect()->to('/user/settings');
+            $this->redirect()->to('/user/settings/' . $user_id);
             return;
         }
 
-        if (!$this->identification()->checkPassword($oldPassword)) {
+        /** @var User $user */
+        $user = User::find($user_id);
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
+        }
+
+        if (!$this->identification()->checkPassword($old_password)) {
             $errors = ['password' => ['Old password is incorrect']];
             $this->session()->set('errors', $errors);
-            $this->redirect()->to('/user/settings');
+            $this->redirect()->to('/user/settings/' . $user_id);
             return;
         }
 
-        if ($newPassword !== $confirmPassword) {
-            $errors = ['password' => ['Passwords do not match']];
-            $this->session()->set('errors', $errors);
-            $this->redirect()->to('/user/settings');
-            return;
-        }
+        $this->identification()->updatePassword($new_password);
+        $user->save();
 
-        $this->identification()->updatePassword($newPassword);
-        $this->identification()->logout();
-        $this->view('/identification/login', [], 'Login');
+        $this->redirect()->to('/user/settings/' . $user_id);
     }
 
     public function deleteAccount(): void
     {
+        $user_id = $this->request()->input('user_id');
         $password = $this->request()->input('password');
 
-        $rules = [
-            'password' => 'required|no_scripts',
-        ];
+        $rules = ['password' => 'required|no_scripts',];
 
-        $errors = [
-            'delete' => $this->validator()->validate([
-                'password' => $password,
-            ], $rules),
-        ];
+        $errors = ['deleteAccount' => $this->validator()->validate(['password' => $password,], $rules),];
 
-        if (count($errors['delete']) > 0) {
+        if (count($errors['deleteAccount']) > 0) {
             $this->session()->set('errors', $errors);
-            $this->redirect()->to('/user/settings');
+            $this->redirect()->to('/user/settings/' . $user_id);
             return;
+        }
+
+        /** @var User $user */
+        $user = User::find($user_id);
+        if (!$user) {
+            $this->redirect()->to('/error/404');
+            exit();
         }
 
         if (!$this->identification()->checkPassword($password)) {
             $errors = ['delete' => ['Password is incorrect']];
             $this->session()->set('errors', $errors);
-            $this->redirect()->to('/user/settings');
+            $this->redirect()->to('/user/settings/' . $user_id);
             return;
         }
 
-        $this->identification()->getUser()->delete();
+        $user->delete();
         $this->identification()->logout();
 
-        $this->view('/identification/register', $this->getData(), 'Register');
+        $this->redirect()->to('/');
     }
 
-    private function getData(): array
+    protected function getData(array $data = []): array
     {
-        $data = [];
-
-        if ($this->identification()->isAuth()) {
-            $user = $this->identification()->getUser();
-            $data['user'] = $user;
-            $data['isAuth'] = true;
-            $data['isAdmin'] = $user->isAdmin;
-            $data['isAuthor'] = $user->isAuthor;
-            $data['link_to_photo'] = $user->linkToPhoto;
-            $data['this_user'] = true;
-        }
-
-        $data['errors'] = $this->session()->get('errors');
-        $this->session()->remove('errors');
-        $data['socialsInProfile'] = $this->config()->get('socialsInProfile');
+        $data = parent::getData($data);
 
         return $data;
+    }
+
+    private function getSocialsInProfile()
+    {
+        return $this->config()->get('socialsInProfile');
     }
 }

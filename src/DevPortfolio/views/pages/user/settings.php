@@ -8,25 +8,22 @@
 use App\Kernel\Services\View\View;
 use App\Models\User;
 
-?>
+/** @var User $user */
+$user = $data['user'];
 
-<?php /** @var User $user */
-$user = $data['user']; ?>
-
-<?php $socials = [
+$socials = [
     'website' => $user->socialWebsite,
     'github' => $user->socialGithub,
     'vk' => $user->socialVk,
     'telegram' => $user->socialTelegram,
-]; ?>
+];
 
-<?php $socialsSample = $data['socialsInProfile'] ?>
+$socialsSample = $data['socials_in_profile'];
+$errors = $data['errors'];
+$view->component('start', ['title' => $title]);
+$view->component('header', $data);
 
-<?php $errors = $data['errors']; ?>
-
-<?php $view->component('start', ['title' => $title]); ?>
-
-<?php $view->component('header_authorized', $data); ?>
+?>
 
 <main class="container">
     <div class="main-body">
@@ -40,26 +37,29 @@ $user = $data['user']; ?>
                             <img src="<?php echo $user->linkToPhoto; ?>" alt="Admin" class="rounded-circle" width="150"
                                  height="150">
 
-                            <!-- Изменение url адреса на фото (url адрес на изображение) -->
                             <div class="mt-3">
-                                <form method="post" action="/user/settings/photo" enctype="multipart/form-data">
+
+                                <form method="post" action="/user/settings/updatePhoto" enctype="multipart/form-data">
+                                    <input name="user_id" type="hidden" value="<?php echo $user->id; ?>">
+
                                     <div class="row mb-3">
-                                        <label for="photo" class="col-sm-2 col-form-label">Url</label>
+                                        <label for="link_to_photo" class="col-sm-2 col-form-label">Url</label>
                                         <div class="col-sm-10">
-                                            <input type="url" class="form-control" id="photo" name="photo"
-                                                   placeholder="Url on photo" value="<?php echo $user->linkToPhoto; ?>">
+                                            <input type="url" class="form-control" id="link_to_photo"
+                                                   name="link_to_photo" placeholder="Url on photo"
+                                                   value="<?php echo $user->linkToPhoto; ?>">
                                         </div>
                                     </div>
 
                                     <input type="submit" class="btn btn-primary px-4 mt-2" value="Change Photo">
                                 </form>
+
                             </div>
 
-                            <!-- Вывод ошибок -->
-                            <?php if (isset($errors['photo'])): ?>
+                            <?php if (isset($errors['updatePhoto'])): ?>
                                 <div class="text-danger">
                                     <ul>
-                                        <?php foreach ($errors['photo'] as $error): ?>
+                                        <?php foreach ($errors['updatePhoto'] as $error): ?>
                                             <li><?php echo $error; ?></li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -70,7 +70,8 @@ $user = $data['user']; ?>
                     </div>
                 </div>
 
-                <form class="card mt-3" method="post" action="/user/settings/socials" name="socials-form">
+                <form class="card mt-3" method="post" action="/user/settings/updateSocials" name="socials-form">
+                    <input name="user_id" type="hidden" value="<?php echo $user->id; ?>">
 
                     <h5 class="card-header">Socials</h5>
 
@@ -85,8 +86,7 @@ $user = $data['user']; ?>
 
                             <li class="list-group-item">
                                 <div class="row align-items-center">
-                                    <form method="post" action="/user/settings/socials" name="socials-form"
-                                          class="card mt-3">
+                                    <form class="card mt-3">
                                         <div class="col-md-auto form-control-color text-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                  viewBox="<?php echo $socialSample['viewBox']; ?>"
@@ -122,21 +122,31 @@ $user = $data['user']; ?>
 
                         <?php endforeach; ?>
 
-                        <div class="row m-2">
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-3 text-secondary">
+                        <div class="m-2 text-center">
+                            <div class="">
                                 <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                             </div>
                         </div>
 
                     </div>
+
+                    <?php if (isset($errors['updateSocials'])): ?>
+                        <div class="text-danger">
+                            <ul>
+                                <?php foreach ($errors['updateSocials'] as $error): ?>
+                                    <li><?php echo $error; ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    <?php endif; ?>
                 </form>
             </div>
 
 
             <div class="col-lg-8">
 
-                <form class="card mb-3" method="post" action="/user/settings/profile" name="profile-form">
+                <form class="card mb-3" method="post" action="/user/settings/updateProfile" name="profile-form">
+                    <input name="user_id" type="hidden" value="<?php echo $user->id; ?>">
 
                     <h5 class="card-header">Profile</h5>
 
@@ -151,9 +161,9 @@ $user = $data['user']; ?>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
+                            <label for="full_name" class="col-sm-2 col-form-label">Full Name</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="fullName" name="fullName"
+                                <input type="text" class="form-control" id="full_name" name="full_name"
                                        placeholder="Full Name"
                                        autocomplete="on" value="<?php echo $user->fullName; ?>">
                             </div>
@@ -208,12 +218,24 @@ $user = $data['user']; ?>
                         </div>
                     </div>
 
+                    <?php if (isset($errors['updateProfile'])): ?>
+                        <div class="row">
+                            <div class="text-danger">
+                                <ul>
+                                    <?php foreach ($errors['updateProfile'] as $error): ?>
+                                        <li><?php echo $error; ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </form>
 
                 <div class="row">
 
-                    <form method="post" action="/user/settings/password" name="password-form"
-                          class="col-md-7">
+                    <form method="post" action="/user/settings/updatePassword" name="password-form" class="col-md-7">
+                        <input name="user_id" type="hidden" value="<?php echo $user->id; ?>">
 
                         <div class="col-md-12 card">
 
@@ -224,7 +246,7 @@ $user = $data['user']; ?>
                                     <label for="old-password" class="col-sm-4 col-form-label">Old Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="old-password"
-                                               placeholder="Old Password" name="oldPassword"
+                                               placeholder="Old Password" name="old_password"
                                                autocomplete="off">
                                     </div>
                                 </div>
@@ -233,7 +255,7 @@ $user = $data['user']; ?>
                                     <label for="new-password" class="col-sm-4 col-form-label">New Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="new-password"
-                                               placeholder="New Password" name="newPassword"
+                                               placeholder="New Password" name="new_password"
                                                autocomplete="off">
                                     </div>
                                 </div>
@@ -243,7 +265,7 @@ $user = $data['user']; ?>
                                         Password</label>
                                     <div class="col-sm-8">
                                         <input type="password" class="form-control" id="confirm-password"
-                                               placeholder="Confirm Password" name="confirmPassword"
+                                               placeholder="Confirm Password" name="confirm_password"
                                                autocomplete="off">
                                     </div>
                                 </div>
@@ -257,15 +279,12 @@ $user = $data['user']; ?>
 
                             </div>
 
-                            <!-- Вывод ошибок -->
-                            <?php
-                            $errors = $data['errors'];
-                            if (isset($errors['password'])): ?>
+                            <?php if (isset($errors['updatePassword'])): ?>
 
                                 <div class="row">
                                     <div class="text-danger">
                                         <ul>
-                                            <?php foreach ($errors['password'] as $error): ?>
+                                            <?php foreach ($errors['updatePassword'] as $error): ?>
                                                 <li><?php echo $error; ?></li>
                                             <?php endforeach; ?>
                                         </ul>
@@ -280,7 +299,9 @@ $user = $data['user']; ?>
 
                     <div class="col-md-5">
 
-                        <form method="post" action="/user/settings/delete" name="delete-form" class="col-md-12 card">
+                        <form method="post" action="/user/settings/deleteAccount" name="delete-form"
+                              class="col-md-12 card">
+                            <input name="user_id" type="hidden" value="<?php echo $user->id; ?>">
 
                             <h5 class="card-header">Delete Account</h5>
 
@@ -303,14 +324,12 @@ $user = $data['user']; ?>
 
                             </div>
 
-                            <!-- Вывод ошибок -->
-                            <?php
-                            if (isset($errors['delete'])): ?>
+                            <?php if (isset($errors['deleteAccount'])): ?>
 
                                 <div class="row">
                                     <div class="text-danger">
                                         <ul>
-                                            <?php foreach ($errors['delete'] as $error): ?>
+                                            <?php foreach ($errors['deleteAccount'] as $error): ?>
                                                 <li><?php echo $error; ?></li>
                                             <?php endforeach; ?>
                                         </ul>

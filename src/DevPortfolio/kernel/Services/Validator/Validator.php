@@ -11,6 +11,7 @@ class Validator implements ValidatorInterface
         foreach ($rules as $key => $rule) {
             $rule = explode('|', $rule);
 
+
             foreach ($rule as $item) {
                 $ruleValue = null;
 
@@ -112,6 +113,11 @@ class Validator implements ValidatorInterface
                     return 'Field ' . $key . ' must be between ' . $min . ' and ' . $max;
                 }
                 break;
+            case 'same':
+                if ($value !== $ruleValue) {
+                    return 'Field ' . $key . ' must be the same as ' . $ruleValue;
+                }
+                break;
         }
 
         return null;
@@ -119,6 +125,10 @@ class Validator implements ValidatorInterface
 
     private function containsScripts(string $value): bool
     {
+        if (empty($value)) {
+            return false;
+        }
+
         // Regular expression to detect HTML tags or JavaScript
         $pattern = '/<[^>]*script.*?>.*?<\/[^>]*script.*?>|<[^>]+>|&lt;[^&]+&gt;|<script.*?>.*?<\/script.*?>/i';
         return preg_match($pattern, $value) === 1;

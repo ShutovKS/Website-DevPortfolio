@@ -26,7 +26,8 @@ class View implements ViewInterface
         $path = APP_PATH . "/views/components/$name.php";
 
         extract([
-            'data' => $data
+            'data' => $data,
+            'view' => $this,
         ]);
 
         if (!file_exists($path)) {

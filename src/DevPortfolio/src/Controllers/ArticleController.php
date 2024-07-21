@@ -147,22 +147,10 @@ class ArticleController extends AbstractController
         $this->redirect()->to('/user/profile');
     }
 
-    private function getData(): array
+    protected function getData(array $data = []): array
     {
-        $errors = $this->session()->get('errors');
-        $this->session()->remove('errors');
+        $data = parent::getData($data);
 
-        $isAuth = $this->identification()->isAuth();
-        $link_to_photo = null;
-
-        if ($isAuth === true) {
-            $link_to_photo = $this->identification()->getUser()->linkToPhoto;
-        }
-
-        return [
-            'errors' => $errors,
-            'isAuth' => $isAuth,
-            'link_to_photo' => $link_to_photo,
-        ];
+        return $data;
     }
 }

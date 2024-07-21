@@ -12,11 +12,7 @@ use App\Models\Articles;
 
 <?php $view->component('start', ['title' => $title]); ?>
 
-<?php if ($data['isAuth'] === false): ?>
-    <?php $view->component('header_unauthorized'); ?>
-<?php else: ?>
-    <?php $view->component('header_authorized', $data); ?>
-<?php endif; ?>
+<?php $view->component('header', $data); ?>
 
 <?php
 /** @var Articles[] $articles */
