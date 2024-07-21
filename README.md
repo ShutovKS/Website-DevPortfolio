@@ -1,5 +1,9 @@
 # Website: "dev.Blog"
 
+[Russian](README.ru.md) | [English](README.md)
+
+## Description
+
 Description: dev.Blog is an interactive platform that allows developers to showcase their skills, project experience, and education. It also offers tools for managing their blog and discovering new and interesting articles.
 
 ## Main Features
