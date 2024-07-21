@@ -19,14 +19,21 @@ class DatabaseMySQL implements DatabaseInterface
         string $charset,
     )
     {
-        $this->pdo = new PDO("$driver:host=$host;port=$port;dbname=$database;charset=$charset",
-            $username,
-            $password,
-            [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            ]
-        );
+
+        try {
+            $this->pdo = new PDO("$driver:host=$host;port=$port;dbname=$database;charset=$charset",
+                $username,
+                $password,
+                [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                ]
+            );
+
+            $this->checkingAvailabilityTables();
+        } catch (PDOException) {
+
+        }
     }
 
     public function insert(string $table, array $data): int|false
@@ -137,5 +144,81 @@ class DatabaseMySQL implements DatabaseInterface
 
         $conditionsArray = array_map(static fn($key) => "$key = ?", array_keys($conditions));
         return 'WHERE ' . implode(' AND ', $conditionsArray);
+    }
+
+    private function checkingAvailabilityTables(): void
+    {
+        $tables = $this->pdo->query('SHOW TABLES')->fetchAll(PDO::FETCH_COLUMN);
+        if (!in_array('users', $tables, true)) {
+            $this->pdo->query("
+CREATE TABLE `users`
+(
+    `id`               int UNSIGNED NOT NULL,
+    `username`         varchar(255) NOT NULL,
+    `full_name`        varchar(255) NOT NULL,
+    `link_to_photo`    varchar(255)          DEFAULT NULL,
+    `email`            varchar(255) NOT NULL,
+    `phone`            varchar(20)           DEFAULT NULL,
+    `job`              varchar(255)          DEFAULT NULL,
+    `location_city`    varchar(255)          DEFAULT NULL,
+    `location_country` varchar(255)          DEFAULT NULL,
+    `social_website`   varchar(255)          DEFAULT NULL,
+    `social_github`    varchar(255)          DEFAULT NULL,
+    `social_vk`        varchar(255)          DEFAULT NULL,
+    `social_telegram`  varchar(255)          DEFAULT NULL,
+    `password_hash`    varchar(255) NOT NULL,
+    `salt`             varchar(32)  NOT NULL,
+    `created_at`       timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at`       timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `is_author`        tinyint(1) NOT NULL DEFAULT '0',
+    `is_admin`         tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+INSERT INTO `users` (`id`, `username`, `full_name`, `link_to_photo`, `email`, `phone`, `job`, `location_city`,
+                     `location_country`, `social_website`, `social_github`, `social_vk`, `social_telegram`,
+                     `password_hash`, `salt`, `created_at`, `updated_at`, `is_author`, `is_admin`)
+VALUES (1, 'admin', 'Main admin', 'https://github.githubassets.com/assets/pull-shark-default-498c279a747d.png',
+        'admin@mail.com', '345-678-9012', 'Admin', 'Toronto', 'Canada', '', '', '', '',
+        'b1bf4e915954747316564d958a501a693528e7cc5360fdd9efa33b487f2c7345', 'bec8ac4a0227e26acbd2ccf63af6eb56',
+        '2024-07-15 18:28:38', '2024-07-18 14:33:50', 1, 1);
+
+ALTER TABLE `users` 
+    ADD PRIMARY KEY (`id`),
+    ADD UNIQUE KEY `email` (`email`),
+    ADD UNIQUE KEY `phone` (`phone`);
+
+ALTER TABLE `users`
+    MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+COMMIT;
+");
+        }
+
+        if (!in_array('articles', $tables, true)) {
+            $this->pdo->query("
+CREATE TABLE `articles`
+(
+    `id`          int UNSIGNED NOT NULL,
+    `user_id`     int UNSIGNED NOT NULL,
+    `title`       varchar(255) NOT NULL,
+    `description` text,
+    `content`     text         NOT NULL,
+    `created_at`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at`  timestamp    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `published`   tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+ALTER TABLE `articles`
+    ADD PRIMARY KEY (`id`),
+    ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `articles`
+    MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+ALTER TABLE `articles`
+    ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+COMMIT;
+");
+        }
     }
 }
