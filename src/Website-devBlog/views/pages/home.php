@@ -120,6 +120,8 @@ $articles = $data['articles'];
         </div>
     </div>
 
+    <?php if ($articles !== []): ?>
+
     <div class="bg-body-secondary">
         <div class="container text-center">
             <div class="p-3 rounded">
@@ -166,6 +168,9 @@ $articles = $data['articles'];
             </div>
         </div>
     </div>
+
+    <?php endif; ?>
+
 </main>
 
 
