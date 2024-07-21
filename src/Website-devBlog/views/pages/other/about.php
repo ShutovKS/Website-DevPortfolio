@@ -47,13 +47,13 @@ $view->component('header', $data);
             <h2>Implementation Steps</h2>
             <ol>
                 <li>Database Structure Design: Define tables for storing information about users, projects, articles,
-                    and other data.
+                    and other data;
                 </li>
-                <li>Frontend Development: Create the HTML structure for each page, apply CSS for styling.</li>
+                <li>Frontend Development: Create the HTML structure for each page, apply CSS for styling;</li>
                 <li>Backend Implementation: Write PHP scripts to process forms, interact with the database, and
-                    authenticate users.
+                    authenticate users;
                 </li>
-                <li>Testing: Verify the correctness of all website components, fix any discovered bugs.</li>
+                <li>Testing: Verify the correctness of all website components, fix any discovered bugs;</li>
                 <li>Deployment: Deploy the site on the server.</li>
             </ol>
             <p>This idea not only demonstrates your skills as a developer but also provides a useful resource for other
