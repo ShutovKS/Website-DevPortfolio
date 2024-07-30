@@ -7,7 +7,7 @@ class User extends AbstractModel
     protected static string $table = 'users';
 
     public string $username;
-    public ?string $fullName;
+    public ?string $fullName = null;
     public ?string $linkToPhoto = null;
     public string $email;
     public ?string $phone = null;
@@ -35,7 +35,7 @@ class User extends AbstractModel
         $model = new self();
 
         $model->id = $data['id'];
-        $model->username = $data['username'];
+        $model->username = $data['username'] ?? null;
         $model->fullName = $data['full_name'] ?? null;
         $model->linkToPhoto = $data['link_to_photo'] ?? null;
         $model->email = $data['email'];
